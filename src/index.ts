@@ -1,19 +1,24 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import sessionRoutes from './routes/session.routes';
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
+// Routes
 app.get('/api/health', (req: Request, res: Response) => {
   res.send({ status: 'ok', message: 'Snow Companion API is running! 🏂' });
 });
 
-app.listen(port, () => {
-    console.log(`⚡️ Server is running at http://localhost:${port}`);
+app.use('/api/sessions', sessionRoutes);
+
+app.listen(PORT, () => {
+    console.log(`⚡️ Server is running at http://localhost:${PORT}`);
 })
