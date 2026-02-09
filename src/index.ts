@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import sessionRoutes from './routes/session.routes';
+import userRoutes from './routes/user.routes';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.get('/api/health', (req: Request, res: Response) => {
 });
 
 app.use('/api/sessions', sessionRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => {
     console.log(`⚡️ Server is running at http://localhost:${PORT}`);
