@@ -58,3 +58,45 @@ export const getAllSessions = async (req: Request, res: Response): Promise<void>
         res.status(500).json({ message: "An error occurred while fetching sessions." });
     }
 };
+
+export const updateSession = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { date, station, conditions, tricks, notes, photos } = req.body;
+
+    const session = await prisma.session.update({
+      where: { id: id as string },
+      data: {
+        ...(date && { date: new Date(date) }),
+        ...(station && { station }),
+        ...(conditions !== undefined && { conditions }),
+        ...(tricks !== undefined && { tricks }),
+        ...(notes !== undefined && { notes }),
+        ...(photos !== undefined && { photos }),
+      },
+    });
+
+    res.json({ 
+      message: 'Session updated successfully! 🏂',
+      session 
+    });
+  } catch (error) {
+    console.error('Error updating session:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const deleteSession = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    await prisma.session.delete({
+      where: { id: id as string },
+    });
+
+    res.json({ message: 'Session deleted successfully! 🗑️' });
+  } catch (error) {
+    console.error('Error deleting session:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
