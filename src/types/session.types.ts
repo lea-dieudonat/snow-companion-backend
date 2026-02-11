@@ -5,6 +5,7 @@ export interface CreateSessionDTO {
   tricks?: string[];
   notes?: string;
   photos?: string[];
+  rating?: number; // Star rating (1-5)
   userId: string;
 }
 
@@ -16,6 +17,7 @@ export interface SessionResponse {
   tricks: string[];
   notes: string | null;
   photos: string[];
+  rating: number | null;
   userId: string;
   createdAt: Date;
   updatedAt: Date;

@@ -4,11 +4,17 @@ import { CreateSessionDTO } from "@/types/session.types";
 
 export const createSession = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { date, station, conditions, tricks, notes, photos, userId }: CreateSessionDTO = req.body;
+        const { date, station, conditions, tricks, notes, photos, rating, userId }: CreateSessionDTO = req.body;
 
         // Validation basique
         if (!date || !station || !userId) {
             res.status(400).json({ message: "Date, station, and userId are required." });
+            return;
+        }
+
+        // Validation du rating si fourni
+        if (rating !== undefined && (rating < 1 || rating > 5)) {
+            res.status(400).json({ message: "Rating must be between 1 and 5." });
             return;
         }
 
@@ -21,6 +27,7 @@ export const createSession = async (req: Request, res: Response): Promise<void> 
                 tricks: tricks || [],
                 notes: notes || null,
                 photos: photos || [],
+                rating: rating || null,
                 userId
             }
         });
@@ -62,7 +69,13 @@ export const getAllSessions = async (req: Request, res: Response): Promise<void>
 export const updateSession = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { date, station, conditions, tricks, notes, photos } = req.body;
+    const { date, station, conditions, tricks, notes, photos, rating } = req.body;
+
+    // Validation du rating si fourni
+    if (rating !== undefined && rating !== null && (rating < 1 || rating > 5)) {
+      res.status(400).json({ message: "Rating must be between 1 and 5." });
+      return;
+    }
 
     const session = await prisma.session.update({
       where: { id: id as string },
@@ -73,6 +86,7 @@ export const updateSession = async (req: Request, res: Response): Promise<void> 
         ...(tricks !== undefined && { tricks }),
         ...(notes !== undefined && { notes }),
         ...(photos !== undefined && { photos }),
+        ...(rating !== undefined && { rating }),
       },
     });
 
