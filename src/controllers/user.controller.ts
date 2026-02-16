@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import prisma from '../config/prisma';
-import { CreateUserDTO } from '../types/user.types';
+import prisma from '@/config/prisma';
+import { CreateUserDTO } from '@/types/user.types';
 
 export const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
