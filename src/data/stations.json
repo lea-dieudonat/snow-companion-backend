@@ -1,0 +1,2379 @@
+[
+  {
+    "id": "val-thorens",
+    "name": "Val Thorens",
+    "region": "Savoie",
+    "altitude_min": 2300,
+    "altitude_max": 3230,
+    "latitude": 45.2975,
+    "longitude": 6.5803,
+    "num_slopes": 150,
+    "num_lifts": 68,
+    "km_slopes": 600,
+    "slopes_detail": {
+      "green": 18,
+      "blue": 42,
+      "red": 55,
+      "black": 35
+    },
+    "snow_cannons": 2100,
+    "ski_area": "Les 3 Vallées",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 65,
+        "child": 52,
+        "senior": 58,
+        "family": 195
+      },
+      "half_day": {
+        "adult": 52,
+        "child": 42,
+        "senior": 47
+      },
+      "pedestrian": {
+        "adult": 15,
+        "child": 10
+      }
+    },
+    "avg_accommodation_price": 120,
+    "website": "https://www.valthorens.com",
+    "description": "Plus haute station d'Europe, cœur des 3 Vallées",
+    "access": {
+      "nearest_train_station": "Moûtiers",
+      "nearest_airport": "Chambéry",
+      "distance_from_airport_km": 120,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-11-22",
+      "end": "2026-05-10",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "08:30",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care",
+      "medical_center"
+    ],
+    "activities": [
+      "snowshoeing",
+      "ice_skating",
+      "dog_sledding",
+      "paragliding"
+    ]
+  },
+  {
+    "id": "les-2-alpes",
+    "name": "Les 2 Alpes",
+    "region": "Isère",
+    "altitude_min": 1300,
+    "altitude_max": 3600,
+    "latitude": 45.0111,
+    "longitude": 6.1236,
+    "num_slopes": 96,
+    "num_lifts": 47,
+    "km_slopes": 225,
+    "slopes_detail": {
+      "green": 14,
+      "blue": 25,
+      "red": 35,
+      "black": 22
+    },
+    "snow_cannons": 900,
+    "ski_area": "Les 2 Alpes",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 58,
+        "child": 46,
+        "senior": 52,
+        "family": 175
+      },
+      "half_day": {
+        "adult": 46,
+        "child": 37,
+        "senior": 42
+      },
+      "pedestrian": {
+        "adult": 12,
+        "child": 8
+      }
+    },
+    "avg_accommodation_price": 95,
+    "website": "https://www.les2alpes.com",
+    "description": "Ski sur glacier toute l'année, ambiance festive",
+    "access": {
+      "nearest_train_station": "Grenoble",
+      "nearest_airport": "Grenoble-Isère",
+      "distance_from_airport_km": 100,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-25",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care",
+      "medical_center"
+    ],
+    "activities": [
+      "ice_skating",
+      "snowshoeing",
+      "snow_scooter"
+    ]
+  },
+  {
+    "id": "alpe-huez",
+    "name": "L'Alpe d'Huez",
+    "region": "Isère",
+    "altitude_min": 1125,
+    "altitude_max": 3330,
+    "latitude": 45.0906,
+    "longitude": 6.0675,
+    "num_slopes": 133,
+    "num_lifts": 84,
+    "km_slopes": 250,
+    "slopes_detail": {
+      "green": 16,
+      "blue": 38,
+      "red": 50,
+      "black": 29
+    },
+    "snow_cannons": 1150,
+    "ski_area": "Alpe d'Huez Grand Domaine",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 60,
+        "child": 48,
+        "senior": 54,
+        "family": 180
+      },
+      "half_day": {
+        "adult": 48,
+        "child": 38,
+        "senior": 43
+      },
+      "pedestrian": {
+        "adult": 14,
+        "child": 9
+      }
+    },
+    "avg_accommodation_price": 110,
+    "website": "https://www.alpedhuez.com",
+    "description": "L'île au soleil, vue panoramique exceptionnelle",
+    "access": {
+      "nearest_train_station": "Grenoble",
+      "nearest_airport": "Grenoble-Isère",
+      "distance_from_airport_km": 110,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-20",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care",
+      "medical_center"
+    ],
+    "activities": [
+      "snowshoeing",
+      "ice_diving",
+      "paragliding"
+    ]
+  },
+  {
+    "id": "tignes",
+    "name": "Tignes",
+    "region": "Savoie",
+    "altitude_min": 1550,
+    "altitude_max": 3456,
+    "latitude": 45.4681,
+    "longitude": 6.9064,
+    "num_slopes": 150,
+    "num_lifts": 78,
+    "km_slopes": 300,
+    "slopes_detail": {
+      "green": 12,
+      "blue": 35,
+      "red": 58,
+      "black": 45
+    },
+    "snow_cannons": 1800,
+    "ski_area": "Espace Killy (Tignes-Val d'Isère)",
+    "level": [
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 62,
+        "child": 50,
+        "senior": 56,
+        "family": 186
+      },
+      "half_day": {
+        "adult": 50,
+        "child": 40,
+        "senior": 45
+      },
+      "pedestrian": {
+        "adult": 14,
+        "child": 9
+      }
+    },
+    "avg_accommodation_price": 115,
+    "website": "https://www.tignes.net",
+    "description": "Ski sur glacier, enneigement garanti",
+    "access": {
+      "nearest_train_station": "Bourg-Saint-Maurice",
+      "nearest_airport": "Chambéry",
+      "distance_from_airport_km": 140,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-11-29",
+      "end": "2026-05-03",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "08:45",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care",
+      "medical_center"
+    ],
+    "activities": [
+      "ice_skating",
+      "snowshoeing",
+      "dog_sledding",
+      "snow_scooter"
+    ]
+  },
+  {
+    "id": "val-isere",
+    "name": "Val d'Isère",
+    "region": "Savoie",
+    "altitude_min": 1850,
+    "altitude_max": 3456,
+    "latitude": 45.4489,
+    "longitude": 6.9797,
+    "num_slopes": 150,
+    "num_lifts": 78,
+    "km_slopes": 300,
+    "slopes_detail": {
+      "green": 12,
+      "blue": 35,
+      "red": 58,
+      "black": 45
+    },
+    "snow_cannons": 1800,
+    "ski_area": "Espace Killy (Tignes-Val d'Isère)",
+    "level": [
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 65,
+        "child": 52,
+        "senior": 58,
+        "family": 195
+      },
+      "half_day": {
+        "adult": 52,
+        "child": 42,
+        "senior": 47
+      },
+      "pedestrian": {
+        "adult": 15,
+        "child": 10
+      }
+    },
+    "avg_accommodation_price": 140,
+    "website": "https://www.valdisere.com",
+    "description": "Station mythique, hôte des JO et Championnats du monde",
+    "access": {
+      "nearest_train_station": "Bourg-Saint-Maurice",
+      "nearest_airport": "Chambéry",
+      "distance_from_airport_km": 150,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-11-29",
+      "end": "2026-05-03",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "08:45",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care",
+      "medical_center"
+    ],
+    "activities": [
+      "snowshoeing",
+      "dog_sledding",
+      "paragliding"
+    ]
+  },
+  {
+    "id": "chamonix",
+    "name": "Chamonix Mont-Blanc",
+    "region": "Haute-Savoie",
+    "altitude_min": 1035,
+    "altitude_max": 3842,
+    "latitude": 45.9237,
+    "longitude": 6.8694,
+    "num_slopes": 115,
+    "num_lifts": 47,
+    "km_slopes": 170,
+    "slopes_detail": {
+      "green": 8,
+      "blue": 28,
+      "red": 42,
+      "black": 37
+    },
+    "snow_cannons": 580,
+    "ski_area": "Chamonix Le Pass",
+    "level": [
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 61,
+        "child": 49,
+        "senior": 55,
+        "family": 183
+      },
+      "half_day": {
+        "adult": 49,
+        "child": 39,
+        "senior": 44
+      },
+      "pedestrian": {
+        "adult": 14,
+        "child": 9
+      }
+    },
+    "avg_accommodation_price": 130,
+    "website": "https://www.chamonix.com",
+    "description": "Au pied du Mont-Blanc, capitale mondiale de l'alpinisme",
+    "access": {
+      "nearest_train_station": "Saint-Gervais-les-Bains",
+      "nearest_airport": "Genève",
+      "distance_from_airport_km": 90,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-27",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "08:30",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "medical_center"
+    ],
+    "activities": [
+      "ice_skating",
+      "snowshoeing",
+      "dog_sledding",
+      "paragliding"
+    ]
+  },
+  {
+    "id": "meribel",
+    "name": "Méribel",
+    "region": "Savoie",
+    "altitude_min": 1450,
+    "altitude_max": 2952,
+    "latitude": 45.4006,
+    "longitude": 6.5672,
+    "num_slopes": 150,
+    "num_lifts": 68,
+    "km_slopes": 600,
+    "slopes_detail": {
+      "green": 18,
+      "blue": 42,
+      "red": 55,
+      "black": 35
+    },
+    "snow_cannons": 2100,
+    "ski_area": "Les 3 Vallées",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 65,
+        "child": 52,
+        "senior": 58,
+        "family": 195
+      },
+      "half_day": {
+        "adult": 52,
+        "child": 42,
+        "senior": 47
+      },
+      "pedestrian": {
+        "adult": 15,
+        "child": 10
+      }
+    },
+    "avg_accommodation_price": 125,
+    "website": "https://www.meribel.net",
+    "description": "Au cœur des 3 Vallées, architecture typique savoyarde",
+    "access": {
+      "nearest_train_station": "Moûtiers",
+      "nearest_airport": "Chambéry",
+      "distance_from_airport_km": 115,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-20",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care",
+      "medical_center"
+    ],
+    "activities": [
+      "snowshoeing",
+      "dog_sledding",
+      "ice_skating"
+    ]
+  },
+  {
+    "id": "courchevel",
+    "name": "Courchevel",
+    "region": "Savoie",
+    "altitude_min": 1300,
+    "altitude_max": 2738,
+    "latitude": 45.4147,
+    "longitude": 6.635,
+    "num_slopes": 150,
+    "num_lifts": 68,
+    "km_slopes": 600,
+    "slopes_detail": {
+      "green": 20,
+      "blue": 45,
+      "red": 52,
+      "black": 33
+    },
+    "snow_cannons": 2100,
+    "ski_area": "Les 3 Vallées",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 68,
+        "child": 54,
+        "senior": 61,
+        "family": 204
+      },
+      "half_day": {
+        "adult": 54,
+        "child": 43,
+        "senior": 49
+      },
+      "pedestrian": {
+        "adult": 16,
+        "child": 11
+      }
+    },
+    "avg_accommodation_price": 180,
+    "website": "https://www.courchevel.com",
+    "description": "Station de luxe, gastronomie et ski d'exception",
+    "access": {
+      "nearest_train_station": "Moûtiers",
+      "nearest_airport": "Chambéry",
+      "distance_from_airport_km": 110,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-20",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care",
+      "medical_center",
+      "spa"
+    ],
+    "activities": [
+      "snowshoeing",
+      "dog_sledding",
+      "paragliding",
+      "ice_skating"
+    ]
+  },
+  {
+    "id": "la-plagne",
+    "name": "La Plagne",
+    "region": "Savoie",
+    "altitude_min": 1250,
+    "altitude_max": 3250,
+    "latitude": 45.5536,
+    "longitude": 6.6775,
+    "num_slopes": 225,
+    "num_lifts": 134,
+    "km_slopes": 425,
+    "slopes_detail": {
+      "green": 30,
+      "blue": 65,
+      "red": 80,
+      "black": 50
+    },
+    "snow_cannons": 1700,
+    "ski_area": "Paradiski (La Plagne-Les Arcs)",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 59,
+        "child": 47,
+        "senior": 53,
+        "family": 177
+      },
+      "half_day": {
+        "adult": 47,
+        "child": 38,
+        "senior": 42
+      },
+      "pedestrian": {
+        "adult": 13,
+        "child": 9
+      }
+    },
+    "avg_accommodation_price": 100,
+    "website": "https://www.la-plagne.com",
+    "description": "Domaine skiable immense, parfait pour les familles",
+    "access": {
+      "nearest_train_station": "Aime-la-Plagne",
+      "nearest_airport": "Chambéry",
+      "distance_from_airport_km": 130,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-04-18",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care",
+      "medical_center"
+    ],
+    "activities": [
+      "bobsled",
+      "snowshoeing",
+      "dog_sledding",
+      "ice_skating"
+    ]
+  },
+  {
+    "id": "les-arcs",
+    "name": "Les Arcs",
+    "region": "Savoie",
+    "altitude_min": 1200,
+    "altitude_max": 3226,
+    "latitude": 45.5739,
+    "longitude": 6.8072,
+    "num_slopes": 225,
+    "num_lifts": 134,
+    "km_slopes": 425,
+    "slopes_detail": {
+      "green": 28,
+      "blue": 62,
+      "red": 82,
+      "black": 53
+    },
+    "snow_cannons": 1700,
+    "ski_area": "Paradiski (La Plagne-Les Arcs)",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 59,
+        "child": 47,
+        "senior": 53,
+        "family": 177
+      },
+      "half_day": {
+        "adult": 47,
+        "child": 38,
+        "senior": 42
+      },
+      "pedestrian": {
+        "adult": 13,
+        "child": 9
+      }
+    },
+    "avg_accommodation_price": 105,
+    "website": "https://www.lesarcs.com",
+    "description": "Architecture moderne, vue sur le Mont-Blanc",
+    "access": {
+      "nearest_train_station": "Bourg-Saint-Maurice",
+      "nearest_airport": "Chambéry",
+      "distance_from_airport_km": 135,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-04-25",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "paragliding",
+      "snow_scooter"
+    ]
+  },
+  {
+    "id": "avoriaz",
+    "name": "Avoriaz",
+    "region": "Haute-Savoie",
+    "altitude_min": 1800,
+    "altitude_max": 2466,
+    "latitude": 46.1917,
+    "longitude": 6.7719,
+    "num_slopes": 286,
+    "num_lifts": 196,
+    "km_slopes": 650,
+    "slopes_detail": {
+      "green": 40,
+      "blue": 85,
+      "red": 105,
+      "black": 56
+    },
+    "snow_cannons": 1200,
+    "ski_area": "Portes du Soleil",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 58,
+        "child": 46,
+        "senior": 52,
+        "family": 174
+      },
+      "half_day": {
+        "adult": 46,
+        "child": 37,
+        "senior": 42
+      },
+      "pedestrian": {
+        "adult": 12,
+        "child": 8
+      }
+    },
+    "avg_accommodation_price": 115,
+    "website": "https://www.avoriaz.com",
+    "description": "Station piétonne sans voiture, snowpark réputé",
+    "access": {
+      "nearest_train_station": "Cluses",
+      "nearest_airport": "Genève",
+      "distance_from_airport_km": 100,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-04-20",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "ice_skating",
+      "snow_scooter"
+    ]
+  },
+  {
+    "id": "morzine",
+    "name": "Morzine",
+    "region": "Haute-Savoie",
+    "altitude_min": 1000,
+    "altitude_max": 2466,
+    "latitude": 46.1794,
+    "longitude": 6.7094,
+    "num_slopes": 286,
+    "num_lifts": 196,
+    "km_slopes": 650,
+    "slopes_detail": {
+      "green": 40,
+      "blue": 85,
+      "red": 105,
+      "black": 56
+    },
+    "snow_cannons": 1200,
+    "ski_area": "Portes du Soleil",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 55,
+        "child": 44,
+        "senior": 49,
+        "family": 165
+      },
+      "half_day": {
+        "adult": 44,
+        "child": 35,
+        "senior": 40
+      },
+      "pedestrian": {
+        "adult": 11,
+        "child": 7
+      }
+    },
+    "avg_accommodation_price": 90,
+    "website": "https://www.morzine-avoriaz.com",
+    "description": "Village savoyard authentique, ambiance chaleureuse",
+    "access": {
+      "nearest_train_station": "Cluses",
+      "nearest_airport": "Genève",
+      "distance_from_airport_km": 85,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-04-13",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "ice_skating",
+      "dog_sledding"
+    ]
+  },
+  {
+    "id": "serre-chevalier",
+    "name": "Serre Chevalier",
+    "region": "Hautes-Alpes",
+    "altitude_min": 1200,
+    "altitude_max": 2830,
+    "latitude": 44.9436,
+    "longitude": 6.5508,
+    "num_slopes": 81,
+    "num_lifts": 59,
+    "km_slopes": 250,
+    "slopes_detail": {
+      "green": 12,
+      "blue": 24,
+      "red": 28,
+      "black": 17
+    },
+    "snow_cannons": 750,
+    "ski_area": "Serre Chevalier Vallée",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 52,
+        "child": 42,
+        "senior": 47,
+        "family": 156
+      },
+      "half_day": {
+        "adult": 42,
+        "child": 34,
+        "senior": 38
+      },
+      "pedestrian": {
+        "adult": 11,
+        "child": 7
+      }
+    },
+    "avg_accommodation_price": 85,
+    "website": "https://www.serre-chevalier.com",
+    "description": "Ensoleillement exceptionnel, forêts de mélèzes",
+    "access": {
+      "nearest_train_station": "Briançon",
+      "nearest_airport": "Turin",
+      "distance_from_airport_km": 120,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-13",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care",
+      "medical_center"
+    ],
+    "activities": [
+      "snowshoeing",
+      "dog_sledding",
+      "ice_skating"
+    ]
+  },
+  {
+    "id": "les-menuires",
+    "name": "Les Menuires",
+    "region": "Savoie",
+    "altitude_min": 1400,
+    "altitude_max": 3230,
+    "latitude": 45.3456,
+    "longitude": 6.5278,
+    "num_slopes": 150,
+    "num_lifts": 68,
+    "km_slopes": 600,
+    "slopes_detail": {
+      "green": 18,
+      "blue": 42,
+      "red": 55,
+      "black": 35
+    },
+    "snow_cannons": 2100,
+    "ski_area": "Les 3 Vallées",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced",
+      "expert"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 63,
+        "child": 50,
+        "senior": 57,
+        "family": 189
+      },
+      "half_day": {
+        "adult": 50,
+        "child": 40,
+        "senior": 45
+      },
+      "pedestrian": {
+        "adult": 14,
+        "child": 9
+      }
+    },
+    "avg_accommodation_price": 95,
+    "website": "https://www.lesmenuires.com",
+    "description": "Au cœur des 3 Vallées, excellent rapport qualité-prix",
+    "access": {
+      "nearest_train_station": "Moûtiers",
+      "nearest_airport": "Chambéry",
+      "distance_from_airport_km": 125,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-20",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "ice_skating",
+      "snow_scooter"
+    ]
+  },
+  {
+    "id": "les-gets",
+    "name": "Les Gets",
+    "region": "Haute-Savoie",
+    "altitude_min": 1172,
+    "altitude_max": 2002,
+    "latitude": 46.1569,
+    "longitude": 6.6669,
+    "num_slopes": 120,
+    "num_lifts": 50,
+    "km_slopes": 120,
+    "slopes_detail": {
+      "green": 20,
+      "blue": 38,
+      "red": 42,
+      "black": 20
+    },
+    "snow_cannons": 600,
+    "ski_area": "Les Gets-Morzine",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 50,
+        "child": 40,
+        "senior": 45,
+        "family": 150
+      },
+      "half_day": {
+        "adult": 40,
+        "child": 32,
+        "senior": 36
+      },
+      "pedestrian": {
+        "adult": 10,
+        "child": 7
+      }
+    },
+    "avg_accommodation_price": 85,
+    "website": "https://www.lesgets.com",
+    "description": "Village familial, idéal pour débutants et enfants",
+    "access": {
+      "nearest_train_station": "Cluses",
+      "nearest_airport": "Genève",
+      "distance_from_airport_km": 75,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-04-13",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "dog_sledding"
+    ]
+  },
+  {
+    "id": "la-clusaz",
+    "name": "La Clusaz",
+    "region": "Haute-Savoie",
+    "altitude_min": 1100,
+    "altitude_max": 2600,
+    "latitude": 45.9044,
+    "longitude": 6.4236,
+    "num_slopes": 84,
+    "num_lifts": 49,
+    "km_slopes": 132,
+    "slopes_detail": {
+      "green": 12,
+      "blue": 24,
+      "red": 30,
+      "black": 18
+    },
+    "snow_cannons": 450,
+    "ski_area": "La Clusaz",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 48,
+        "child": 38,
+        "senior": 43,
+        "family": 144
+      },
+      "half_day": {
+        "adult": 38,
+        "child": 30,
+        "senior": 34
+      },
+      "pedestrian": {
+        "adult": 10,
+        "child": 7
+      }
+    },
+    "avg_accommodation_price": 80,
+    "website": "https://www.laclusaz.com",
+    "description": "Station village authentique, vue sur la chaîne des Aravis",
+    "access": {
+      "nearest_train_station": "Annecy",
+      "nearest_airport": "Genève",
+      "distance_from_airport_km": 80,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-13",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "ice_skating"
+    ]
+  },
+  {
+    "id": "le-grand-bornand",
+    "name": "Le Grand-Bornand",
+    "region": "Haute-Savoie",
+    "altitude_min": 1000,
+    "altitude_max": 2100,
+    "latitude": 45.9414,
+    "longitude": 6.4283,
+    "num_slopes": 90,
+    "num_lifts": 38,
+    "km_slopes": 90,
+    "slopes_detail": {
+      "green": 14,
+      "blue": 26,
+      "red": 32,
+      "black": 18
+    },
+    "snow_cannons": 400,
+    "ski_area": "Le Grand-Bornand",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 45,
+        "child": 36,
+        "senior": 40,
+        "family": 135
+      },
+      "half_day": {
+        "adult": 36,
+        "child": 29,
+        "senior": 32
+      },
+      "pedestrian": {
+        "adult": 9,
+        "child": 6
+      }
+    },
+    "avg_accommodation_price": 75,
+    "website": "https://www.legrandbornand.com",
+    "description": "Village typique savoyard, ambiance familiale et conviviale",
+    "access": {
+      "nearest_train_station": "Annecy",
+      "nearest_airport": "Genève",
+      "distance_from_airport_km": 85,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-03-29",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "dog_sledding"
+    ]
+  },
+  {
+    "id": "val-cenis",
+    "name": "Val Cenis",
+    "region": "Savoie",
+    "altitude_min": 1300,
+    "altitude_max": 2800,
+    "latitude": 45.2828,
+    "longitude": 6.8694,
+    "num_slopes": 125,
+    "num_lifts": 33,
+    "km_slopes": 125,
+    "slopes_detail": {
+      "green": 18,
+      "blue": 36,
+      "red": 45,
+      "black": 26
+    },
+    "snow_cannons": 550,
+    "ski_area": "Val Cenis Vanoise",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 44,
+        "child": 35,
+        "senior": 40,
+        "family": 132
+      },
+      "half_day": {
+        "adult": 35,
+        "child": 28,
+        "senior": 32
+      },
+      "pedestrian": {
+        "adult": 9,
+        "child": 6
+      }
+    },
+    "avg_accommodation_price": 70,
+    "website": "https://www.valcenis.com",
+    "description": "Proche de l'Italie, panorama sur la Haute Maurienne",
+    "access": {
+      "nearest_train_station": "Modane",
+      "nearest_airport": "Chambéry",
+      "distance_from_airport_km": 110,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-04-13",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "ice_skating"
+    ]
+  },
+  {
+    "id": "valmorel",
+    "name": "Valmorel",
+    "region": "Savoie",
+    "altitude_min": 1400,
+    "altitude_max": 2550,
+    "latitude": 45.4542,
+    "longitude": 6.4678,
+    "num_slopes": 165,
+    "num_lifts": 53,
+    "km_slopes": 165,
+    "slopes_detail": {
+      "green": 22,
+      "blue": 48,
+      "red": 60,
+      "black": 35
+    },
+    "snow_cannons": 700,
+    "ski_area": "Grand Domaine Valmorel",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 47,
+        "child": 38,
+        "senior": 42,
+        "family": 141
+      },
+      "half_day": {
+        "adult": 38,
+        "child": 30,
+        "senior": 34
+      },
+      "pedestrian": {
+        "adult": 10,
+        "child": 7
+      }
+    },
+    "avg_accommodation_price": 80,
+    "website": "https://www.valmorel.com",
+    "description": "Station piétonne, architecture bois et pierre",
+    "access": {
+      "nearest_train_station": "Moûtiers",
+      "nearest_airport": "Chambéry",
+      "distance_from_airport_km": 100,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-04-13",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "dog_sledding"
+    ]
+  },
+  {
+    "id": "chamrousse",
+    "name": "Chamrousse",
+    "region": "Isère",
+    "altitude_min": 1650,
+    "altitude_max": 2250,
+    "latitude": 45.1181,
+    "longitude": 5.8836,
+    "num_slopes": 90,
+    "num_lifts": 19,
+    "km_slopes": 90,
+    "slopes_detail": {
+      "green": 14,
+      "blue": 26,
+      "red": 32,
+      "black": 18
+    },
+    "snow_cannons": 350,
+    "ski_area": "Chamrousse",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 42,
+        "child": 34,
+        "senior": 38,
+        "family": 126
+      },
+      "half_day": {
+        "adult": 34,
+        "child": 27,
+        "senior": 30
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 65,
+    "website": "https://www.chamrousse.com",
+    "description": "Proche de Grenoble, station olympique 1968",
+    "access": {
+      "nearest_train_station": "Grenoble",
+      "nearest_airport": "Grenoble-Isère",
+      "distance_from_airport_km": 55,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-03-29",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental"
+    ],
+    "activities": [
+      "snowshoeing"
+    ]
+  },
+  {
+    "id": "isola-2000",
+    "name": "Isola 2000",
+    "region": "Alpes-Maritimes",
+    "altitude_min": 1800,
+    "altitude_max": 2610,
+    "latitude": 44.2083,
+    "longitude": 6.8969,
+    "num_slopes": 120,
+    "num_lifts": 30,
+    "km_slopes": 120,
+    "slopes_detail": {
+      "green": 18,
+      "blue": 35,
+      "red": 42,
+      "black": 25
+    },
+    "snow_cannons": 600,
+    "ski_area": "Isola 2000",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 40,
+        "child": 32,
+        "senior": 36,
+        "family": 120
+      },
+      "half_day": {
+        "adult": 32,
+        "child": 26,
+        "senior": 29
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.isola2000.com",
+    "description": "Ski dans les Alpes du Sud, ensoleillement garanti",
+    "access": {
+      "nearest_train_station": "Nice",
+      "nearest_airport": "Nice",
+      "distance_from_airport_km": 95,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-13",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "snow_scooter"
+    ]
+  },
+  {
+    "id": "valberg",
+    "name": "Valberg",
+    "region": "Alpes-Maritimes",
+    "altitude_min": 1430,
+    "altitude_max": 2675,
+    "latitude": 44.2083,
+    "longitude": 6.8969,
+    "num_slopes": 90,
+    "num_lifts": 25,
+    "km_slopes": 90,
+    "slopes_detail": {
+      "green": 14,
+      "blue": 28,
+      "red": 30,
+      "black": 18
+    },
+    "snow_cannons": 400,
+    "ski_area": "Valberg",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 38,
+        "child": 30,
+        "senior": 34,
+        "family": 114
+      },
+      "half_day": {
+        "adult": 30,
+        "child": 24,
+        "senior": 27
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 55,
+    "website": "https://www.valberg.com",
+    "description": "Station familiale, idéale pour les débutants",
+    "access": {
+      "nearest_train_station": "Nice",
+      "nearest_airport": "Nice",
+      "distance_from_airport_km": 85,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-03-29",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "ice_skating"
+    ]
+  },
+  {
+    "id": "pra-loup",
+    "name": "Pra Loup",
+    "region": "Alpes-de-Haute-Provence",
+    "altitude_min": 1500,
+    "altitude_max": 2500,
+    "latitude": 44.3167,
+    "longitude": 6.6669,
+    "num_slopes": 100,
+    "num_lifts": 20,
+    "km_slopes": 100,
+    "slopes_detail": {
+      "green": 15,
+      "blue": 30,
+      "red": 35,
+      "black": 20
+    },
+    "snow_cannons": 300,
+    "ski_area": "Pra Loup",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 39,
+        "child": 31,
+        "senior": 35,
+        "family": 117
+      },
+      "half_day": {
+        "adult": 31,
+        "child": 25,
+        "senior": 28
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.praloup.com",
+    "description": "Ski dans les Alpes du Sud, ambiance conviviale",
+    "access": {
+      "nearest_train_station": "Barcelonnette",
+      "nearest_airport": "Marseille",
+      "distance_from_airport_km": 220,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-04-06",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental"
+    ],
+    "activities": [
+      "snowshoeing",
+      "snow_scooter"
+    ]
+  },
+  {
+    "id": "superdevoluy",
+    "name": "Superdévoluy",
+    "region": "Hautes-Alpes",
+    "altitude_min": 1500,
+    "altitude_max": 2500,
+    "latitude": 44.3167,
+    "longitude": 6.6669,
+    "num_slopes": 100,
+    "num_lifts": 20,
+    "km_slopes": 100,
+    "slopes_detail": {
+      "green": 16,
+      "blue": 30,
+      "red": 34,
+      "black": 20
+    },
+    "snow_cannons": 450,
+    "ski_area": "Superdévoluy",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 39,
+        "child": 31,
+        "senior": 35,
+        "family": 117
+      },
+      "half_day": {
+        "adult": 31,
+        "child": 25,
+        "senior": 28
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.superdevoluy.com",
+    "description": "Station familiale, idéale pour les débutants",
+    "access": {
+      "nearest_train_station": "Gap",
+      "nearest_airport": "Marseille",
+      "distance_from_airport_km": 200,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-03-29",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing"
+    ]
+  },
+  {
+    "id": "les-orres",
+    "name": "Les Orres",
+    "region": "Hautes-Alpes",
+    "altitude_min": 1500,
+    "altitude_max": 2500,
+    "latitude": 44.3167,
+    "longitude": 6.6669,
+    "num_slopes": 100,
+    "num_lifts": 20,
+    "km_slopes": 100,
+    "slopes_detail": {
+      "green": 15,
+      "blue": 30,
+      "red": 35,
+      "black": 20
+    },
+    "snow_cannons": 400,
+    "ski_area": "Les Orres",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 39,
+        "child": 31,
+        "senior": 35,
+        "family": 117
+      },
+      "half_day": {
+        "adult": 31,
+        "child": 25,
+        "senior": 28
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.lesorres.com",
+    "description": "Ski dans les Alpes du Sud, ambiance conviviale",
+    "access": {
+      "nearest_train_station": "Embrun",
+      "nearest_airport": "Marseille",
+      "distance_from_airport_km": 230,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-04-06",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental"
+    ],
+    "activities": [
+      "snowshoeing",
+      "snow_scooter"
+    ]
+  },
+  {
+    "id": "montgenevre",
+    "name": "Montgenèvre",
+    "region": "Hautes-Alpes",
+    "altitude_min": 1500,
+    "altitude_max": 2500,
+    "latitude": 44.3167,
+    "longitude": 6.6669,
+    "num_slopes": 100,
+    "num_lifts": 20,
+    "km_slopes": 100,
+    "slopes_detail": {
+      "green": 14,
+      "blue": 28,
+      "red": 36,
+      "black": 22
+    },
+    "snow_cannons": 500,
+    "ski_area": "Montgenèvre",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 39,
+        "child": 31,
+        "senior": 35,
+        "family": 117
+      },
+      "half_day": {
+        "adult": 31,
+        "child": 25,
+        "senior": 28
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.montgenevre.com",
+    "description": "Station familiale, idéale pour les débutants",
+    "access": {
+      "nearest_train_station": "Briançon",
+      "nearest_airport": "Turin",
+      "distance_from_airport_km": 100,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-13",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "ice_skating"
+    ]
+  },
+  {
+    "id": "risoul",
+    "name": "Risoul",
+    "region": "Hautes-Alpes",
+    "altitude_min": 1500,
+    "altitude_max": 2500,
+    "latitude": 44.3167,
+    "longitude": 6.6669,
+    "num_slopes": 100,
+    "num_lifts": 20,
+    "km_slopes": 100,
+    "slopes_detail": {
+      "green": 15,
+      "blue": 30,
+      "red": 35,
+      "black": 20
+    },
+    "snow_cannons": 280,
+    "ski_area": "Risoul",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 39,
+        "child": 31,
+        "senior": 35,
+        "family": 117
+      },
+      "half_day": {
+        "adult": 31,
+        "child": 25,
+        "senior": 28
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.risoul.com",
+    "description": "Ski dans les Alpes du Sud, ambiance conviviale",
+    "access": {
+      "nearest_train_station": "Mont-Dauphin",
+      "nearest_airport": "Marseille",
+      "distance_from_airport_km": 240,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-04-06",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental"
+    ],
+    "activities": [
+      "snowshoeing",
+      "snow_scooter"
+    ]
+  },
+  {
+    "id": "puy-saint-vincent",
+    "name": "Puy Saint Vincent",
+    "region": "Hautes-Alpes",
+    "altitude_min": 1500,
+    "altitude_max": 2500,
+    "latitude": 44.3167,
+    "longitude": 6.6669,
+    "num_slopes": 100,
+    "num_lifts": 20,
+    "km_slopes": 100,
+    "slopes_detail": {
+      "green": 16,
+      "blue": 30,
+      "red": 34,
+      "black": 20
+    },
+    "snow_cannons": 350,
+    "ski_area": "Puy Saint Vincent",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 39,
+        "child": 31,
+        "senior": 35,
+        "family": 117
+      },
+      "half_day": {
+        "adult": 31,
+        "child": 25,
+        "senior": 28
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.puysaintvincent.com",
+    "description": "Station familiale, idéale pour les débutants",
+    "access": {
+      "nearest_train_station": "Mont-Dauphin",
+      "nearest_airport": "Marseille",
+      "distance_from_airport_km": 235,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-13",
+      "end": "2026-03-29",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing"
+    ]
+  },
+  {
+    "id": "la-colmiane",
+    "name": "La Colmiane",
+    "region": "Alpes-Maritimes",
+    "altitude_min": 1500,
+    "altitude_max": 2500,
+    "latitude": 44.3167,
+    "longitude": 6.6669,
+    "num_slopes": 100,
+    "num_lifts": 20,
+    "km_slopes": 100,
+    "slopes_detail": {
+      "green": 16,
+      "blue": 32,
+      "red": 34,
+      "black": 18
+    },
+    "snow_cannons": 150,
+    "ski_area": "La Colmiane",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 39,
+        "child": 31,
+        "senior": 35,
+        "family": 117
+      },
+      "half_day": {
+        "adult": 31,
+        "child": 25,
+        "senior": 28
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.lacolmiane.com",
+    "description": "Ski dans les Alpes du Sud, ambiance conviviale",
+    "access": {
+      "nearest_train_station": "Nice",
+      "nearest_airport": "Nice",
+      "distance_from_airport_km": 80,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-20",
+      "end": "2026-03-22",
+      "opening_days": [
+        "weekend",
+        "holiday"
+      ],
+      "opening_hours": {
+        "weekend": {
+          "start": "09:00",
+          "end": "17:00"
+        },
+        "holiday": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental"
+    ],
+    "activities": [
+      "snowshoeing"
+    ]
+  },
+  {
+    "id": "greolieres-les-neiges",
+    "name": "Gréolières les Neiges",
+    "region": "Alpes-Maritimes",
+    "altitude_min": 1500,
+    "altitude_max": 2500,
+    "latitude": 44.3167,
+    "longitude": 6.6669,
+    "num_slopes": 100,
+    "num_lifts": 20,
+    "km_slopes": 100,
+    "slopes_detail": {
+      "green": 16,
+      "blue": 32,
+      "red": 34,
+      "black": 18
+    },
+    "snow_cannons": 0,
+    "ski_area": "Gréolières les Neiges",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 39,
+        "child": 31,
+        "senior": 35,
+        "family": 117
+      },
+      "half_day": {
+        "adult": 31,
+        "child": 25,
+        "senior": 28
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.greolieres.com",
+    "description": "Station familiale, idéale pour les débutants",
+    "access": {
+      "nearest_train_station": "Grasse",
+      "nearest_airport": "Nice",
+      "distance_from_airport_km": 70,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-20",
+      "end": "2026-03-15",
+      "opening_days": [
+        "weekend",
+        "holiday"
+      ],
+      "opening_hours": {
+        "weekend": {
+          "start": "09:00",
+          "end": "16:30"
+        },
+        "holiday": {
+          "start": "09:00",
+          "end": "16:30"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental"
+    ],
+    "activities": [
+      "snowshoeing"
+    ]
+  },
+  {
+    "id": "auron",
+    "name": "Auron",
+    "region": "Alpes-Maritimes",
+    "altitude_min": 1500,
+    "altitude_max": 2500,
+    "latitude": 44.3167,
+    "longitude": 6.6669,
+    "num_slopes": 100,
+    "num_lifts": 20,
+    "km_slopes": 100,
+    "slopes_detail": {
+      "green": 14,
+      "blue": 28,
+      "red": 36,
+      "black": 22
+    },
+    "snow_cannons": 500,
+    "ski_area": "Auron",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 39,
+        "child": 31,
+        "senior": 35,
+        "family": 117
+      },
+      "half_day": {
+        "adult": 31,
+        "child": 25,
+        "senior": 28
+      },
+      "pedestrian": {
+        "adult": 8,
+        "child": 5
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.auron.com",
+    "description": "Ski dans les Alpes du Sud, ambiance conviviale",
+    "access": {
+      "nearest_train_station": "Nice",
+      "nearest_airport": "Nice",
+      "distance_from_airport_km": 100,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-06",
+      "end": "2026-04-06",
+      "opening_days": [
+        "daily"
+      ],
+      "opening_hours": {
+        "daily": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snowshoeing",
+      "ice_skating",
+      "snow_scooter"
+    ]
+  },
+  {
+    "id": "roubion",
+    "name": "Roubion - Les Buisses",
+    "region": "Alpes-Maritimes",
+    "altitude_min": 1500,
+    "altitude_max": 2500,
+    "latitude": 44.3167,
+    "longitude": 6.6669,
+    "num_slopes": 100,
+    "num_lifts": 20,
+    "km_slopes": 100,
+    "slopes_detail": {
+      "green": 18,
+      "blue": 34,
+      "red": 32,
+      "black": 16
+    },
+    "snow_cannons": 0,
+    "ski_area": "Roubion - Les Buisses",
+    "level": [
+      "beginner",
+      "intermediate",
+      "advanced"
+    ],
+    "passes": {
+      "full_day": {
+        "adult": 39,
+        "child": 30,
+        "senior": 35,
+        "family": 120
+      },
+      "half_day": {
+        "adult": 28,
+        "child": 22,
+        "senior": 25
+      },
+      "pedestrian": {
+        "adult": 10,
+        "child": 7
+      }
+    },
+    "avg_accommodation_price": 60,
+    "website": "https://www.roubion.com",
+    "description": "Station familiale, idéale pour les débutants",
+    "access": {
+      "nearest_train_station": "Nice",
+      "nearest_airport": "Nice",
+      "distance_from_airport_km": 90,
+      "parking": true
+    },
+    "season": {
+      "start": "2025-12-30",
+      "end": "2026-03-30",
+      "opening_days": [
+        "weekend",
+        "holiday"
+      ],
+      "opening_hours": {
+        "weekend": {
+          "start": "09:00",
+          "end": "17:00"
+        },
+        "holiday": {
+          "start": "09:00",
+          "end": "17:00"
+        }
+      }
+    },
+    "services": [
+      "ski_school",
+      "equipment_rental",
+      "child_care"
+    ],
+    "activities": [
+      "snow_cart"
+    ]
+  }
+]

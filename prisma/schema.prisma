@@ -14,12 +14,16 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  name      String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  sessions  Session[]
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String?
+  locationCity      String?   // Ville de l'utilisateur
+  locationLatitude  Float?    // Latitude pour calcul distance
+  locationLongitude Float?    // Longitude pour calcul distance
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  sessions          Session[]
+  trips             Trip[]
 }
 
 model Session {
@@ -38,4 +42,54 @@ model Session {
 
   @@index([userId])
   @@index([date])
+}
+
+model Station {
+  id                      String   @id // Ex: "val-thorens"
+  name                    String
+  region                  String
+  altitudeMin             Int      @map("altitude_min")
+  altitudeMax             Int      @map("altitude_max")
+  latitude                Float
+  longitude               Float
+  numSlopes               Int      @map("num_slopes")
+  numLifts                Int      @map("num_lifts")
+  kmSlopes                Int      @map("km_slopes")
+  slopesDetail            Json     @map("slopes_detail")
+  snowCannons             Int      @map("snow_cannons")
+  skiArea                 String   @map("ski_area")
+  level                   String[]
+  passes                  Json
+  avgAccommodationPrice   Float    @map("avg_accommodation_price")
+  website                 String
+  description             String
+  access                  Json
+  season                  Json
+  services                String[]
+  activities              String[]
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  trips                   Trip[]
+
+  @@index([region])
+}
+
+model Trip {
+  id           String    @id @default(cuid())
+  name         String    // Ex: "Weekend aux 2 Alpes"
+  startDate    DateTime
+  endDate      DateTime?
+  stationId    String
+  station      Station   @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  participants String[]  // Emails ou IDs des participants
+  notes        String?
+  status       String    @default("planned") // planned, confirmed, completed, cancelled
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([stationId])
+  @@index([startDate])
 }
