@@ -10,3 +10,14 @@ export interface UserResponse {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface UpdateFavoritesDTO {
+  stationId: string;
+}
+
+export interface UserWithFavorites extends UserResponse {
+  id: string;
+  email: string;
+  name: string | null;
+  favoriteStations: string[];
+}

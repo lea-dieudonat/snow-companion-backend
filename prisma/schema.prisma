@@ -24,6 +24,7 @@ model User {
   updatedAt         DateTime  @updatedAt
   sessions          Session[]
   trips             Trip[]
+  favoriteStations  String[]
 }
 
 model Session {
