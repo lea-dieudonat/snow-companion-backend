@@ -67,10 +67,10 @@ export const addFavorite = async (req: Request, res: Response): Promise<void> =>
       return;
     }
     
-    const user = await prisma.user.findUnique({ 
+    const user = await prisma.user.update({
       where: { id },
+      data: { favoriteStations: { push: stationId } },
       select: { favoriteStations: true },
-      data: { favoriteStations: { push: stationId } }
     });
     res.status(200).json(user);
   } catch (error) {
