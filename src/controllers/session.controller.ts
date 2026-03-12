@@ -1,25 +1,25 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import prisma from '@/config/prisma';
 import { CreateSessionDTO } from '@/types/session.types';
+import { AppError } from '@/middlewares/errorHandler';
 
-export const createSession = async (req: Request, res: Response): Promise<void> => {
+export const createSession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { date, station, conditions, tricks, notes, photos, rating, userId }: CreateSessionDTO =
       req.body;
 
-    // Validation basique
     if (!date || !station || !userId) {
-      res.status(400).json({ message: 'Date, station, and userId are required.' });
-      return;
+      throw new AppError(400, 'Date, station, and userId are required.');
     }
 
-    // Validation du rating si fourni
     if (rating !== undefined && (rating < 1 || rating > 5)) {
-      res.status(400).json({ message: 'Rating must be between 1 and 5.' });
-      return;
+      throw new AppError(400, 'Rating must be between 1 and 5.');
     }
 
-    // Création de la session
     const session = await prisma.session.create({
       data: {
         date: new Date(date),
@@ -33,49 +33,42 @@ export const createSession = async (req: Request, res: Response): Promise<void> 
       },
     });
 
-    res.status(201).json({
-      message: 'Session created successfully. 🏂',
-      session,
-    });
+    res.status(201).json({ message: 'Session created successfully. 🏂', session });
   } catch (error) {
-    console.error('Error creating session:', error);
-    res.status(500).json({ message: 'An error occurred while creating the session.' });
+    next(error);
   }
 };
 
-export const getAllSessions = async (req: Request, res: Response): Promise<void> => {
+export const getAllSessions = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const sessions = await prisma.session.findMany({
       include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
+        user: { select: { id: true, name: true, email: true } },
       },
-      orderBy: {
-        date: 'desc',
-      },
+      orderBy: { date: 'desc' },
     });
 
     res.status(200).json(sessions);
   } catch (error) {
-    console.error('Error fetching sessions:', error);
-    res.status(500).json({ message: 'An error occurred while fetching sessions.' });
+    next(error);
   }
 };
 
-export const updateSession = async (req: Request, res: Response): Promise<void> => {
+export const updateSession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { id } = req.params;
     const { date, station, conditions, tricks, notes, photos, rating } = req.body;
 
-    // Validation du rating si fourni
     if (rating !== undefined && rating !== null && (rating < 1 || rating > 5)) {
-      res.status(400).json({ message: 'Rating must be between 1 and 5.' });
-      return;
+      throw new AppError(400, 'Rating must be between 1 and 5.');
     }
 
     const session = await prisma.session.update({
@@ -91,27 +84,24 @@ export const updateSession = async (req: Request, res: Response): Promise<void> 
       },
     });
 
-    res.json({
-      message: 'Session updated successfully! 🏂',
-      session,
-    });
+    res.json({ message: 'Session updated successfully! 🏂', session });
   } catch (error) {
-    console.error('Error updating session:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };
 
-export const deleteSession = async (req: Request, res: Response): Promise<void> => {
+export const deleteSession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { id } = req.params;
 
-    await prisma.session.delete({
-      where: { id: id as string },
-    });
+    await prisma.session.delete({ where: { id: id as string } });
 
     res.json({ message: 'Session deleted successfully! 🗑️' });
   } catch (error) {
-    console.error('Error deleting session:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };
