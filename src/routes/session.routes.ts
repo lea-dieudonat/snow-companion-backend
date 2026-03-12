@@ -5,8 +5,11 @@ import {
   getAllSessions,
   updateSession,
 } from '@/controllers/session.controller';
+import { authenticate } from '@/middlewares/auth';
 
 const router = Router();
+
+router.use(authenticate);
 
 router.post('/', createSession);
 router.get('/', getAllSessions);

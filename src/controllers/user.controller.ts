@@ -1,25 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import prisma from '@/config/prisma';
 import { AppError } from '@/middlewares/errorHandler';
-import { CreateUserSchema } from '@/schemas/user.schema';
-
-export const createUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<void> => {
-  try {
-    const data = CreateUserSchema.parse(req.body);
-
-    const user = await prisma.user.create({
-      data: { email: data.email, name: data.name ?? null },
-    });
-
-    res.status(201).json({ message: 'User created successfully!', user });
-  } catch (error) {
-    next(error);
-  }
-};
+import { AuthRequest } from '@/middlewares/auth';
 
 export const getFavorites = async (
   req: Request,
@@ -27,8 +9,10 @@ export const getFavorites = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const { userId } = req as AuthRequest;
+
     const user = await prisma.user.findUnique({
-      where: { id: req.params['id'] as string },
+      where: { id: userId },
       select: { favoriteStations: true },
     });
 
@@ -53,7 +37,8 @@ export const addFavorite = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { id, stationId } = req.params as { id: string; stationId: string };
+    const { userId } = req as AuthRequest;
+    const stationId = req.params['stationId'] as string;
 
     const station = await prisma.station.findUnique({ where: { id: stationId } });
     if (!station) {
@@ -61,7 +46,7 @@ export const addFavorite = async (
     }
 
     const user = await prisma.user.update({
-      where: { id },
+      where: { id: userId },
       data: { favoriteStations: { push: stationId } },
       select: { favoriteStations: true },
     });
@@ -78,15 +63,16 @@ export const removeFavorite = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { id, stationId } = req.params as { id: string; stationId: string };
+    const { userId } = req as AuthRequest;
+    const stationId = req.params['stationId'] as string;
 
-    const user = await prisma.user.findUnique({ where: { id } });
+    const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
       throw new AppError(404, 'User not found');
     }
 
     const updated = await prisma.user.update({
-      where: { id },
+      where: { id: userId },
       data: {
         favoriteStations: { set: user.favoriteStations.filter((sid) => sid !== stationId) },
       },

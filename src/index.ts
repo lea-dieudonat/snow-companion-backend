@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import authRoutes from '@/routes/auth.routes';
 import sessionRoutes from '@/routes/session.routes';
 import userRoutes from '@/routes/user.routes';
 import stationRoutes from '@/routes/station.routes';
@@ -18,6 +19,7 @@ app.get('/api/health', (_req: Request, res: Response) => {
   res.send({ status: 'ok', message: 'Snow Companion API is running! 🏂' });
 });
 
+app.use('/api/auth', authRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/stations', stationRoutes);

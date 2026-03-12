@@ -1,16 +1,13 @@
 import { Router } from 'express';
-import {
-  createUser,
-  getFavorites,
-  addFavorite,
-  removeFavorite,
-} from '@/controllers/user.controller';
+import { getFavorites, addFavorite, removeFavorite } from '@/controllers/user.controller';
+import { authenticate } from '@/middlewares/auth';
 
 const router = Router();
 
-router.post('/', createUser);
-router.get('/:id/favorites', getFavorites);
-router.post('/:id/favorites/:stationId', addFavorite);
-router.delete('/:id/favorites/:stationId', removeFavorite);
+router.use(authenticate);
+
+router.get('/favorites', getFavorites);
+router.post('/favorites/:stationId', addFavorite);
+router.delete('/favorites/:stationId', removeFavorite);
 
 export default router;
