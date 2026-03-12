@@ -4,13 +4,7 @@ import prisma from '@/config/prisma';
 // GET /api/stations - Récupérer toutes les stations (avec filtres optionnels)
 export const getAllStations = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { 
-      region, 
-      maxPrice, 
-      minAltitude, 
-      level,
-      search 
-    } = req.query;
+    const { region, maxPrice, minAltitude, level, search } = req.query;
 
     // Construction des filtres dynamiques
     const where: any = {};

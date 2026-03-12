@@ -1,5 +1,9 @@
 import { Router } from 'express';
-import { getAllStations, getStationById, getNearbyStations } from '@/controllers/station.controller';
+import {
+  getAllStations,
+  getStationById,
+  getNearbyStations,
+} from '@/controllers/station.controller';
 
 const router = Router();
 

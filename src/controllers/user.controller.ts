@@ -18,9 +18,9 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
       },
     });
 
-    res.status(201).json({ 
+    res.status(201).json({
       message: 'User created successfully!',
-      user 
+      user,
     });
   } catch (error) {
     console.error('Error creating user:', error);
@@ -66,7 +66,7 @@ export const addFavorite = async (req: Request, res: Response): Promise<void> =>
       res.status(404).json({ error: 'Station not found' });
       return;
     }
-    
+
     const user = await prisma.user.update({
       where: { id },
       data: { favoriteStations: { push: stationId } },
@@ -84,13 +84,16 @@ export const removeFavorite = async (req: Request, res: Response): Promise<void>
     const { id, stationId } = req.params;
 
     const user = await prisma.user.findUnique({ where: { id } });
-    if (!user) { res.status(404).json({ error: 'User not found' }); return; }
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
 
     const updated = await prisma.user.update({
       where: { id },
       data: {
         favoriteStations: {
-          set: user.favoriteStations.filter(sid => sid !== stationId),
+          set: user.favoriteStations.filter((sid) => sid !== stationId),
         },
       },
       select: { favoriteStations: true },

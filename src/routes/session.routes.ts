@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { createSession, deleteSession, getAllSessions, updateSession } from '@/controllers/session.controller';
+import {
+  createSession,
+  deleteSession,
+  getAllSessions,
+  updateSession,
+} from '@/controllers/session.controller';
 
 const router = Router();
 
