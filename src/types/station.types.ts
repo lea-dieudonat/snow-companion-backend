@@ -1,16 +1,4 @@
-export interface StationQueryParams {
-  region?: string;
-  maxPrice?: string;
-  minAltitude?: string;
-  level?: string;
-  search?: string;
-}
-
-export interface NearbyStationsParams {
-  latitude: string;
-  longitude: string;
-  maxDistance?: string;
-}
+export type { StationQueryParams, NearbyStationsParams } from '@/schemas/station.schema';
 
 export interface StationWithDistance {
   id: string;
@@ -23,19 +11,19 @@ export interface StationWithDistance {
   numSlopes: number;
   numLifts: number;
   kmSlopes: number;
-  slopesDetail: any;
+  slopesDetail: unknown;
   snowCannons: number;
   skiArea: string;
   level: string[];
-  passes: any;
+  passes: unknown;
   avgAccommodationPrice: number;
   website: string;
   description: string;
-  access: any;
-  season: any;
+  access: unknown;
+  season: unknown;
   services: string[];
   activities: string[];
   createdAt: Date;
   updatedAt: Date;
-  distance: number; // Distance en km
+  distance: number;
 }

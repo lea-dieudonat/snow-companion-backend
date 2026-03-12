@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import prisma from '@/config/prisma';
-import { CreateSessionDTO } from '@/types/session.types';
-import { AppError } from '@/middlewares/errorHandler';
+import { CreateSessionSchema, UpdateSessionSchema } from '@/schemas/session.schema';
 
 export const createSession = async (
   req: Request,
@@ -9,27 +8,18 @@ export const createSession = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { date, station, conditions, tricks, notes, photos, rating, userId }: CreateSessionDTO =
-      req.body;
-
-    if (!date || !station || !userId) {
-      throw new AppError(400, 'Date, station, and userId are required.');
-    }
-
-    if (rating !== undefined && (rating < 1 || rating > 5)) {
-      throw new AppError(400, 'Rating must be between 1 and 5.');
-    }
+    const data = CreateSessionSchema.parse(req.body);
 
     const session = await prisma.session.create({
       data: {
-        date: new Date(date),
-        station,
-        conditions: conditions || null,
-        tricks: tricks || [],
-        notes: notes || null,
-        photos: photos || [],
-        rating: rating || null,
-        userId,
+        date: new Date(data.date),
+        station: data.station,
+        conditions: data.conditions ?? null,
+        tricks: data.tricks ?? [],
+        notes: data.notes ?? null,
+        photos: data.photos ?? [],
+        rating: data.rating ?? null,
+        userId: data.userId,
       },
     });
 
@@ -64,23 +54,19 @@ export const updateSession = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { id } = req.params;
-    const { date, station, conditions, tricks, notes, photos, rating } = req.body;
-
-    if (rating !== undefined && rating !== null && (rating < 1 || rating > 5)) {
-      throw new AppError(400, 'Rating must be between 1 and 5.');
-    }
+    const id = req.params['id'] as string;
+    const data = UpdateSessionSchema.parse(req.body);
 
     const session = await prisma.session.update({
-      where: { id: id as string },
+      where: { id },
       data: {
-        ...(date && { date: new Date(date) }),
-        ...(station && { station }),
-        ...(conditions !== undefined && { conditions }),
-        ...(tricks !== undefined && { tricks }),
-        ...(notes !== undefined && { notes }),
-        ...(photos !== undefined && { photos }),
-        ...(rating !== undefined && { rating }),
+        ...(data.date && { date: new Date(data.date) }),
+        ...(data.station && { station: data.station }),
+        ...(data.conditions !== undefined && { conditions: data.conditions }),
+        ...(data.tricks !== undefined && { tricks: data.tricks }),
+        ...(data.notes !== undefined && { notes: data.notes }),
+        ...(data.photos !== undefined && { photos: data.photos }),
+        ...(data.rating !== undefined && { rating: data.rating }),
       },
     });
 
@@ -96,9 +82,9 @@ export const deleteSession = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params['id'] as string;
 
-    await prisma.session.delete({ where: { id: id as string } });
+    await prisma.session.delete({ where: { id } });
 
     res.json({ message: 'Session deleted successfully! 🗑️' });
   } catch (error) {

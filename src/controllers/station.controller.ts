@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import prisma from '@/config/prisma';
 import { AppError } from '@/middlewares/errorHandler';
+import { StationQuerySchema, NearbyStationsSchema } from '@/schemas/station.schema';
 
 export const getAllStations = async (
   req: Request,
@@ -8,31 +9,19 @@ export const getAllStations = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { region, maxPrice, minAltitude, level, search } = req.query;
+    const { region, maxPrice, minAltitude, level, search } = StationQuerySchema.parse(req.query);
 
     const where: Record<string, unknown> = {};
 
-    if (region) {
-      where.region = region as string;
-    }
-
-    if (maxPrice) {
-      where.avgAccommodationPrice = { lte: parseFloat(maxPrice as string) };
-    }
-
-    if (minAltitude) {
-      where.altitudeMin = { gte: parseInt(minAltitude as string, 10) };
-    }
-
-    if (level) {
-      where.level = { has: level as string };
-    }
-
+    if (region) where.region = region;
+    if (maxPrice !== undefined) where.avgAccommodationPrice = { lte: maxPrice };
+    if (minAltitude !== undefined) where.altitudeMin = { gte: minAltitude };
+    if (level) where.level = { has: level };
     if (search) {
       where.OR = [
-        { name: { contains: search as string, mode: 'insensitive' } },
-        { region: { contains: search as string, mode: 'insensitive' } },
-        { skiArea: { contains: search as string, mode: 'insensitive' } },
+        { name: { contains: search, mode: 'insensitive' } },
+        { region: { contains: search, mode: 'insensitive' } },
+        { skiArea: { contains: search, mode: 'insensitive' } },
       ];
     }
 
@@ -76,24 +65,18 @@ export const getNearbyStations = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { latitude, longitude, maxDistance = 300 } = req.query;
-
-    if (!latitude || !longitude) {
-      throw new AppError(400, 'Latitude and longitude are required');
-    }
-
-    const lat = parseFloat(latitude as string);
-    const lng = parseFloat(longitude as string);
-    const maxDist = parseFloat(maxDistance as string);
+    const { latitude, longitude, maxDistance } = NearbyStationsSchema.parse(req.query);
 
     const stations = await prisma.station.findMany();
 
     const nearbyStations = stations
       .map((station) => ({
         ...station,
-        distance: Math.round(calculateDistance(lat, lng, station.latitude, station.longitude)),
+        distance: Math.round(
+          calculateDistance(latitude, longitude, station.latitude, station.longitude),
+        ),
       }))
-      .filter((station) => station.distance <= maxDist)
+      .filter((station) => station.distance <= maxDistance)
       .sort((a, b) => a.distance - b.distance);
 
     res.status(200).json(nearbyStations);

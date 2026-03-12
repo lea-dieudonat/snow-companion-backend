@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import prisma from '@/config/prisma';
-import { CreateUserDTO } from '@/types/user.types';
 import { AppError } from '@/middlewares/errorHandler';
+import { CreateUserSchema } from '@/schemas/user.schema';
 
 export const createUser = async (
   req: Request,
@@ -9,14 +9,10 @@ export const createUser = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { email, name }: CreateUserDTO = req.body;
-
-    if (!email) {
-      throw new AppError(400, 'Email is required');
-    }
+    const data = CreateUserSchema.parse(req.body);
 
     const user = await prisma.user.create({
-      data: { email, name: name || null },
+      data: { email: data.email, name: data.name ?? null },
     });
 
     res.status(201).json({ message: 'User created successfully!', user });
@@ -32,7 +28,7 @@ export const getFavorites = async (
 ): Promise<void> => {
   try {
     const user = await prisma.user.findUnique({
-      where: { id: req.params.id },
+      where: { id: req.params['id'] as string },
       select: { favoriteStations: true },
     });
 
@@ -57,7 +53,7 @@ export const addFavorite = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { id, stationId } = req.params;
+    const { id, stationId } = req.params as { id: string; stationId: string };
 
     const station = await prisma.station.findUnique({ where: { id: stationId } });
     if (!station) {
@@ -82,7 +78,7 @@ export const removeFavorite = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { id, stationId } = req.params;
+    const { id, stationId } = req.params as { id: string; stationId: string };
 
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) {

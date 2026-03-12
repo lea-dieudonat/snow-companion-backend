@@ -1,7 +1,4 @@
-export interface CreateUserDTO {
-  email: string;
-  name?: string;
-}
+export type { CreateUserDTO } from '@/schemas/user.schema';
 
 export interface UserResponse {
   id: string;
@@ -11,13 +8,6 @@ export interface UserResponse {
   updatedAt: Date;
 }
 
-export interface UpdateFavoritesDTO {
-  stationId: string;
-}
-
 export interface UserWithFavorites extends UserResponse {
-  id: string;
-  email: string;
-  name: string | null;
   favoriteStations: string[];
 }
