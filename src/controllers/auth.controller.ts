@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import prisma from '@/config/prisma';
 import { AppError } from '@/middlewares/errorHandler';
 import { RegisterSchema, LoginSchema } from '@/schemas/auth.schema';
+import { AuthRequest } from '@/middlewares/auth';
 
 const signToken = (userId: string): string => {
   const secret = process.env['JWT_SECRET'];
@@ -32,6 +33,25 @@ export const register = async (req: Request, res: Response, next: NextFunction):
     const token = signToken(user.id);
 
     res.status(201).json({ token, user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const me = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { userId } = req as AuthRequest;
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, email: true, name: true, favoriteStations: true, createdAt: true },
+    });
+
+    if (!user) {
+      throw new AppError(404, 'User not found');
+    }
+
+    res.json({ user });
   } catch (error) {
     next(error);
   }
