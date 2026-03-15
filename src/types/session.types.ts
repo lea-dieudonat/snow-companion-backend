@@ -9,6 +9,10 @@ export interface SessionResponse {
   notes: string | null;
   photos: string[];
   rating: number | null;
+  runCount: number | null;
+  maxSpeed: number | null;
+  totalDistance: number | null;
+  verticalDrop: number | null;
   userId: string;
   createdAt: Date;
   updatedAt: Date;

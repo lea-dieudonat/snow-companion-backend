@@ -21,6 +21,10 @@ export const createSession = async (
         notes: data.notes ?? null,
         photos: data.photos ?? [],
         rating: data.rating ?? null,
+        runCount: data.runCount ?? null,
+        maxSpeed: data.maxSpeed ?? null,
+        totalDistance: data.totalDistance ?? null,
+        verticalDrop: data.verticalDrop ?? null,
         userId,
       },
     });
@@ -73,6 +77,10 @@ export const updateSession = async (
         ...(data.notes !== undefined && { notes: data.notes }),
         ...(data.photos !== undefined && { photos: data.photos }),
         ...(data.rating !== undefined && { rating: data.rating }),
+        ...(data.runCount !== undefined && { runCount: data.runCount }),
+        ...(data.maxSpeed !== undefined && { maxSpeed: data.maxSpeed }),
+        ...(data.totalDistance !== undefined && { totalDistance: data.totalDistance }),
+        ...(data.verticalDrop !== undefined && { verticalDrop: data.verticalDrop }),
       },
     });
 

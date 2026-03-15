@@ -36,8 +36,12 @@ model Session {
   tricks     String[] // Array de tricks réussis
   notes      String?
   photos     String[] // URLs des photos (on stockera juste les URLs)
-  rating     Int?     // Star rating (1-5)
-  userId     String
+  rating         Int?     // Star rating (1-5)
+  runCount       Int?
+  maxSpeed       Float?
+  totalDistance  Float?
+  verticalDrop   Int?
+  userId         String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

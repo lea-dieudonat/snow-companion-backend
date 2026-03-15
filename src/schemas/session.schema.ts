@@ -8,6 +8,10 @@ export const CreateSessionSchema = z.object({
   notes: z.string().optional(),
   photos: z.array(z.url()).optional(),
   rating: z.number().int().min(1).max(5).optional(),
+  runCount: z.number().int().min(0).optional(),
+  maxSpeed: z.number().min(0).optional(),
+  totalDistance: z.number().min(0).optional(),
+  verticalDrop: z.number().int().min(0).optional(),
 });
 
 export const UpdateSessionSchema = CreateSessionSchema.partial();
