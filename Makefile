@@ -42,6 +42,9 @@ prisma-reset: ## Reset database and apply all migrations
 db-push: ## Push schema changes to database without creating migration
 	npx prisma db push
 
+db-seed: ## Seed the database with initial data (stations + demo account)
+	npx prisma db seed
+
 prisma-format: ## Format Prisma schema file
 	npx prisma format
 
