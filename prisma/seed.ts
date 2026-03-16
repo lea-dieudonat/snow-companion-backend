@@ -30,6 +30,7 @@ async function main() {
         kmSlopes: station.km_slopes,
         slopesDetail: station.slopes_detail,
         snowCannons: station.snow_cannons,
+        snowPark: station.snow_park ?? null,
         skiArea: station.ski_area,
         level: station.level,
         passes: station.passes,
@@ -54,6 +55,7 @@ async function main() {
         kmSlopes: station.km_slopes,
         slopesDetail: station.slopes_detail,
         snowCannons: station.snow_cannons,
+        snowPark: station.snow_park ?? null,
         skiArea: station.ski_area,
         level: station.level,
         passes: station.passes,
@@ -78,17 +80,19 @@ async function main() {
   const demoUser = await prisma.user.upsert({
     where: { email: DEMO_EMAIL },
     update: {
-      name: 'Alex Demo',
-      favoriteStations: ['val-thorens', 'chamonix', 'tignes', 'alpe-huez'],
+      name: 'Léa Demo',
+      favoriteStations: ['isola-2000', 'valberg', 'les-orres', 'auron'],
+      level: ['intermediate', 'advanced'],
     },
     create: {
       email: DEMO_EMAIL,
       password: hashedPassword,
-      name: 'Alex Demo',
-      locationCity: 'Grenoble',
-      locationLatitude: 45.1885,
-      locationLongitude: 5.7245,
-      favoriteStations: ['val-thorens', 'chamonix', 'tignes', 'alpe-huez'],
+      name: 'Léa Demo',
+      locationCity: 'Antibes',
+      locationLatitude: 43.5804,
+      locationLongitude: 7.1256,
+      favoriteStations: ['isola-2000', 'valberg', 'les-orres', 'auron'],
+      level: ['intermediate', 'advanced'],
     },
   });
 
@@ -100,7 +104,7 @@ async function main() {
   const sessions = [
     {
       date: new Date('2026-01-10T09:00:00Z'),
-      station: 'val-thorens',
+      station: 'isola-2000',
       conditions: 'Neige fraîche, visibilité excellente',
       tricks: ['carving long radius', 'switch riding'],
       notes: 'Super journée, powder sur les pistes rouges du haut.',
@@ -113,7 +117,7 @@ async function main() {
     },
     {
       date: new Date('2026-01-18T08:30:00Z'),
-      station: 'chamonix',
+      station: 'valberg',
       conditions: "Neige dure le matin, ramollie l'après-midi",
       tricks: ['stemm christie', 'christiania'],
       notes: 'Première fois sur la Vallée Blanche, inoubliable.',
@@ -126,7 +130,7 @@ async function main() {
     },
     {
       date: new Date('2026-01-25T10:00:00Z'),
-      station: 'les-2-alpes',
+      station: 'les-orres',
       conditions: 'Brouillard en altitude, bonne neige basse station',
       tricks: [],
       notes: "Journée mitigée à cause du brouillard, on s'est concentrés sur les bleues.",
@@ -152,7 +156,7 @@ async function main() {
     },
     {
       date: new Date('2026-02-14T08:00:00Z'),
-      station: 'alpe-huez',
+      station: 'auron',
       conditions: 'Grand soleil, neige travaillée mais correcte',
       tricks: ['carving short radius', 'pivot 180'],
       notes: "Ski de printemps avant l'heure, super ambiance sur le domaine.",

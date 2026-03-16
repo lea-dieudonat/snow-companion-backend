@@ -26,6 +26,7 @@ model User {
   sessions          Session[]
   trips             Trip[]
   favoriteStations  String[]
+  level             String[]
 }
 
 model Session {
@@ -63,6 +64,7 @@ model Station {
   kmSlopes                Int      @map("km_slopes")
   slopesDetail            Json     @map("slopes_detail")
   snowCannons             Int      @map("snow_cannons")
+  snowPark                Json?    @map("snow_park")
   skiArea                 String   @map("ski_area")
   level                   String[]
   passes                  Json
