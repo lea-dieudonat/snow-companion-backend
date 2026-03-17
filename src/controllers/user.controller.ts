@@ -2,6 +2,45 @@ import { Request, Response, NextFunction } from 'express';
 import prisma from '@/config/prisma';
 import { AppError } from '@/middlewares/errorHandler';
 import { AuthRequest } from '@/middlewares/auth';
+import { UpsertProfileSchema } from '@/schemas/user.schema';
+
+export const getProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { userId } = req as AuthRequest;
+
+    const profile = await prisma.userProfile.findUnique({ where: { userId } });
+
+    res.json({ profile });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const upsertProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { userId } = req as AuthRequest;
+    const data = UpsertProfileSchema.parse(req.body);
+
+    const prismaData = {
+      ...data,
+      primaryDiscipline: data.primaryDiscipline ?? null,
+      freestyleLevel: data.freestyleLevel ?? null,
+      snowPreference: data.snowPreference ?? null,
+      level: data.level ?? null,
+      budgetRange: data.budgetRange ?? null,
+    };
+
+    const profile = await prisma.userProfile.upsert({
+      where: { userId },
+      update: prismaData,
+      create: { userId, ...prismaData },
+    });
+
+    res.json({ profile });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const getFavorites = async (
   req: Request,
