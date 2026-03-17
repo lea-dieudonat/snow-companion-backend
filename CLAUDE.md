@@ -41,12 +41,21 @@ Express + TypeScript backend for a ski companion app. PostgreSQL (local) via Pri
 - **sessions** — ski session tracking (date, station, tricks, conditions, rating, photos); all routes protected
 - **users** — favorite stations management; all routes protected
 - **stations** — read-only ski resort data seeded from `src/data/stations.json` (32 French resorts); supports filtering by region/price/altitude/level and Haversine-based nearby search
+- **agent** — AI chat assistant (Snow Planner); streams SSE; route `POST /api/agent/chat`; protected
+
+**Agent architecture** (`src/services/`):
+- `agent.service.ts` — orchestrator: loads user data, manages SSE lifecycle, persists conversation
+- `agent-system-prompt.ts` — pure function: builds the system prompt from user/profile/sessions
+- `agent-loop.ts` — agentic loop: Anthropic streaming + tool execution (max 5 iterations)
+- `src/tools/` — 6 tools: `get_weather`, `get_stations`, `get_station_activities`, `get_user_sessions`, `get_user_favorites`, `compare_stations`
 
 **Data models** (defined in `prisma/schema.prisma`):
-- `User` → has many `Session`, `Trip`; holds `favoriteStations` as string[] of station IDs
+- `User` → has many `Session`, `Trip`, `AgentConversation`; has one `UserProfile`; holds `favoriteStations` as string[] of station IDs
 - `Session` → belongs to `User`; tracks one ski outing
-- `Station` → standalone resort data; has many `Trip`
+- `Station` → standalone resort data; has many `Trip`; includes `snowPark` as nullable JSON
 - `Trip` → planned trip linking a `User` to a `Station`
+- `UserProfile` → rider profile (disciplines, rideStyles, freestyleLevel, snowPreference, etc.)
+- `AgentConversation` → persisted chat history (messages as JSON, last 40 kept)
 
 ## Authentication
 
@@ -78,4 +87,12 @@ DATABASE_URL="postgresql://<user>@localhost:5432/snow_companion"
 DATABASE_URL_TEST="postgresql://<user>@localhost:5432/snow_companion_test"
 JWT_SECRET="your-secret"
 JWT_EXPIRES_IN="7d"
+
+# Agent IA
+ANTHROPIC_API_KEY=sk-ant-...
+AGENT_MODEL_SYNTHESIS=claude-sonnet-4-6
+AGENT_MODEL_TOOLS=claude-haiku-4-5-20251001
+AGENT_MAX_ITERATIONS=5
+AGENT_MAX_TOKENS=1024
+AGENT_TIMEOUT_MS=30000
 ```

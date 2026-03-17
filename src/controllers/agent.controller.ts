@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { AuthRequest } from '@/middlewares/auth';
 import { ChatRequestSchema } from '@/schemas/agent.schema';
-import { AgentService } from '@/services/agent.service';
+import { chatAgent } from '@/services/agent.service';
 
 export const chat = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -15,8 +15,7 @@ export const chat = async (req: Request, res: Response, next: NextFunction): Pro
     res.setHeader('X-Accel-Buffering', 'no');
     res.flushHeaders();
 
-    const service = new AgentService(userId, res);
-    await service.chat(messages, conversationId);
+    await chatAgent(userId, res, messages, conversationId);
   } catch (error) {
     next(error);
   }

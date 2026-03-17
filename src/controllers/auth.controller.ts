@@ -5,13 +5,10 @@ import prisma from '@/config/prisma';
 import { AppError } from '@/middlewares/errorHandler';
 import { RegisterSchema, LoginSchema } from '@/schemas/auth.schema';
 import { AuthRequest } from '@/middlewares/auth';
+import { env } from '@/config/env';
 
 const signToken = (userId: string): string => {
-  const secret = process.env['JWT_SECRET'];
-  if (!secret) throw new AppError(500, 'JWT_SECRET is not configured');
-
-  const expiresIn = process.env['JWT_EXPIRES_IN'] ?? '7d';
-  return jwt.sign({ userId }, secret, { expiresIn } as jwt.SignOptions);
+  return jwt.sign({ userId }, env.jwtSecret, { expiresIn: env.jwtExpiresIn } as jwt.SignOptions);
 };
 
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
