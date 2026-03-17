@@ -13,6 +13,7 @@ export default defineConfig({
     environment: 'node',
     globalSetup: 'src/test/global-setup.ts',
     setupFiles: ['src/test/setup.ts'],
+    include: ['src/test/**/*.test.ts'],
     fileParallelism: false,
     env: {
       DATABASE_URL: testDbUrl,
