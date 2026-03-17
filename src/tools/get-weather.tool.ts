@@ -87,11 +87,11 @@ export const getWeatherTool: AgentTool = {
     const forecast = d.time.map((date, i) => ({
       date,
       condition: describeWeatherCode(d.weather_code[i] ?? 0),
-      temp_max: d.temperature_2m_max[i],
-      temp_min: d.temperature_2m_min[i],
-      snowfall_cm: d.snowfall_sum[i],
-      precipitation_mm: d.precipitation_sum[i],
-      wind_max_kmh: d.wind_speed_10m_max[i],
+      temp_max: d.temperature_2m_max[i] ?? 0,
+      temp_min: d.temperature_2m_min[i] ?? 0,
+      snowfall_cm: d.snowfall_sum[i] ?? 0,
+      precipitation_mm: d.precipitation_sum[i] ?? 0,
+      wind_max_kmh: d.wind_speed_10m_max[i] ?? 0,
     }));
 
     const totalSnow = d.snowfall_sum.reduce((a, b) => a + b, 0);
@@ -106,7 +106,7 @@ export const getWeatherTool: AgentTool = {
         total_snowfall_cm: Math.round(totalSnow * 10) / 10,
         snow_days: snowDays,
         avg_temp_max: Math.round((d.temperature_2m_max.reduce((a, b) => a + b, 0) / days) * 10) / 10,
-        best_day: forecast.reduce((best, day) => (day.snowfall_cm > best.snowfall_cm ? day : best), forecast[0]),
+        best_day: forecast.length > 0 ? forecast.reduce((best, day) => (day.snowfall_cm > best.snowfall_cm ? day : best)) : null,
       },
     };
   },

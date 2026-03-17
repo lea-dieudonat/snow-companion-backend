@@ -1,6 +1,7 @@
 import type { Response } from 'express';
 import type { MessageParam } from '@anthropic-ai/sdk/resources/messages';
 import prisma from '@/config/prisma';
+import type { Prisma } from '@prisma/client';
 import { env } from '@/config/env';
 import { getTools } from '@/tools/index';
 import { buildSystemPrompt } from './agent-system-prompt';
@@ -52,7 +53,7 @@ export async function chatAgent(
     ]);
 
     const history: MessageParam[] = existingConv
-      ? (existingConv.messages as MessageParam[]).slice(-20)
+      ? (existingConv.messages as unknown as MessageParam[]).slice(-20)
       : [];
 
     const allMessages: MessageParam[] = [
@@ -92,11 +93,11 @@ async function saveConversation(
   if (conversationId) {
     return agentConversation.update({
       where: { id: conversationId, userId },
-      data: { messages: toSave as unknown[] },
+      data: { messages: toSave as unknown as Prisma.InputJsonValue },
     });
   }
 
   return agentConversation.create({
-    data: { userId, messages: toSave as unknown[] },
+    data: { userId, messages: toSave as unknown as Prisma.InputJsonValue },
   });
 }

@@ -32,7 +32,7 @@ const SERVICE_LABELS: Record<string, string> = {
 // Weather-based filtering rules applied to activity recommendations
 function applyWeatherContext(
   activities: string[],
-  weather: { temperature?: number; wind_kmh?: number; snowfall_cm?: number },
+  weather: { temperature?: number | undefined; wind_kmh?: number | undefined; snowfall_cm?: number | undefined },
 ): { activity: string; label: string; recommended: boolean; note?: string }[] {
   return activities.map((a) => {
     let recommended = true;
