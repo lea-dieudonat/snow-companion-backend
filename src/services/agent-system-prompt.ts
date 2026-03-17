@@ -18,6 +18,7 @@ export function buildSystemPrompt(
     offPiste: boolean;
     level: string | null;
     withChildren: boolean;
+    regions: string[];
     budgetRange: string | null;
   } | null,
   sessions: { station: string; conditions: string | null }[],
@@ -44,6 +45,7 @@ Styles de ride : ${profile?.rideStyles.join(', ') || 'Non renseigné'}
 Niveau freestyle : ${profile?.freestyleLevel || 'Non renseigné'} | Hors-piste : ${profile?.offPiste ? 'Oui' : 'Non'}
 Préférence neige : ${profile?.snowPreference || 'Non renseigné'} | Avec enfants : ${profile?.withChildren ? 'Oui' : 'Non'}
 Niveau général : ${profile?.level || 'Non renseigné'} | Budget : ${profile?.budgetRange || 'Non renseigné'}
+Régions préférées : ${profile?.regions.join(', ') || 'Non renseigné'}
 Sessions cette saison : ${sessions.length}
 Station la plus fréquentée : ${topStation || 'Aucune'}
 Conditions préférées (historique) : ${topCondition || 'Aucune'}

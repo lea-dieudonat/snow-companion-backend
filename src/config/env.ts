@@ -19,4 +19,6 @@ export const env = {
   agentMaxTokens: parseInt(optional('AGENT_MAX_TOKENS', '1024')),
   agentMaxIterations: parseInt(optional('AGENT_MAX_ITERATIONS', '5')),
   agentTimeoutMs: parseInt(optional('AGENT_TIMEOUT_MS', '30000')),
+  agentRateLimitWindowMs: parseInt(optional('AGENT_RATE_LIMIT_WINDOW_MS', '60000')),
+  agentRateLimitMax: parseInt(optional('AGENT_RATE_LIMIT_MAX', '10')),
 };
