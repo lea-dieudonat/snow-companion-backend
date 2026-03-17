@@ -44,7 +44,7 @@ export const getStationById = async (
       where: { id },
       include: {
         trips: {
-          include: { user: { select: { id: true, name: true, email: true } } },
+          select: { id: true, name: true, startDate: true, endDate: true, status: true },
         },
       },
     });

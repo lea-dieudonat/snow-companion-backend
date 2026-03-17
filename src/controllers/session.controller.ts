@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import prisma from '@/config/prisma';
 import { CreateSessionSchema, UpdateSessionSchema } from '@/schemas/session.schema';
 import { AuthRequest } from '@/middlewares/auth';
+import { AppError } from '@/middlewares/errorHandler';
 
 export const createSession = async (
   req: Request,
@@ -45,9 +46,6 @@ export const getAllSessions = async (
 
     const sessions = await prisma.session.findMany({
       where: { userId },
-      include: {
-        user: { select: { id: true, name: true, email: true } },
-      },
       orderBy: { date: 'desc' },
     });
 
@@ -67,8 +65,13 @@ export const updateSession = async (
     const id = req.params['id'] as string;
     const data = UpdateSessionSchema.parse(req.body);
 
+    const existing = await prisma.session.findUnique({ where: { id } });
+    if (!existing || existing.userId !== userId) {
+      throw new AppError(404, 'Session not found');
+    }
+
     const session = await prisma.session.update({
-      where: { id, userId },
+      where: { id },
       data: {
         ...(data.date && { date: new Date(data.date) }),
         ...(data.station && { station: data.station }),
@@ -99,7 +102,12 @@ export const deleteSession = async (
     const { userId } = req as AuthRequest;
     const id = req.params['id'] as string;
 
-    await prisma.session.delete({ where: { id, userId } });
+    const existing = await prisma.session.findUnique({ where: { id } });
+    if (!existing || existing.userId !== userId) {
+      throw new AppError(404, 'Session not found');
+    }
+
+    await prisma.session.delete({ where: { id } });
 
     res.json({ message: 'Session deleted successfully! 🗑️' });
   } catch (error) {

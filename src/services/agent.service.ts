@@ -61,7 +61,7 @@ export async function chatAgent(
       ...messages.map((m) => ({ role: m.role, content: m.content }) satisfies MessageParam),
     ];
 
-    await runAgenticLoop({
+    const finalMessages = await runAgenticLoop({
       messages: allMessages,
       systemPrompt: buildSystemPrompt(user, profile, recentSessions),
       tools: getTools(),
@@ -71,7 +71,7 @@ export async function chatAgent(
       onToolCall: (tool, input) => sendSSE(res, 'tool_call', { tool, input }),
     });
 
-    const savedConv = await saveConversation(userId, conversationId, allMessages);
+    const savedConv = await saveConversation(userId, conversationId, finalMessages);
 
     clearTimeout(timer);
     end('done', { conversationId: savedConv.id });

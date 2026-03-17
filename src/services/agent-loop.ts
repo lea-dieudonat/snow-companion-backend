@@ -26,7 +26,7 @@ export async function runAgenticLoop({
   onText,
   onToolCall,
   userId,
-}: AgentLoopOptions): Promise<void> {
+}: AgentLoopOptions): Promise<MessageParam[]> {
   const allMessages = [...messages];
   const toolDefinitions = tools.map((t) => t.definition);
   let iteration = 0;
@@ -49,7 +49,10 @@ export async function runAgenticLoop({
 
     const response = await stream.finalMessage();
 
-    if (response.stop_reason === 'end_turn') break;
+    if (response.stop_reason === 'end_turn') {
+      allMessages.push({ role: 'assistant', content: response.content });
+      break;
+    }
 
     if (response.stop_reason === 'tool_use') {
       const toolUseBlocks = response.content.filter(
@@ -91,6 +94,5 @@ export async function runAgenticLoop({
     }
   }
 
-  // Propagate final message list back to caller via mutation
-  messages.splice(0, messages.length, ...allMessages);
+  return allMessages;
 }

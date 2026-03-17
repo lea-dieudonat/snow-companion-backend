@@ -118,9 +118,9 @@ function scoreStation(
   const passPrice = passes.full_day?.adult;
   if (profile.budgetRange && passPrice !== undefined) {
     const budgetScores: Record<string, [number, number]> = {
-      low: [0, 35],
-      medium: [30, 55],
-      high: [50, 999],
+      budget: [0, 35],
+      mid: [30, 55],
+      premium: [50, 999],
     };
     const [min, max] = budgetScores[profile.budgetRange] ?? [0, 999];
     const inBudget = passPrice >= min && passPrice <= max;

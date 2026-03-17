@@ -77,6 +77,6 @@ describe('DELETE /api/sessions/:id', () => {
       .delete(`/api/sessions/${id}`)
       .set('Authorization', `Bearer ${token2}`);
 
-    expect(res.status).toBe(500); // Prisma throws when record not found for that userId
+    expect(res.status).toBe(404);
   });
 });

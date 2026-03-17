@@ -86,6 +86,16 @@ export const addFavorite = async (
       throw new AppError(404, 'Station not found');
     }
 
+    const currentUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { favoriteStations: true },
+    });
+
+    if (currentUser?.favoriteStations.includes(stationId)) {
+      res.status(200).json({ favoriteStations: currentUser.favoriteStations });
+      return;
+    }
+
     const user = await prisma.user.update({
       where: { id: userId },
       data: { favoriteStations: { push: stationId } },
