@@ -9,18 +9,25 @@ Il complète le CLAUDE.md principal du projet.
 
 **Phase 1 — Fondations backend : ✅ terminée**
 
-Tout le backend agent est en place et fonctionnel :
-
 - `prisma/schema.prisma` — modèles `UserProfile`, `AgentConversation` ajoutés ; `Station.snowPark` (JSON?) ; relations `User` mises à jour
 - Migration `add_snow_park_user_profile_agent` appliquée
 - `@anthropic-ai/sdk` installé
 - Variables d'environnement agent ajoutées dans `.env`
 
-**Prochaine étape : Phase 5 — Frontend**
+**Phase 4 — Routes profil rider : ✅ terminée**
 
-- Étape 7 : valider le pipeline SSE avec curl (voir section Test ci-dessous)
-- Étape 8 : créer le composable `useAgent.ts` (repo Nuxt)
-- Étape 9 : créer la page `pages/agent.vue`
+- `GET /api/users/profile` — retourne le `UserProfile` de l'utilisateur connecté (null si non renseigné)
+- `PUT /api/users/profile` — crée ou met à jour le profil (`upsert`)
+- `UpsertProfileSchema` dans `src/schemas/user.schema.ts` — valide disciplines, niveau, styles, régions, budget
+- Fix `exactOptionalPropertyTypes` : les champs optionnels Zod (`string | undefined`) sont mappés en `null` avant le passage à Prisma
+
+**Phase 5 — Frontend : ✅ terminée**
+
+- Étape 7 : pipeline SSE validé avec curl
+- Étape 8 : composable `useAgent.ts` créé (repo Nuxt)
+- Étape 9 : page `pages/agent.vue` créée
+
+**Feature complète et fonctionnelle.**
 
 ---
 
@@ -73,19 +80,26 @@ puis `event: token` (mots de la réponse), puis `event: done`.
 
 ---
 
-## Phase 5 — Frontend (prochaine)
+## Phase 5 — Frontend (terminée)
 
-Page `pages/agent.vue` avec :
+Repo : `snow-companion-front`
 
-- Interface de chat (messages user/assistant)
-- Indicateur de streaming (curseur clignotant pendant la réponse)
-- Badge discret des tools utilisés
-- 5 suggestions de prompts pré-remplis au démarrage
-- Déclenchement de l'onboarding si `UserProfile` vide
+### `composables/useAgent.ts`
 
-Routes backend à ajouter pour le profil rider (Phase 4) :
-- `GET /api/users/profile` — retourne le `UserProfile` de l'utilisateur connecté
-- `PUT /api/users/profile` — crée ou met à jour le profil
+Gère le cycle de vie SSE côté client.
+
+- SSE via `fetch` natif (POST) — `EventSource` ne supporte que GET, donc non utilisable ici
+- Parse ligne par ligne : `event: token` → concatène dans `streamingText`, `event: tool_call` → met à jour `activeTool`, `event: done` → finalise le message, `event: error` → remonte l'erreur
+- Expose : `messages`, `streamingText`, `isLoading`, `activeTool`, `conversationId`, `error`, `sendMessage()`, `reset()`
+
+### `pages/agent.vue`
+
+- Bannière onboarding si `GET /api/users/profile` retourne `null` → lien vers `/settings`
+- 5 suggestions de prompts pré-remplis au démarrage (remplacés par la liste des messages une fois la conversation démarrée)
+- Curseur clignotant (`animate-pulse`) pendant le streaming
+- Badge tool actif pendant l'appel d'outil
+- Badges récapitulatifs sur chaque message assistant (tools utilisés)
+- Textarea avec `Enter` pour envoyer, `Shift+Enter` pour saut de ligne
 
 ---
 

@@ -38,7 +38,7 @@ Sans streaming, une réponse complète avec tool calls prend 8-15s — rédhibit
 |---|---|
 | Backend | `res.setHeader('Content-Type', 'text/event-stream')` + `res.flushHeaders()` avant tout traitement |
 | Events | `event: token` (mots), `event: tool_call` (tool utilisé), `event: done` (fin), `event: error` |
-| Frontend | `EventSource` API ou `$fetch` avec `parseResponse` stream |
+| Frontend | `fetch` natif avec lecture du `ReadableStream` — **`EventSource` n'est pas utilisé car il ne supporte pas les requêtes POST** |
 
 ## Stratégie multi-tier (modèles)
 
