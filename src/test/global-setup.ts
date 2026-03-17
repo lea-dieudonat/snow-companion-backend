@@ -11,4 +11,9 @@ export default function setup() {
     env: { ...process.env, DATABASE_URL: testDbUrl },
     stdio: 'inherit',
   });
+
+  execSync('npx prisma db seed', {
+    env: { ...process.env, DATABASE_URL: testDbUrl },
+    stdio: 'inherit',
+  });
 }
