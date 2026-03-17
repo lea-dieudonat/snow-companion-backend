@@ -5,6 +5,7 @@ import sessionRoutes from '@/routes/session.routes';
 import userRoutes from '@/routes/user.routes';
 import stationRoutes from '@/routes/station.routes';
 import tripRoutes from '@/routes/trip.routes';
+import agentRoutes from '@/routes/agent.routes';
 import { errorHandler } from '@/middlewares/errorHandler';
 
 const app: Express = express();
@@ -21,6 +22,7 @@ app.use('/api/sessions', sessionRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/stations', stationRoutes);
 app.use('/api/trips', tripRoutes);
+app.use('/api/agent', agentRoutes);
 
 app.use(errorHandler);
 

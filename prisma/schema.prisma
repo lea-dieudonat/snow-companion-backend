@@ -23,10 +23,12 @@ model User {
   locationLongitude Float?    // Longitude pour calcul distance
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-  sessions          Session[]
-  trips             Trip[]
-  favoriteStations  String[]
-  level             String[]
+  sessions            Session[]
+  trips               Trip[]
+  favoriteStations    String[]
+  level               String[]
+  profile             UserProfile?
+  agentConversations  AgentConversation[]
 }
 
 model Session {
@@ -100,4 +102,35 @@ model Trip {
   @@index([userId])
   @@index([stationId])
   @@index([startDate])
+}
+
+model UserProfile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  disciplines       String[]
+  primaryDiscipline String?
+  rideStyles        String[]
+  freestyleLevel    String?
+  snowPreference    String?
+  offPiste          Boolean  @default(false)
+  level             String?
+  withChildren      Boolean  @default(false)
+  regions           String[]
+  budgetRange       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model AgentConversation {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  Json     @default("[]")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
