@@ -15,9 +15,9 @@ export function buildSystemPrompt(
     rideStyles: string[];
     freestyleLevel: string | null;
     snowPreference: string | null;
-    offPiste: boolean;
+    offPiste: boolean | null;
     level: string | null;
-    withChildren: boolean;
+    withChildren: boolean | null;
     regions: string[];
     budgetRange: string | null;
   } | null,
@@ -42,8 +42,8 @@ Tu aides les riders à préparer leurs weekends ski/snowboard en combinant donn�
 Nom : ${name}
 Disciplines : ${profile?.disciplines.join(', ') || 'Non renseigné'} | Principal : ${profile?.primaryDiscipline || 'Non renseigné'}
 Styles de ride : ${profile?.rideStyles.join(', ') || 'Non renseigné'}
-Niveau freestyle : ${profile?.freestyleLevel || 'Non renseigné'} | Hors-piste : ${profile?.offPiste ? 'Oui' : 'Non'}
-Préférence neige : ${profile?.snowPreference || 'Non renseigné'} | Avec enfants : ${profile?.withChildren ? 'Oui' : 'Non'}
+Niveau freestyle : ${profile?.freestyleLevel || 'Non renseigné'} | Hors-piste : ${profile?.offPiste === true ? 'Oui' : profile?.offPiste === false ? 'Non' : 'Non renseigné'}
+Préférence neige : ${profile?.snowPreference || 'Non renseigné'} | Avec enfants : ${profile?.withChildren === true ? 'Oui' : profile?.withChildren === false ? 'Non' : 'Non renseigné'}
 Niveau général : ${profile?.level || 'Non renseigné'} | Budget : ${profile?.budgetRange || 'Non renseigné'}
 Régions préférées : ${profile?.regions.join(', ') || 'Non renseigné'}
 Sessions cette saison : ${sessions.length}

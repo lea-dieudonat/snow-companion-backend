@@ -115,7 +115,8 @@ Gère le cycle de vie SSE côté client.
 | Décision                  | Choix retenu                        | Raison                                   |
 | ------------------------- | ----------------------------------- | ---------------------------------------- |
 | Streaming                 | SSE (Server-Sent Events)            | Non-négociable UX — 8-15s sans streaming |
-| Modèle LLM                | claude-sonnet-4-6                   | Qualité + coût équilibré                 |
+| Modèle LLM — routage      | claude-haiku-4-5-20251001           | Décision tool calls, ~5x moins cher      |
+| Modèle LLM — synthèse     | claude-sonnet-4-6                   | Réponse finale personnalisée             |
 | Boucle agentique          | Loop limitée à 5 itérations         | Prédictible et économique                |
 | Persistance conversations | Table `AgentConversation` en BDD    | Mémoire inter-sessions                   |
 | Profil rider              | Table `UserProfile` séparée         | Multi-pratique, non-exclusif             |

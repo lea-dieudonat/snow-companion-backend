@@ -45,9 +45,9 @@ function scoreStation(
     rideStyles?: string[];
     freestyleLevel?: string | null;
     snowPreference?: string | null;
-    offPiste?: boolean;
+    offPiste?: boolean | null;
     level?: string | null;
-    withChildren?: boolean;
+    withChildren?: boolean | null;
     budgetRange?: string | null;
   } | null,
 ): ScoredStation {

@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "UserProfile" ALTER COLUMN "offPiste" DROP NOT NULL,
+ALTER COLUMN "offPiste" DROP DEFAULT,
+ALTER COLUMN "withChildren" DROP NOT NULL,
+ALTER COLUMN "withChildren" DROP DEFAULT;

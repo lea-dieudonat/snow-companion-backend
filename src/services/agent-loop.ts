@@ -30,12 +30,15 @@ export async function runAgenticLoop({
   const allMessages = [...messages];
   const toolDefinitions = tools.map((t) => t.definition);
   let iteration = 0;
+  let toolsUsed = false;
 
   while (iteration < maxIterations) {
     iteration++;
 
+    const model = toolsUsed ? env.agentModelSynthesis : env.agentModelTools;
+
     const stream = anthropic.messages.stream({
-      model: env.agentModelSynthesis,
+      model,
       max_tokens: env.agentMaxTokens,
       system: systemPrompt,
       tools: toolDefinitions as Anthropic.Tool[],
@@ -82,6 +85,7 @@ export async function runAgenticLoop({
 
       allMessages.push({ role: 'assistant', content: response.content });
       allMessages.push({ role: 'user', content: toolResults });
+      toolsUsed = true;
     } else {
       break;
     }

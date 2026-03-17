@@ -16,6 +16,14 @@ const VALID_PROFILE = {
   budgetRange: 'mid',
 };
 
+const PROFILE_NULL_BOOLEANS = {
+  disciplines: ['ski'],
+  rideStyles: [],
+  offPiste: null,
+  withChildren: null,
+  regions: [],
+};
+
 describe('GET /api/users/profile', () => {
   it('returns 401 without a token', async () => {
     const res = await request(app).get('/api/users/profile');
@@ -97,6 +105,18 @@ describe('PUT /api/users/profile', () => {
       .send({ level: 'advanced' }); // missing disciplines
 
     expect(res.status).toBe(400);
+  });
+
+  it('stores null for offPiste and withChildren when not set', async () => {
+    const { token } = await createTestUser();
+    const res = await request(app)
+      .put('/api/users/profile')
+      .set('Authorization', `Bearer ${token}`)
+      .send(PROFILE_NULL_BOOLEANS);
+
+    expect(res.status).toBe(200);
+    expect(res.body.profile.offPiste).toBeNull();
+    expect(res.body.profile.withChildren).toBeNull();
   });
 
   it('returns 400 for invalid enum value', async () => {

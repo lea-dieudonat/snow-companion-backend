@@ -42,10 +42,25 @@ Sans streaming, une réponse complète avec tool calls prend 8-15s — rédhibit
 
 ## Stratégie multi-tier (modèles)
 
-| Tâche | Modèle |
-|---|---|
-| Synthèse finale, recommandation personnalisée | `claude-sonnet-4-6` |
-| Tool calls simples (fetch météo, requête Prisma) | `claude-haiku-4-5-20251001` (non encore implémenté) |
+| Phase | Modèle | Raison |
+|---|---|---|
+| Routage (1ère itération, avant tout tool call) | `claude-haiku-4-5-20251001` | Décider quels tools appeler ne nécessite pas Sonnet |
+| Synthèse (après tool results, réponse finale) | `claude-sonnet-4-6` | Qualité de rédaction et personnalisation |
+
+**Implémentation :** flag `toolsUsed` dans `agent-loop.ts`. Haiku pour `iteration === 1` (ou tant qu'aucun tool n'a encore été exécuté). Dès que `toolsUsed = true`, toutes les itérations suivantes utilisent Sonnet.
+
+**Flux typique :**
+```
+User → Haiku (routing) → tool_use → execute tools
+     → toolsUsed = true
+     → Sonnet (synthèse) → end_turn → réponse streamée
+```
+
+**Configurable via `.env` :**
+```
+AGENT_MODEL_TOOLS=claude-haiku-4-5-20251001
+AGENT_MODEL_SYNTHESIS=claude-sonnet-4-6
+```
 
 ## Mémoire
 

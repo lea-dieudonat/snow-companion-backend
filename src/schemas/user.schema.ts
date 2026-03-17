@@ -21,9 +21,9 @@ export const UpsertProfileSchema = z.object({
   rideStyles: z.array(z.enum(RIDE_STYLES)).default([]),
   freestyleLevel: z.enum(FREESTYLE_LEVELS).optional(),
   snowPreference: z.enum(SNOW_PREFERENCES).optional(),
-  offPiste: z.boolean().default(false),
+  offPiste: z.boolean().nullable().optional(),
   level: z.enum(LEVELS).optional(),
-  withChildren: z.boolean().default(false),
+  withChildren: z.boolean().nullable().optional(),
   regions: z.array(z.enum(REGIONS)).default([]),
   budgetRange: z.enum(BUDGET_RANGES).optional(),
 });

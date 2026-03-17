@@ -80,6 +80,25 @@ function end(eventType: string, data: unknown): void {
 
 ---
 
+## Multi-tier : Haiku pour le routage, Sonnet pour la synthèse
+
+**Choix :** Flag `toolsUsed` dans `runAgenticLoop`. Haiku tant qu'aucun tool n'a été exécuté ; Sonnet dès que des tool results sont dans le contexte.
+
+```typescript
+let toolsUsed = false;
+const model = toolsUsed ? env.agentModelSynthesis : env.agentModelTools;
+// ...après exécution des tools :
+toolsUsed = true;
+```
+
+**Pourquoi :** La décision "quels tools appeler ?" ne demande pas la qualité de Sonnet — Haiku suffit et coûte ~5x moins cher. La synthèse personnalisée avec les données collectées, elle, justifie Sonnet.
+
+**Cas limite :** si l'utilisateur pose une question simple sans tool call, Haiku répond directement. Acceptable — une question sans données n'a pas besoin de synthèse.
+
+**Configurable :** `AGENT_MODEL_TOOLS` et `AGENT_MODEL_SYNTHESIS` dans `.env`.
+
+---
+
 ## Mutation du tableau `messages` dans `runAgenticLoop`
 
 **Choix :** `messages.splice(0, messages.length, ...allMessages)` en fin de boucle pour propager l'état final vers l'appelant.

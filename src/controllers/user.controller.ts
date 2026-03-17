@@ -26,7 +26,9 @@ export const upsertProfile = async (req: Request, res: Response, next: NextFunct
       primaryDiscipline: data.primaryDiscipline ?? null,
       freestyleLevel: data.freestyleLevel ?? null,
       snowPreference: data.snowPreference ?? null,
+      offPiste: data.offPiste ?? null,
       level: data.level ?? null,
+      withChildren: data.withChildren ?? null,
       budgetRange: data.budgetRange ?? null,
     };
 

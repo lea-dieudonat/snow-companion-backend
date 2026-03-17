@@ -15,6 +15,7 @@ export const env = {
   jwtExpiresIn: optional('JWT_EXPIRES_IN', '7d'),
 
   anthropicApiKey: required('ANTHROPIC_API_KEY'),
+  agentModelTools: optional('AGENT_MODEL_TOOLS', 'claude-haiku-4-5-20251001'),
   agentModelSynthesis: optional('AGENT_MODEL_SYNTHESIS', 'claude-sonnet-4-6'),
   agentMaxTokens: parseInt(optional('AGENT_MAX_TOKENS', '1024')),
   agentMaxIterations: parseInt(optional('AGENT_MAX_ITERATIONS', '5')),

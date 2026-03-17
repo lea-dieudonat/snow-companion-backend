@@ -113,9 +113,9 @@ model UserProfile {
   rideStyles        String[]
   freestyleLevel    String?
   snowPreference    String?
-  offPiste          Boolean  @default(false)
+  offPiste          Boolean?
   level             String?
-  withChildren      Boolean  @default(false)
+  withChildren      Boolean?
   regions           String[]
   budgetRange       String?
   createdAt         DateTime @default(now())
