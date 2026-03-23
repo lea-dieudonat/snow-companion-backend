@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import * as fs from 'fs';
@@ -23,8 +24,6 @@ async function main() {
       altitudeMax: station.altitude_max,
       latitude: station.latitude,
       longitude: station.longitude,
-      numSlopes: station.num_slopes,
-      numLifts: station.num_lifts,
       kmSlopes: station.km_slopes,
       slopesDetail: station.slopes_detail,
       snowCannons: station.snow_cannons,

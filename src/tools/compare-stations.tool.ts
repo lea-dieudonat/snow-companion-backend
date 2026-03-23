@@ -28,8 +28,8 @@ interface ScoredStation {
   id: string;
   name: string;
   region: string;
-  altitudeMax: number;
-  kmSlopes: number;
+  altitudeMax: number | null;
+  kmSlopes: number | null;
   level: string[];
   snowPark: SnowPark | null;
   passes: Passes;
@@ -44,9 +44,9 @@ function scoreStation(
     id: string;
     name: string;
     region: string;
-    altitudeMax: number;
-    altitudeMin: number;
-    kmSlopes: number;
+    altitudeMax: number | null;
+    altitudeMin: number | null;
+    kmSlopes: number | null;
     level: string[];
     snowPark: unknown;
     passes: unknown;
@@ -72,15 +72,19 @@ function scoreStation(
   let total = 0;
 
   // Altitude score (higher = better for snow quality)
-  const altScore = Math.min(station.altitudeMax / 3600, 1) * 20;
-  scoreDetails['altitude'] = Math.round(altScore);
-  total += altScore;
-  if (station.altitudeMax >= 2500) reasons.push(`Altitude élevée (${station.altitudeMax}m)`);
+  if (station.altitudeMax !== null) {
+    const altScore = Math.min(station.altitudeMax / 3600, 1) * 20;
+    scoreDetails['altitude'] = Math.round(altScore);
+    total += altScore;
+    if (station.altitudeMax >= 2500) reasons.push(`Altitude élevée (${station.altitudeMax}m)`);
+  }
 
   // Domain size
-  const sizeScore = Math.min(station.kmSlopes / 600, 1) * 15;
-  scoreDetails['domain_size'] = Math.round(sizeScore);
-  total += sizeScore;
+  if (station.kmSlopes !== null) {
+    const sizeScore = Math.min(station.kmSlopes / 600, 1) * 15;
+    scoreDetails['domain_size'] = Math.round(sizeScore);
+    total += sizeScore;
+  }
 
   if (!profile) {
     const ld = station.liveData;

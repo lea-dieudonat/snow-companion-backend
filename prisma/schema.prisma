@@ -61,8 +61,6 @@ model Station {
   altitudeMax             Int?     @map("altitude_max")
   latitude                Float
   longitude               Float
-  numSlopes               Int?     @map("num_slopes")
-  numLifts                Int?     @map("num_lifts")
   kmSlopes                Int?     @map("km_slopes")
   slopesDetail            Json?    @map("slopes_detail")
   snowCannons             Int?     @map("snow_cannons")

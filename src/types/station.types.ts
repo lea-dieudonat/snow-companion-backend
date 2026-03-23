@@ -8,8 +8,6 @@ export interface StationWithDistance {
   altitudeMax: number;
   latitude: number;
   longitude: number;
-  numSlopes: number;
-  numLifts: number;
   kmSlopes: number;
   slopesDetail: unknown;
   snowCannons: number;
