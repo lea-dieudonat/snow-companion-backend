@@ -2,6 +2,19 @@ import { Request, Response, NextFunction } from 'express';
 import prisma from '@/config/prisma';
 import { AppError } from '@/middlewares/errorHandler';
 import { StationQuerySchema, NearbyStationsSchema } from '@/schemas/station.schema';
+import type { StationLiveData } from '@prisma/client';
+
+function hasLiveData(liveData: StationLiveData | null): boolean {
+  if (!liveData) return false;
+  return (
+    liveData.liftsOpen !== null ||
+    liveData.liftsTotal !== null ||
+    liveData.pistesOpen !== null ||
+    liveData.pistesTotal !== null ||
+    liveData.baseSnowDepthCm !== null ||
+    liveData.summitSnowDepthCm !== null
+  );
+}
 
 export const getAllStations = async (
   req: Request,
@@ -25,9 +38,13 @@ export const getAllStations = async (
       ];
     }
 
-    const stations = await prisma.station.findMany({ where, orderBy: { name: 'asc' } });
+    const stations = await prisma.station.findMany({
+      where,
+      orderBy: { name: 'asc' },
+      include: { liveData: true },
+    });
 
-    res.status(200).json(stations);
+    res.status(200).json(stations.filter((s) => hasLiveData(s.liveData)));
   } catch (error) {
     next(error);
   }
@@ -46,6 +63,7 @@ export const getStationById = async (
         trips: {
           select: { id: true, name: true, startDate: true, endDate: true, status: true },
         },
+        liveData: true,
       },
     });
 
@@ -67,7 +85,7 @@ export const getNearbyStations = async (
   try {
     const { latitude, longitude, maxDistance } = NearbyStationsSchema.parse(req.query);
 
-    const stations = await prisma.station.findMany();
+    const stations = await prisma.station.findMany({ include: { liveData: true } });
 
     const nearbyStations = stations
       .map((station) => ({
@@ -76,7 +94,7 @@ export const getNearbyStations = async (
           calculateDistance(latitude, longitude, station.latitude, station.longitude),
         ),
       }))
-      .filter((station) => station.distance <= maxDistance)
+      .filter((station) => station.distance <= maxDistance && hasLiveData(station.liveData))
       .sort((a, b) => a.distance - b.distance);
 
     res.status(200).json(nearbyStations);

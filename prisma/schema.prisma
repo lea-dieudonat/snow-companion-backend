@@ -80,8 +80,24 @@ model Station {
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
   trips                   Trip[]
+  liveData                StationLiveData?
 
   @@index([region])
+}
+
+model StationLiveData {
+  stationId         String   @id @map("station_id")
+  station           Station  @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  liftsOpen         Int?     @map("lifts_open")
+  liftsTotal        Int?     @map("lifts_total")
+  pistesOpen        Int?     @map("pistes_open")
+  pistesTotal       Int?     @map("pistes_total")
+  baseSnowDepthCm   Int?     @map("base_snow_depth_cm")
+  summitSnowDepthCm Int?     @map("summit_snow_depth_cm")
+  avalancheRisk     Int?     @map("avalanche_risk")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@map("station_live_data")
 }
 
 model Trip {
