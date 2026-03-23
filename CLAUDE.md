@@ -51,7 +51,7 @@ Express + TypeScript backend for a ski companion app. PostgreSQL (local) via Pri
 - `agent.service.ts` — orchestrator: loads user data, manages SSE lifecycle, persists conversation
 - `agent-system-prompt.ts` — pure function: builds the system prompt from user/profile/sessions
 - `agent-loop.ts` — agentic loop: Anthropic streaming + tool execution (max 5 iterations)
-- `src/tools/` — 7 tools: `get_weather`, `get_slope_conditions`, `get_stations`, `get_station_activities`, `get_user_sessions`, `get_user_favorites`, `compare_stations`
+- `src/tools/` — 7 tools: `get_weather`, `get_slope_conditions`, `get_stations`, `get_station_activities`, `get_user_sessions`, `get_user_favorites`, `compare_stations` → voir [`docs/agent/tools.md`](docs/agent/tools.md)
 
 **Data models** (defined in `prisma/schema.prisma`):
 - `User` → has many `Session`, `Trip`, `AgentConversation`; has one `UserProfile`; holds `favoriteStations` as string[] of station IDs
@@ -64,28 +64,9 @@ Express + TypeScript backend for a ski companion app. PostgreSQL (local) via Pri
 
 ## Station Population
 
-**Scope:** French stations only (`country: "fr"` in open-piste API).
+Stations françaises uniquement. Sources : open-piste API (slugs + live data) + Overpass/OSM (coordonnées, altitude).
 
-**Data sources:**
-- **open-piste API** (`https://open-piste.raed.workers.dev/resorts`) — source of truth for French station slugs and live data (lifts, pistes, snow depths). Returns ~144 French resorts.
-- **Overpass API** (OpenStreetMap) — enriches static fields: `latitude`, `longitude`, `altitudeMin`, `altitudeMax`, `region`. Queried by station name.
-
-**Minimum data to insert a station:** `name` + `latitude` + `longitude` (from Overpass). All other fields are nullable.
-
-**Population flow** (`src/services/station-populate.service.ts`):
-1. Fetch French resorts from open-piste
-2. For new resorts: query Overpass, insert if minimum data found
-3. For existing stations: overwrite static fields with Overpass data
-
-**Scripts:**
-- `npm run populate:stations` — manual one-shot population/enrichment
-- Weekly cron (`src/cron/station-populate.cron.ts`) — runs every Monday at 3am, auto-discovers new stations
-
-**Station ID = open-piste slug** (e.g. `val-thorens`, `deux-alpes`). IDs are stable and used as FK in `Trip`.
-
-**`openPisteCovered` flag:** 5 stations in the original dataset have no open-piste match and are flagged `openPisteCovered: false` — they will never receive live data (`meribel`, `la-colmiane`, `greolieres-les-neiges`, `roubion`, `la-plagne-tarentaise`).
-
-**ID rename history:** 4 original station IDs were renamed to match open-piste slugs (`les-2-alpes` → `deux-alpes`, `val-isere` → `val-d-isere`, `alpe-huez` → `alpe-d-huez`, `superdevoluy` → `super-devoluy`). Script: `npm run migrate:station-ids`.
+→ Voir [`docs/stations/population.md`](docs/stations/population.md)
 
 ## Authentication
 

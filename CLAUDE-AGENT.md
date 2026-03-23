@@ -48,13 +48,14 @@ src/
 │   ├── agent-system-prompt.ts          — Fonction pure : construit le system prompt
 │   └── agent-loop.ts                   — Boucle agentique : streaming + tool execution
 └── tools/
-    ├── index.ts                         — Registre des 6 tools
+    ├── index.ts                         — Registre des 7 tools
     ├── get-weather.tool.ts              — Open-Meteo API, prévisions 7j
-    ├── get-stations.tool.ts             — Filtres Prisma incl. snow_park JSON
+    ├── get-slope-conditions.tool.ts     — Live data pistes depuis StationLiveData (open-piste)
+    ├── get-stations.tool.ts             — Filtres Prisma incl. snow_park JSON + only_open
     ├── get-station-activities.tool.ts   — Activités + règles météo contextuelles
     ├── get-user-sessions.tool.ts        — Historique + stats agrégées
     ├── get-user-favorites.tool.ts       — Favoris + météo actuelle optionnelle
-    └── compare-stations.tool.ts         — Scoring pondéré par profil rider
+    └── compare-stations.tool.ts         — Scoring pondéré par profil rider + live conditions
 ```
 
 ---
@@ -107,6 +108,7 @@ Gère le cycle de vie SSE côté client.
 
 - [docs/agent/architecture.md](docs/agent/architecture.md) — vue d'ensemble, boucle agentique, SSE, mémoire
 - [docs/agent/decisions.md](docs/agent/decisions.md) — décisions d'implémentation (patterns, conventions, raisons)
+- [docs/agent/tools.md](docs/agent/tools.md) — référence complète des 7 tools (paramètres, scoring, règles)
 
 ---
 
@@ -122,6 +124,7 @@ Gère le cycle de vie SSE côté client.
 | Profil rider              | Table `UserProfile` séparée         | Multi-pratique, non-exclusif             |
 | Snow park                 | Champ JSON structuré par station    | Filtrable, pas du texte libre            |
 | Activités hors-ski        | Strictement depuis la BDD           | Zéro hallucination                       |
+| Slope conditions          | `get_slope_conditions` obligatoire à chaque mention de station | Données live toujours présentes, jamais inventées |
 
 ---
 

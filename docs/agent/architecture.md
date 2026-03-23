@@ -9,7 +9,7 @@ Frontend Nuxt          Backend Express              Sources
 pages/agent.vue   →   POST /api/agent/chat    →   Anthropic API
 useAgent.ts            chatAgent()                 Prisma + Open-Meteo
                        runAgenticLoop()
-                       6 tools
+                       7 tools
 ```
 
 ## Découpage des services
@@ -19,7 +19,7 @@ useAgent.ts            chatAgent()                 Prisma + Open-Meteo
 | `agent.service.ts` | Orchestration : charge les données user, gère le cycle de vie SSE, persiste la conversation |
 | `agent-system-prompt.ts` | Fonction pure : construit le system prompt à partir du profil rider |
 | `agent-loop.ts` | Boucle agentique : streaming Anthropic + exécution des tool calls |
-| `tools/` | 6 tools indépendants, chacun avec sa définition Anthropic et sa fonction `execute` |
+| `tools/` | 7 tools indépendants, chacun avec sa définition Anthropic et sa fonction `execute` — voir [tools.md](tools.md) |
 
 ## Boucle agentique
 
@@ -69,9 +69,11 @@ AGENT_MODEL_SYNTHESIS=claude-sonnet-4-6
 | Court terme (`AgentConversation`) | Messages stockés en JSON, injectés dans chaque appel. Limités aux 20 derniers (injection) / 40 derniers (stockage) |
 | Long terme (`UserProfile`) | Préférences rider injectées dans le system prompt à chaque appel |
 
-## Règle fondamentale : météo avant recommandation
+## Règles fondamentales
 
-L'agent ne formule jamais de recommandation de station, date ou activité sans avoir préalablement appelé `get_weather`. Cette règle est encodée dans le system prompt et dans les descriptions de tools.
+- `get_weather` — obligatoire avant toute recommandation de station, date ou activité
+- `get_slope_conditions` — obligatoire dès qu'une station est mentionnée, en parallèle de `get_weather`
+- `updated_at` des données live — toujours cité dans la réponse pour indiquer la fraîcheur
 
 ## Périmètre exclu
 
