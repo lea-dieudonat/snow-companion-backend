@@ -6,8 +6,8 @@ export const getSlopeConditionsTool: AgentTool = {
     name: 'get_slope_conditions',
     description:
       'Récupère les données live des pistes pour une ou plusieurs stations : remontées mécaniques ouvertes, ' +
-      'pistes ouvertes, enneigement en bas et en haut, risque d\'avalanche, et horodatage de la dernière mise à jour. ' +
-      'Appeler ce tool dès qu\'une station est mentionnée pour donner des informations de conditions actuelles.',
+      "pistes ouvertes, enneigement en bas et en haut, risque d'avalanche, et horodatage de la dernière mise à jour. " +
+      "Appeler ce tool dès qu'une station est mentionnée pour donner des informations de conditions actuelles.",
     input_schema: {
       type: 'object',
       properties: {

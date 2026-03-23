@@ -69,7 +69,8 @@ export const getWeatherTool: AgentTool = {
     const params = new URLSearchParams({
       latitude: station.latitude.toString(),
       longitude: station.longitude.toString(),
-      daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,wind_speed_10m_max,weather_code',
+      daily:
+        'temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,wind_speed_10m_max,weather_code',
       forecast_days: days.toString(),
       timezone: 'Europe/Paris',
       wind_speed_unit: 'kmh',
@@ -105,8 +106,12 @@ export const getWeatherTool: AgentTool = {
       summary: {
         total_snowfall_cm: Math.round(totalSnow * 10) / 10,
         snow_days: snowDays,
-        avg_temp_max: Math.round((d.temperature_2m_max.reduce((a, b) => a + b, 0) / days) * 10) / 10,
-        best_day: forecast.length > 0 ? forecast.reduce((best, day) => (day.snowfall_cm > best.snowfall_cm ? day : best)) : null,
+        avg_temp_max:
+          Math.round((d.temperature_2m_max.reduce((a, b) => a + b, 0) / days) * 10) / 10,
+        best_day:
+          forecast.length > 0
+            ? forecast.reduce((best, day) => (day.snowfall_cm > best.snowfall_cm ? day : best))
+            : null,
       },
     };
   },

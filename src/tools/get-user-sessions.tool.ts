@@ -5,7 +5,7 @@ export const getUserSessionsTool: AgentTool = {
   definition: {
     name: 'get_user_sessions',
     description:
-      'Récupère l\'historique des sessions ski/snowboard de l\'utilisateur. ' +
+      "Récupère l'historique des sessions ski/snowboard de l'utilisateur. " +
       'Retourne les sessions avec station, conditions, tricks réussis, notes et rating. ' +
       'Inclut des statistiques agrégées : stations les plus fréquentées, conditions préférées, ' +
       'progression tricks, rating moyen. Utilise ce tool pour personnaliser les recommandations ' +
@@ -19,7 +19,7 @@ export const getUserSessionsTool: AgentTool = {
         },
         station_id: {
           type: 'string',
-          description: 'Filtrer par station (utilise le nom de la station, pas l\'ID)',
+          description: "Filtrer par station (utilise le nom de la station, pas l'ID)",
         },
         include_stats: {
           type: 'boolean',
@@ -99,7 +99,10 @@ export const getUserSessionsTool: AgentTool = {
       .map(([trick, count]) => ({ trick, count }));
 
     const ratings = allSessions.map((s) => s.rating).filter((r): r is number => r !== null);
-    const avgRating = ratings.length > 0 ? Math.round((ratings.reduce((a, b) => a + b, 0) / ratings.length) * 10) / 10 : null;
+    const avgRating =
+      ratings.length > 0
+        ? Math.round((ratings.reduce((a, b) => a + b, 0) / ratings.length) * 10) / 10
+        : null;
 
     return {
       sessions,

@@ -12,7 +12,14 @@ const RIDE_STYLES = ['freestyle', 'freeride', 'piste', 'backcountry', 'moguls'] 
 const LEVELS = ['beginner', 'intermediate', 'advanced', 'expert'] as const;
 const FREESTYLE_LEVELS = ['none', 'beginner', 'intermediate', 'advanced'] as const;
 const SNOW_PREFERENCES = ['groomed', 'powder', 'mixed'] as const;
-const REGIONS = ['alpes_nord', 'alpes_sud', 'pyrenees', 'massif_central', 'vosges', 'jura'] as const;
+const REGIONS = [
+  'alpes_nord',
+  'alpes_sud',
+  'pyrenees',
+  'massif_central',
+  'vosges',
+  'jura',
+] as const;
 const BUDGET_RANGES = ['budget', 'mid', 'premium'] as const;
 
 export const UpsertProfileSchema = z.object({

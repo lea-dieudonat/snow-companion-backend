@@ -19,9 +19,7 @@ describe('GET /api/trips', () => {
 
   it('returns an empty list for a new user', async () => {
     const { token } = await createTestUser();
-    const res = await request(app)
-      .get('/api/trips')
-      .set('Authorization', `Bearer ${token}`);
+    const res = await request(app).get('/api/trips').set('Authorization', `Bearer ${token}`);
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual([]);
@@ -136,9 +134,7 @@ describe('DELETE /api/trips/:id', () => {
 
     expect(res.status).toBe(200);
 
-    const list = await request(app)
-      .get('/api/trips')
-      .set('Authorization', `Bearer ${token}`);
+    const list = await request(app).get('/api/trips').set('Authorization', `Bearer ${token}`);
     expect(list.body).toEqual([]);
   });
 

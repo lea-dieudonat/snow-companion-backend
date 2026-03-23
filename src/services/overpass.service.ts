@@ -23,9 +23,7 @@ interface OverpassResponse {
   elements: OverpassElement[];
 }
 
-export async function fetchStationFromOverpass(
-  name: string,
-): Promise<OverpassStationData | null> {
+export async function fetchStationFromOverpass(name: string): Promise<OverpassStationData | null> {
   // Search for ski resort by name in France
   const query = `
     [out:json][timeout:25];
@@ -57,8 +55,9 @@ export async function fetchStationFromOverpass(
   }
 
   // Pick best match: prefer elements with altitude tags
-  const best = data.elements.find((e) => e.tags?.['ele'] || e.tags?.['ele:min'] || e.tags?.['ele:max'])
-    ?? data.elements[0];
+  const best =
+    data.elements.find((e) => e.tags?.['ele'] || e.tags?.['ele:min'] || e.tags?.['ele:max']) ??
+    data.elements[0];
 
   if (!best) return null;
 

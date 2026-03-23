@@ -25,14 +25,18 @@ const SERVICE_LABELS: Record<string, string> = {
   spa: 'Spa',
   nursery: 'Crèche',
   storage: 'Consigne',
-  restaurant: 'Restaurant d\'altitude',
+  restaurant: "Restaurant d'altitude",
   wifi: 'WiFi',
 };
 
 // Weather-based filtering rules applied to activity recommendations
 function applyWeatherContext(
   activities: string[],
-  weather: { temperature?: number | undefined; wind_kmh?: number | undefined; snowfall_cm?: number | undefined },
+  weather: {
+    temperature?: number | undefined;
+    wind_kmh?: number | undefined;
+    snowfall_cm?: number | undefined;
+  },
 ): { activity: string; label: string; recommended: boolean; note?: string }[] {
   return activities.map((a) => {
     let recommended = true;
@@ -41,7 +45,7 @@ function applyWeatherContext(
     if (a === 'paragliding') {
       if ((weather.wind_kmh ?? 0) > 60) {
         recommended = false;
-        note = 'Vent trop fort pour voler aujourd\'hui';
+        note = "Vent trop fort pour voler aujourd'hui";
       }
     }
 
@@ -123,7 +127,11 @@ export const getStationActivitiesTool: AgentTool = {
 
     const activitiesWithContext = hasWeather
       ? applyWeatherContext(station.activities, weather)
-      : station.activities.map((a) => ({ activity: a, label: ACTIVITY_LABELS[a] ?? a, recommended: true }));
+      : station.activities.map((a) => ({
+          activity: a,
+          label: ACTIVITY_LABELS[a] ?? a,
+          recommended: true,
+        }));
 
     const services = station.services.map((s) => ({
       service: s,

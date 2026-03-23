@@ -72,7 +72,9 @@ export async function runAgenticLoop({
             try {
               result = await tool.execute(block.input as Record<string, unknown>, userId);
             } catch (err) {
-              result = { error: err instanceof Error ? err.message : "Erreur lors de l'exécution du tool." };
+              result = {
+                error: err instanceof Error ? err.message : "Erreur lors de l'exécution du tool.",
+              };
             }
           } else {
             result = { error: `Tool "${block.name}" inconnu.` };

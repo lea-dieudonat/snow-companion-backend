@@ -41,7 +41,9 @@ export async function populateStations(): Promise<PopulateReport> {
   const toInsert = frResorts.filter((r) => !existingIds.has(r.slug));
   const toEnrich = frResorts.filter((r) => existingIds.has(r.slug));
 
-  console.log(`[populate] ${frResorts.length} French resorts — ${toInsert.length} new, ${toEnrich.length} to enrich`);
+  console.log(
+    `[populate] ${frResorts.length} French resorts — ${toInsert.length} new, ${toEnrich.length} to enrich`,
+  );
 
   // 3. Enrich existing stations with Overpass data
   for (const resort of toEnrich) {

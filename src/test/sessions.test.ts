@@ -11,9 +11,7 @@ describe('GET /api/sessions', () => {
 
   it('returns an empty list for a new user', async () => {
     const { token } = await createTestUser();
-    const res = await request(app)
-      .get('/api/sessions')
-      .set('Authorization', `Bearer ${token}`);
+    const res = await request(app).get('/api/sessions').set('Authorization', `Bearer ${token}`);
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual([]);

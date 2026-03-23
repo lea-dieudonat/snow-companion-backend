@@ -7,7 +7,7 @@ export const getStationsTool: AgentTool = {
     name: 'get_stations',
     description:
       'Recherche et filtre les stations de ski françaises dans la base de données. ' +
-      'Supporte le filtrage par région, niveau, présence d\'un snow park (et son niveau), ' +
+      "Supporte le filtrage par région, niveau, présence d'un snow park (et son niveau), " +
       'activités disponibles, prix maximum du forfait, et altitude minimale. ' +
       'Utilise ce tool pour trouver des stations correspondant au profil et aux critères du rider.',
     input_schema: {
@@ -15,7 +15,8 @@ export const getStationsTool: AgentTool = {
       properties: {
         region: {
           type: 'string',
-          description: 'Région (ex: "Savoie", "Isère", "Haute-Savoie", "Hautes-Alpes", "Pyrénées-Orientales")',
+          description:
+            'Région (ex: "Savoie", "Isère", "Haute-Savoie", "Hautes-Alpes", "Pyrénées-Orientales")',
         },
         level: {
           type: 'string',
@@ -37,7 +38,8 @@ export const getStationsTool: AgentTool = {
         },
         activity: {
           type: 'string',
-          description: 'Activité hors-ski disponible (ex: "snowshoeing", "ice_skating", "dog_sledding", "paragliding")',
+          description:
+            'Activité hors-ski disponible (ex: "snowshoeing", "ice_skating", "dog_sledding", "paragliding")',
         },
         max_pass_price: {
           type: 'number',
@@ -49,7 +51,8 @@ export const getStationsTool: AgentTool = {
         },
         only_open: {
           type: 'boolean',
-          description: 'Si true, retourne uniquement les stations avec au moins une remontée mécanique ouverte',
+          description:
+            'Si true, retourne uniquement les stations avec au moins une remontée mécanique ouverte',
         },
         limit: {
           type: 'number',
@@ -63,7 +66,8 @@ export const getStationsTool: AgentTool = {
   execute: async (input) => {
     const where: Prisma.StationWhereInput = {};
 
-    if (input['region']) where.region = { contains: input['region'] as string, mode: 'insensitive' };
+    if (input['region'])
+      where.region = { contains: input['region'] as string, mode: 'insensitive' };
     if (input['level']) where.level = { has: input['level'] as string };
     if (input['activity']) where.activities = { has: input['activity'] as string };
     if (input['max_pass_price']) {
@@ -122,9 +126,7 @@ export const getStationsTool: AgentTool = {
       filtered = filtered.filter((s) => {
         const sp = s.snowPark as { available?: boolean; level?: string[] } | null;
         if (!sp?.available || !sp.level) return false;
-        return sp.level.some(
-          (l) => levelOrder.indexOf(l) >= levelOrder.indexOf(wantedLevel),
-        );
+        return sp.level.some((l) => levelOrder.indexOf(l) >= levelOrder.indexOf(wantedLevel));
       });
     }
 

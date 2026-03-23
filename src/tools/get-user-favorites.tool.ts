@@ -45,7 +45,7 @@ export const getUserFavoritesTool: AgentTool = {
   definition: {
     name: 'get_user_favorites',
     description:
-      'Récupère les stations favorites de l\'utilisateur avec leurs données complètes. ' +
+      "Récupère les stations favorites de l'utilisateur avec leurs données complètes. " +
       'Peut enrichir chaque station avec la météo actuelle en temps réel (température, vent, neige des dernières 24h). ' +
       'Utilise ce tool pour les alertes enneigement et les recommandations sur les favoris.',
     input_schema: {

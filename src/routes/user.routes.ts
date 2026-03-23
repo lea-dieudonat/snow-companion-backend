@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import { getProfile, upsertProfile, getFavorites, addFavorite, removeFavorite } from '@/controllers/user.controller';
+import {
+  getProfile,
+  upsertProfile,
+  getFavorites,
+  addFavorite,
+  removeFavorite,
+} from '@/controllers/user.controller';
 import { authenticate } from '@/middlewares/auth';
 
 const router = Router();

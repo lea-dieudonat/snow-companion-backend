@@ -4,7 +4,11 @@ import { AppError } from '@/middlewares/errorHandler';
 import { AuthRequest } from '@/middlewares/auth';
 import { UpsertProfileSchema } from '@/schemas/user.schema';
 
-export const getProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { userId } = req as AuthRequest;
 
@@ -16,7 +20,11 @@ export const getProfile = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const upsertProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const upsertProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { userId } = req as AuthRequest;
     const data = UpsertProfileSchema.parse(req.body);

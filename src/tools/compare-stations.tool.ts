@@ -99,14 +99,23 @@ function scoreStation(
         const snowScore = Math.min(ld.summitSnowDepthCm / 100, 1) * 10;
         scoreDetails['snow_depth'] = Math.round(snowScore);
         total += snowScore;
-        if (ld.summitSnowDepthCm >= 50) reasons.push(`Enneigement sommet : ${ld.summitSnowDepthCm}cm`);
+        if (ld.summitSnowDepthCm >= 50)
+          reasons.push(`Enneigement sommet : ${ld.summitSnowDepthCm}cm`);
       }
     } else {
       scoreDetails['lifts_open'] = 0;
       scoreDetails['snow_depth'] = 0;
       reasons.push('Données live non disponibles');
     }
-    return { ...station, snowPark: sp, passes, liveData: ld ?? null, score: Math.round(Math.max(total, 0)), score_details: scoreDetails, reasons };
+    return {
+      ...station,
+      snowPark: sp,
+      passes,
+      liveData: ld ?? null,
+      score: Math.round(Math.max(total, 0)),
+      score_details: scoreDetails,
+      reasons,
+    };
   }
 
   // Snow park match for freestyle riders
@@ -115,12 +124,21 @@ function scoreStation(
     if (sp?.available) {
       let parkScore = 25;
       if (profile.freestyleLevel && sp.level) {
-        const userLevelIdx = levelOrder.indexOf(profile.freestyleLevel === 'beginner_park' ? 'beginner' : profile.freestyleLevel === 'competitor' ? 'advanced' : 'intermediate');
+        const userLevelIdx = levelOrder.indexOf(
+          profile.freestyleLevel === 'beginner_park'
+            ? 'beginner'
+            : profile.freestyleLevel === 'competitor'
+              ? 'advanced'
+              : 'intermediate',
+        );
         const stationMaxLevel = Math.max(...sp.level.map((l) => levelOrder.indexOf(l)));
         if (stationMaxLevel >= userLevelIdx) parkScore = 30;
         else parkScore = 10;
       }
-      if (sp.halfpipe) { parkScore += 5; reasons.push('Halfpipe disponible'); }
+      if (sp.halfpipe) {
+        parkScore += 5;
+        reasons.push('Halfpipe disponible');
+      }
       scoreDetails['snow_park'] = parkScore;
       total += parkScore;
       reasons.push(`Snow park ${sp.level?.join('/')} — correspond à ton niveau`);
@@ -134,7 +152,10 @@ function scoreStation(
   const isFreeride = profile.rideStyles?.includes('freeride') || profile.offPiste;
   if (isFreeride) {
     const slopesDetail = station.slopesDetail as { black?: number; red?: number } | null;
-    const blackPct = slopesDetail ? ((slopesDetail.black ?? 0) / Math.max((slopesDetail.black ?? 0) + (slopesDetail.red ?? 0) + 10, 1)) : 0;
+    const blackPct = slopesDetail
+      ? (slopesDetail.black ?? 0) /
+        Math.max((slopesDetail.black ?? 0) + (slopesDetail.red ?? 0) + 10, 1)
+      : 0;
     const freerideScore = blackPct * 20;
     scoreDetails['freeride'] = Math.round(freerideScore);
     total += freerideScore;
@@ -143,7 +164,8 @@ function scoreStation(
 
   // Children-friendly services
   if (profile.withChildren) {
-    const hasChildcare = station.activities.includes('child_care') || station.activities.includes('childcare');
+    const hasChildcare =
+      station.activities.includes('child_care') || station.activities.includes('childcare');
     const childScore = hasChildcare ? 10 : 0;
     scoreDetails['family'] = childScore;
     total += childScore;
@@ -179,7 +201,8 @@ function scoreStation(
       const snowScore = Math.min(ld.summitSnowDepthCm / 100, 1) * 10;
       scoreDetails['snow_depth'] = Math.round(snowScore);
       total += snowScore;
-      if (ld.summitSnowDepthCm >= 50) reasons.push(`Enneigement sommet : ${ld.summitSnowDepthCm}cm`);
+      if (ld.summitSnowDepthCm >= 50)
+        reasons.push(`Enneigement sommet : ${ld.summitSnowDepthCm}cm`);
     }
   } else {
     scoreDetails['lifts_open'] = 0;
@@ -207,11 +230,11 @@ export const compareStationsTool: AgentTool = {
   definition: {
     name: 'compare_stations',
     description:
-      'Compare plusieurs stations et les classe selon le profil rider de l\'utilisateur. ' +
+      "Compare plusieurs stations et les classe selon le profil rider de l'utilisateur. " +
       'Score pondéré selon : snow park (freestyle), terrain off-piste (freeride), altitude, ' +
       'taille du domaine, budget, et services famille. ' +
       'Retourne un classement avec scores et raisons détaillées. ' +
-      'Utilise ce tool quand l\'utilisateur hésite entre plusieurs stations.',
+      "Utilise ce tool quand l'utilisateur hésite entre plusieurs stations.",
     input_schema: {
       type: 'object',
       properties: {
@@ -254,9 +277,7 @@ export const compareStationsTool: AgentTool = {
       prisma.userProfile.findUnique({ where: { userId } }),
     ]);
 
-    const scored = stations
-      .map((s) => scoreStation(s, profile))
-      .sort((a, b) => b.score - a.score);
+    const scored = stations.map((s) => scoreStation(s, profile)).sort((a, b) => b.score - a.score);
 
     return {
       ranked: scored,
@@ -268,7 +289,9 @@ export const compareStationsTool: AgentTool = {
             budgetRange: profile.budgetRange,
           }
         : null,
-      note: !profile ? 'Profil rider non renseigné — scoring basé uniquement sur les caractéristiques des stations.' : undefined,
+      note: !profile
+        ? 'Profil rider non renseigné — scoring basé uniquement sur les caractéristiques des stations.'
+        : undefined,
     };
   },
 };
