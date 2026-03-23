@@ -47,6 +47,10 @@ export const getStationsTool: AgentTool = {
           type: 'number',
           description: 'Altitude maximale minimale en mètres',
         },
+        only_open: {
+          type: 'boolean',
+          description: 'Si true, retourne uniquement les stations avec au moins une remontée mécanique ouverte',
+        },
         limit: {
           type: 'number',
           description: 'Nombre maximum de résultats (défaut: 10)',
@@ -87,12 +91,24 @@ export const getStationsTool: AgentTool = {
         passes: true,
         skiArea: true,
         slopesDetail: true,
+        liveData: true,
       },
       orderBy: { name: 'asc' },
     });
 
-    // Post-filter snow park criteria (stored as JSON)
-    let filtered = stations;
+    // Filter out stations with no live data (mirrors HTTP controller logic)
+    let filtered = stations.filter((s) => {
+      const ld = s.liveData;
+      if (!ld) return false;
+      return (
+        ld.liftsOpen !== null ||
+        ld.liftsTotal !== null ||
+        ld.pistesOpen !== null ||
+        ld.pistesTotal !== null ||
+        ld.baseSnowDepthCm !== null ||
+        ld.summitSnowDepthCm !== null
+      );
+    });
 
     if (input['has_snow_park']) {
       filtered = filtered.filter((s) => {
@@ -118,6 +134,10 @@ export const getStationsTool: AgentTool = {
         const sp = s.snowPark as { halfpipe?: boolean } | null;
         return sp?.halfpipe === true;
       });
+    }
+
+    if (input['only_open']) {
+      filtered = filtered.filter((s) => s.liveData && (s.liveData.liftsOpen ?? 0) > 0);
     }
 
     const limit = Math.min(Number(input['limit'] ?? 10), 20);

@@ -57,26 +57,27 @@ model Station {
   id                      String   @id // Ex: "val-thorens"
   name                    String
   region                  String
-  altitudeMin             Int      @map("altitude_min")
-  altitudeMax             Int      @map("altitude_max")
+  altitudeMin             Int?     @map("altitude_min")
+  altitudeMax             Int?     @map("altitude_max")
   latitude                Float
   longitude               Float
-  numSlopes               Int      @map("num_slopes")
-  numLifts                Int      @map("num_lifts")
-  kmSlopes                Int      @map("km_slopes")
-  slopesDetail            Json     @map("slopes_detail")
-  snowCannons             Int      @map("snow_cannons")
+  numSlopes               Int?     @map("num_slopes")
+  numLifts                Int?     @map("num_lifts")
+  kmSlopes                Int?     @map("km_slopes")
+  slopesDetail            Json?    @map("slopes_detail")
+  snowCannons             Int?     @map("snow_cannons")
   snowPark                Json?    @map("snow_park")
-  skiArea                 String   @map("ski_area")
+  skiArea                 String?  @map("ski_area")
   level                   String[]
-  passes                  Json
-  avgAccommodationPrice   Float    @map("avg_accommodation_price")
-  website                 String
-  description             String
-  access                  Json
-  season                  Json
+  passes                  Json?
+  avgAccommodationPrice   Float?   @map("avg_accommodation_price")
+  website                 String?
+  description             String?
+  access                  Json?
+  season                  Json?
   services                String[]
   activities              String[]
+  openPisteCovered        Boolean  @default(true) @map("open_piste_covered")
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
   trips                   Trip[]

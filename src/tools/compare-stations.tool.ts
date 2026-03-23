@@ -13,6 +13,17 @@ interface Passes {
   full_day?: { adult?: number };
 }
 
+interface LiveData {
+  liftsOpen: number | null;
+  liftsTotal: number | null;
+  pistesOpen: number | null;
+  pistesTotal: number | null;
+  baseSnowDepthCm: number | null;
+  summitSnowDepthCm: number | null;
+  avalancheRisk: number | null;
+  updatedAt: Date;
+}
+
 interface ScoredStation {
   id: string;
   name: string;
@@ -22,6 +33,7 @@ interface ScoredStation {
   level: string[];
   snowPark: SnowPark | null;
   passes: Passes;
+  liveData: LiveData | null;
   score: number;
   score_details: Record<string, number>;
   reasons: string[];
@@ -40,6 +52,7 @@ function scoreStation(
     passes: unknown;
     slopesDetail: unknown;
     activities: string[];
+    liveData: LiveData | null;
   },
   profile: {
     rideStyles?: string[];
@@ -70,7 +83,26 @@ function scoreStation(
   total += sizeScore;
 
   if (!profile) {
-    return { ...station, snowPark: sp, passes, score: Math.round(total), score_details: scoreDetails, reasons };
+    const ld = station.liveData;
+    if (ld) {
+      if (ld.liftsOpen !== null && ld.liftsTotal && ld.liftsTotal > 0) {
+        const liftsScore = (ld.liftsOpen / ld.liftsTotal) * 15;
+        scoreDetails['lifts_open'] = Math.round(liftsScore);
+        total += liftsScore;
+        reasons.push(`${ld.liftsOpen}/${ld.liftsTotal} remontées ouvertes`);
+      }
+      if (ld.summitSnowDepthCm !== null) {
+        const snowScore = Math.min(ld.summitSnowDepthCm / 100, 1) * 10;
+        scoreDetails['snow_depth'] = Math.round(snowScore);
+        total += snowScore;
+        if (ld.summitSnowDepthCm >= 50) reasons.push(`Enneigement sommet : ${ld.summitSnowDepthCm}cm`);
+      }
+    } else {
+      scoreDetails['lifts_open'] = 0;
+      scoreDetails['snow_depth'] = 0;
+      reasons.push('Données live non disponibles');
+    }
+    return { ...station, snowPark: sp, passes, liveData: ld ?? null, score: Math.round(Math.max(total, 0)), score_details: scoreDetails, reasons };
   }
 
   // Snow park match for freestyle riders
@@ -130,6 +162,27 @@ function scoreStation(
     if (inBudget) reasons.push(`Forfait ${passPrice}€ — dans ton budget`);
   }
 
+  // Live conditions scoring
+  const ld = station.liveData;
+  if (ld) {
+    if (ld.liftsOpen !== null && ld.liftsTotal && ld.liftsTotal > 0) {
+      const liftsScore = (ld.liftsOpen / ld.liftsTotal) * 15;
+      scoreDetails['lifts_open'] = Math.round(liftsScore);
+      total += liftsScore;
+      reasons.push(`${ld.liftsOpen}/${ld.liftsTotal} remontées ouvertes`);
+    }
+    if (ld.summitSnowDepthCm !== null) {
+      const snowScore = Math.min(ld.summitSnowDepthCm / 100, 1) * 10;
+      scoreDetails['snow_depth'] = Math.round(snowScore);
+      total += snowScore;
+      if (ld.summitSnowDepthCm >= 50) reasons.push(`Enneigement sommet : ${ld.summitSnowDepthCm}cm`);
+    }
+  } else {
+    scoreDetails['lifts_open'] = 0;
+    scoreDetails['snow_depth'] = 0;
+    reasons.push('Données live non disponibles');
+  }
+
   return {
     id: station.id,
     name: station.name,
@@ -139,6 +192,7 @@ function scoreStation(
     level: station.level,
     snowPark: sp,
     passes,
+    liveData: ld ?? null,
     score: Math.round(Math.max(total, 0)),
     score_details: scoreDetails,
     reasons,
@@ -190,6 +244,7 @@ export const compareStationsTool: AgentTool = {
           slopesDetail: true,
           activities: true,
           services: true,
+          liveData: true,
         },
       }),
       prisma.userProfile.findUnique({ where: { userId } }),

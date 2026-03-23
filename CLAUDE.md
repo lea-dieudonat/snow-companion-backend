@@ -20,6 +20,10 @@ npm run lint         # Check for lint/format issues
 npm run lint:fix     # Auto-fix lint/format issues
 npm run format       # Format all source files with Prettier
 
+# Station population
+npm run populate:stations    # Fetch French stations from open-piste + enrich with Overpass, insert new ones
+npm run migrate:station-ids  # One-time migration: rename 4 station IDs to match open-piste slugs
+
 # Database (Prisma)
 make prisma-generate  # Regenerate Prisma Client after schema changes
 make prisma-migrate   # Create and apply a new migration
@@ -40,22 +44,48 @@ Express + TypeScript backend for a ski companion app. PostgreSQL (local) via Pri
 - **auth** — register + login; returns JWT; passwords hashed with bcryptjs
 - **sessions** — ski session tracking (date, station, tricks, conditions, rating, photos); all routes protected
 - **users** — favorite stations management; all routes protected
-- **stations** — read-only ski resort data seeded from `src/data/stations.json` (32 French resorts); supports filtering by region/price/altitude/level and Haversine-based nearby search
+- **stations** — read-only ski resort data. Populated from open-piste API + Overpass (OSM). Scope: French stations only. Supports filtering by region/price/altitude/level and Haversine-based nearby search
 - **agent** — AI chat assistant (Snow Planner); streams SSE; route `POST /api/agent/chat`; protected
 
 **Agent architecture** (`src/services/`):
 - `agent.service.ts` — orchestrator: loads user data, manages SSE lifecycle, persists conversation
 - `agent-system-prompt.ts` — pure function: builds the system prompt from user/profile/sessions
 - `agent-loop.ts` — agentic loop: Anthropic streaming + tool execution (max 5 iterations)
-- `src/tools/` — 6 tools: `get_weather`, `get_stations`, `get_station_activities`, `get_user_sessions`, `get_user_favorites`, `compare_stations`
+- `src/tools/` — 7 tools: `get_weather`, `get_slope_conditions`, `get_stations`, `get_station_activities`, `get_user_sessions`, `get_user_favorites`, `compare_stations`
 
 **Data models** (defined in `prisma/schema.prisma`):
 - `User` → has many `Session`, `Trip`, `AgentConversation`; has one `UserProfile`; holds `favoriteStations` as string[] of station IDs
 - `Session` → belongs to `User`; tracks one ski outing
-- `Station` → standalone resort data; has many `Trip`; includes `snowPark` as nullable JSON
+- `Station` → French ski resort data; has many `Trip`; most fields are nullable (stations from open-piste may have partial data); `openPisteCovered` flags stations not tracked by the open-piste API
+- `StationLiveData` → live lift/piste/snow data synced from open-piste API (3x/day); 1-to-1 with Station
 - `Trip` → planned trip linking a `User` to a `Station`
 - `UserProfile` → rider profile (disciplines, rideStyles, freestyleLevel, snowPreference, etc.)
 - `AgentConversation` → persisted chat history (messages as JSON, last 40 kept)
+
+## Station Population
+
+**Scope:** French stations only (`country: "fr"` in open-piste API).
+
+**Data sources:**
+- **open-piste API** (`https://open-piste.raed.workers.dev/resorts`) — source of truth for French station slugs and live data (lifts, pistes, snow depths). Returns ~144 French resorts.
+- **Overpass API** (OpenStreetMap) — enriches static fields: `latitude`, `longitude`, `altitudeMin`, `altitudeMax`, `region`. Queried by station name.
+
+**Minimum data to insert a station:** `name` + `latitude` + `longitude` (from Overpass). All other fields are nullable.
+
+**Population flow** (`src/services/station-populate.service.ts`):
+1. Fetch French resorts from open-piste
+2. For new resorts: query Overpass, insert if minimum data found
+3. For existing stations: overwrite static fields with Overpass data
+
+**Scripts:**
+- `npm run populate:stations` — manual one-shot population/enrichment
+- Weekly cron (`src/cron/station-populate.cron.ts`) — runs every Monday at 3am, auto-discovers new stations
+
+**Station ID = open-piste slug** (e.g. `val-thorens`, `deux-alpes`). IDs are stable and used as FK in `Trip`.
+
+**`openPisteCovered` flag:** 5 stations in the original dataset have no open-piste match and are flagged `openPisteCovered: false` — they will never receive live data (`meribel`, `la-colmiane`, `greolieres-les-neiges`, `roubion`, `la-plagne-tarentaise`).
+
+**ID rename history:** 4 original station IDs were renamed to match open-piste slugs (`les-2-alpes` → `deux-alpes`, `val-isere` → `val-d-isere`, `alpe-huez` → `alpe-d-huez`, `superdevoluy` → `super-devoluy`). Script: `npm run migrate:station-ids`.
 
 ## Authentication
 

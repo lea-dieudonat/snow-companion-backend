@@ -1,0 +1,16 @@
+-- AlterTable
+ALTER TABLE "Station" ADD COLUMN     "open_piste_covered" BOOLEAN NOT NULL DEFAULT true,
+ALTER COLUMN "altitude_min" DROP NOT NULL,
+ALTER COLUMN "altitude_max" DROP NOT NULL,
+ALTER COLUMN "num_slopes" DROP NOT NULL,
+ALTER COLUMN "num_lifts" DROP NOT NULL,
+ALTER COLUMN "km_slopes" DROP NOT NULL,
+ALTER COLUMN "slopes_detail" DROP NOT NULL,
+ALTER COLUMN "snow_cannons" DROP NOT NULL,
+ALTER COLUMN "ski_area" DROP NOT NULL,
+ALTER COLUMN "passes" DROP NOT NULL,
+ALTER COLUMN "avg_accommodation_price" DROP NOT NULL,
+ALTER COLUMN "website" DROP NOT NULL,
+ALTER COLUMN "description" DROP NOT NULL,
+ALTER COLUMN "access" DROP NOT NULL,
+ALTER COLUMN "season" DROP NOT NULL;
