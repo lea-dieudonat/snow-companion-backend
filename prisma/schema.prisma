@@ -57,6 +57,7 @@ model Station {
   id                      String   @id // Ex: "val-thorens"
   name                    String
   region                  String
+  department              String?
   altitudeMin             Int?     @map("altitude_min")
   altitudeMax             Int?     @map("altitude_max")
   latitude                Float

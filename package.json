@@ -19,6 +19,7 @@
     "sync:live-data": "ts-node -r tsconfig-paths/register src/scripts/sync-live-data.ts",
     "sync:season-dates": "ts-node -r tsconfig-paths/register src/scripts/sync-season-dates.ts",
     "enrich:elevations": "ts-node -r tsconfig-paths/register src/scripts/enrich-elevations.ts",
+    "migrate:regions": "ts-node -r tsconfig-paths/register src/scripts/migrate-regions.ts",
     "prepare": "husky"
   },
   "keywords": [],
