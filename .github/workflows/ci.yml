@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    name: Type-check · Lint · Test · Build
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: snow_companion_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/snow_companion
+      DATABASE_URL_TEST: postgresql://postgres:postgres@localhost:5432/snow_companion_test
+      JWT_SECRET: ci-test-secret
+      JWT_EXPIRES_IN: 7d
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      AGENT_MODEL_SYNTHESIS: claude-sonnet-4-6
+      AGENT_MODEL_TOOLS: claude-haiku-4-5-20251001
+      AGENT_MAX_ITERATIONS: 5
+      AGENT_MAX_TOKENS: 1024
+      AGENT_TIMEOUT_MS: 30000
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
