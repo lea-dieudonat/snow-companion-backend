@@ -9,8 +9,8 @@ const DEPT_TO_SLUG: Record<string, string> = {
   'Alpes-de-Haute-Provence': 'alpes',
   'Haute-Savoie': 'alpes',
   'Hautes-Alpes': 'alpes',
-  'Isère': 'alpes',
-  'Savoie': 'alpes',
+  Isère: 'alpes',
+  Savoie: 'alpes',
 };
 
 async function main(): Promise<void> {
@@ -30,7 +30,9 @@ async function main(): Promise<void> {
       where: { id: station.id },
       data: { region: slug, department: station.region },
     });
-    console.log(`  ${station.name}: "${station.region}" → region="${slug}", department="${station.region}"`);
+    console.log(
+      `  ${station.name}: "${station.region}" → region="${slug}", department="${station.region}"`,
+    );
     updated++;
   }
 
