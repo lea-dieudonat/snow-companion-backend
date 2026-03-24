@@ -5,6 +5,7 @@ import app from '@/app';
 import { env } from '@/config/env';
 import { startStationSyncCron } from '@/cron/station-sync.cron';
 import { startStationPopulateCron } from '@/cron/station-populate.cron';
+import { startSeasonSyncCron } from '@/cron/season-sync.cron';
 import { syncStationLiveData } from '@/services/station-sync.service';
 
 app.listen(env.port, () => {
@@ -12,6 +13,7 @@ app.listen(env.port, () => {
 
   startStationSyncCron();
   startStationPopulateCron();
+  startSeasonSyncCron();
 
   syncStationLiveData().catch((err) => {
     console.error('[station-sync] Initial sync failed:', err);
