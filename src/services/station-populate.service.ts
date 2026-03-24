@@ -1,5 +1,6 @@
 import prisma from '@/config/prisma';
-import { fetchStationFromOverpass } from './overpass.service';
+import { fetchAllFrenchStationsFromOverpass, type OverpassStationData } from './overpass.service';
+import { geocodeStation } from './nominatim.service';
 import { Prisma } from '@prisma/client';
 
 const OPEN_PISTE_URL = 'https://open-piste.raed.workers.dev/resorts';
@@ -18,9 +19,39 @@ export interface PopulateReport {
   errors: { id: string; error: string }[];
 }
 
-// Throttle Overpass requests to avoid rate limiting
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+function normalize(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]/g, ' ')
+    .trim();
+}
+
+function findBestMatch(
+  slug: string,
+  openPisteName: string,
+  overpassStations: OverpassStationData[],
+): OverpassStationData | null {
+  const slugWords = slug.replace(/-/g, ' ');
+  const normalizedSlug = normalize(slugWords);
+  const normalizedName = normalize(openPisteName);
+
+  // Exact match on normalized name
+  let match = overpassStations.find((s) => normalize(s.name) === normalizedName);
+  if (match) return match;
+
+  // Exact match on normalized slug
+  match = overpassStations.find((s) => normalize(s.name) === normalizedSlug);
+  if (match) return match;
+
+  // Partial: overpass name contains slug words
+  match = overpassStations.find((s) => {
+    const n = normalize(s.name);
+    return normalizedSlug.split(' ').every((word) => word.length > 2 && n.includes(word));
+  });
+
+  return match ?? null;
 }
 
 export async function populateStations(): Promise<PopulateReport> {
@@ -34,7 +65,12 @@ export async function populateStations(): Promise<PopulateReport> {
   const { resorts } = (await response.json()) as { resorts: OpenPisteResort[] };
   const frResorts = resorts.filter((r) => r.country === 'fr');
 
-  // 2. Get existing station IDs
+  // 2. Single bulk Overpass query for all French ski resorts
+  console.log('[populate] Fetching all French ski resorts from Overpass (single query)...');
+  const overpassStations = await fetchAllFrenchStationsFromOverpass();
+  console.log(`[populate] Overpass returned ${overpassStations.length} stations`);
+
+  // 3. Get existing station IDs
   const existing = await prisma.station.findMany({ select: { id: true } });
   const existingIds = new Set(existing.map((s) => s.id));
 
@@ -45,53 +81,86 @@ export async function populateStations(): Promise<PopulateReport> {
     `[populate] ${frResorts.length} French resorts — ${toInsert.length} new, ${toEnrich.length} to enrich`,
   );
 
-  // 3. Enrich existing stations with Overpass data
-  for (const resort of toEnrich) {
+  // 4. Enrich existing stations
+  for (const [i, resort] of toEnrich.entries()) {
+    console.log(`[enrich] (${i + 1}/${toEnrich.length}) ${resort.slug}`);
     try {
-      await sleep(500);
-      const overpass = await fetchStationFromOverpass(resort.name);
-      if (!overpass) {
-        report.skipped.push(resort.slug);
-        continue;
-      }
+      const overpass = findBestMatch(resort.slug, resort.name, overpassStations);
 
-      await prisma.station.update({
-        where: { id: resort.slug },
-        data: {
-          name: overpass.name,
-          latitude: overpass.latitude,
-          longitude: overpass.longitude,
-          ...(overpass.altitudeMin !== null && { altitudeMin: overpass.altitudeMin }),
-          ...(overpass.altitudeMax !== null && { altitudeMax: overpass.altitudeMax }),
-          ...(overpass.region !== null && { region: overpass.region }),
-        },
-      });
-      report.enriched.push(resort.slug);
+      if (overpass) {
+        await prisma.station.update({
+          where: { id: resort.slug },
+          data: {
+            name: overpass.name,
+            latitude: overpass.latitude,
+            longitude: overpass.longitude,
+            ...(overpass.altitudeMin !== null && { altitudeMin: overpass.altitudeMin }),
+            ...(overpass.altitudeMax !== null && { altitudeMax: overpass.altitudeMax }),
+            ...(overpass.region !== null && { region: overpass.region }),
+          },
+        });
+        console.log(`  → enriched (${overpass.name})`);
+        report.enriched.push(resort.slug);
+      } else {
+        console.log(`  → no Overpass match, trying Nominatim...`);
+        const nominatim = await geocodeStation(resort.name);
+        if (!nominatim) {
+          console.log(`  → skipped (no match found)`);
+          report.skipped.push(resort.slug);
+          continue;
+        }
+        await prisma.station.update({
+          where: { id: resort.slug },
+          data: { latitude: nominatim.latitude, longitude: nominatim.longitude },
+        });
+        console.log(`  → enriched via Nominatim (${nominatim.displayName.slice(0, 60)})`);
+        report.enriched.push(resort.slug);
+      }
     } catch (err) {
+      console.log(`  → error: ${String(err)}`);
       report.errors.push({ id: resort.slug, error: String(err) });
     }
   }
 
-  // 4. Insert new stations
-  for (const resort of toInsert) {
+  // 5. Insert new stations
+  for (const [i, resort] of toInsert.entries()) {
+    console.log(`[insert] (${i + 1}/${toInsert.length}) ${resort.slug}`);
     try {
-      await sleep(500);
-      const overpass = await fetchStationFromOverpass(resort.name);
+      const overpass = findBestMatch(resort.slug, resort.name, overpassStations);
 
-      if (!overpass) {
-        report.skipped.push(resort.slug);
-        continue;
+      let latitude: number;
+      let longitude: number;
+      let name: string;
+      let region: string | null;
+      let altitudeMin: number | null = null;
+      let altitudeMax: number | null = null;
+
+      if (overpass) {
+        ({ latitude, longitude, altitudeMin, altitudeMax, region } = overpass);
+        name = overpass.name;
+      } else {
+        console.log(`  → no Overpass match, trying Nominatim...`);
+        const nominatim = await geocodeStation(resort.name);
+        if (!nominatim) {
+          console.log(`  → skipped (no match found)`);
+          report.skipped.push(resort.slug);
+          continue;
+        }
+        ({ latitude, longitude } = nominatim);
+        name = resort.name;
+        region = null;
+        console.log(`  → geocoded via Nominatim (${nominatim.displayName.slice(0, 60)})`);
       }
 
       await prisma.station.create({
         data: {
           id: resort.slug,
-          name: overpass.name,
-          region: overpass.region ?? resort.region,
-          latitude: overpass.latitude,
-          longitude: overpass.longitude,
-          altitudeMin: overpass.altitudeMin,
-          altitudeMax: overpass.altitudeMax,
+          name,
+          region: region ?? resort.region,
+          latitude,
+          longitude,
+          altitudeMin,
+          altitudeMax,
           level: [],
           services: [],
           activities: [],
@@ -103,8 +172,10 @@ export async function populateStations(): Promise<PopulateReport> {
           openPisteCovered: true,
         },
       });
+      console.log(`  → inserted (${name})`);
       report.inserted.push(resort.slug);
     } catch (err) {
+      console.log(`  → error: ${String(err)}`);
       report.errors.push({ id: resort.slug, error: String(err) });
     }
   }

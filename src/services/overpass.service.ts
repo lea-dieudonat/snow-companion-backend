@@ -16,33 +16,44 @@ interface OverpassElement {
   lon?: number;
   center?: { lat: number; lon: number };
   tags?: Record<string, string>;
-  bounds?: { minlat: number; maxlat: number; minlon: number; maxlon: number };
 }
 
 interface OverpassResponse {
   elements: OverpassElement[];
+  remark?: string;
 }
 
-export async function fetchStationFromOverpass(name: string): Promise<OverpassStationData | null> {
-  // Search for ski resort by name in France
-  const query = `
-    [out:json][timeout:25];
-    (
-      node["leisure"="ski_resort"]["name"~"${escapeName(name)}",i]["addr:country"!="CH"]["addr:country"!="IT"];
-      way["leisure"="ski_resort"]["name"~"${escapeName(name)}",i]["addr:country"!="CH"]["addr:country"!="IT"];
-      relation["leisure"="ski_resort"]["name"~"${escapeName(name)}",i]["addr:country"!="CH"]["addr:country"!="IT"];
-      node["landuse"="winter_sports"]["name"~"${escapeName(name)}",i];
-      way["landuse"="winter_sports"]["name"~"${escapeName(name)}",i];
-      relation["landuse"="winter_sports"]["name"~"${escapeName(name)}",i];
-    );
-    out center tags;
-  `;
+const BULK_QUERY = `
+  [out:json][timeout:120];
+  area["ISO3166-1"="FR"]["admin_level"="2"]->.france;
+  (
+    way["leisure"="ski_resort"](area.france);
+    relation["leisure"="ski_resort"](area.france);
+    way["landuse"="winter_sports"](area.france);
+    relation["landuse"="winter_sports"](area.france);
+  );
+  out center tags;
+`;
 
-  const response = await fetch(OVERPASS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `data=${encodeURIComponent(query)}`,
-  });
+export async function fetchAllFrenchStationsFromOverpass(): Promise<OverpassStationData[]> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 130_000);
+
+  let response: Response;
+  try {
+    response = await fetch(OVERPASS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `data=${encodeURIComponent(BULK_QUERY)}`,
+      signal: controller.signal,
+    });
+  } catch (err) {
+    if ((err as Error).name === 'AbortError')
+      throw new Error('Overpass bulk query timed out', { cause: err });
+    throw err;
+  } finally {
+    clearTimeout(timeout);
+  }
 
   if (!response.ok) {
     throw new Error(`Overpass API error: ${response.status} ${response.statusText}`);
@@ -50,45 +61,31 @@ export async function fetchStationFromOverpass(name: string): Promise<OverpassSt
 
   const data = (await response.json()) as OverpassResponse;
 
-  if (!data.elements || data.elements.length === 0) {
-    return null;
+  if (data.remark?.includes('timed out')) {
+    throw new Error(`Overpass query timed out: ${data.remark}`);
   }
 
-  // Pick best match: prefer elements with altitude tags
-  const best =
-    data.elements.find((e) => e.tags?.['ele'] || e.tags?.['ele:min'] || e.tags?.['ele:max']) ??
-    data.elements[0];
+  return data.elements
+    .map((e) => {
+      const lat = e.lat ?? e.center?.lat;
+      const lon = e.lon ?? e.center?.lon;
+      if (!lat || !lon) return null;
 
-  if (!best) return null;
-
-  const lat = best.lat ?? best.center?.lat;
-  const lon = best.lon ?? best.center?.lon;
-
-  if (!lat || !lon) return null;
-
-  const tags = best.tags ?? {};
-
-  const altitudeMin = parseAltitude(tags['ele:min'] ?? tags['ele:base'] ?? null);
-  const altitudeMax = parseAltitude(tags['ele:max'] ?? tags['ele'] ?? null);
-  const region = tags['addr:state'] ?? tags['addr:county'] ?? tags['is_in:département'] ?? null;
-
-  return {
-    name: tags['name'] ?? name,
-    latitude: lat,
-    longitude: lon,
-    altitudeMin,
-    altitudeMax,
-    region,
-  };
+      const tags = e.tags ?? {};
+      return {
+        name: tags['name'] ?? '',
+        latitude: lat,
+        longitude: lon,
+        altitudeMin: parseAltitude(tags['ele:min'] ?? tags['ele:base'] ?? null),
+        altitudeMax: parseAltitude(tags['ele:max'] ?? tags['ele'] ?? null),
+        region: tags['addr:state'] ?? tags['addr:county'] ?? tags['is_in:département'] ?? null,
+      };
+    })
+    .filter((e): e is OverpassStationData => e !== null && e.name !== '');
 }
 
 function parseAltitude(value: string | null): number | null {
   if (!value) return null;
   const n = parseInt(value, 10);
   return isNaN(n) ? null : n;
-}
-
-function escapeName(name: string): string {
-  // Escape special regex characters and normalize for Overpass fuzzy search
-  return name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/[-]/g, '.?');
 }

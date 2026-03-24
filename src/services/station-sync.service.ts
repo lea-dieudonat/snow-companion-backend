@@ -20,7 +20,7 @@ export async function syncStationLiveData(): Promise<void> {
     throw new Error(`open-piste API error: ${response.status} ${response.statusText}`);
   }
 
-  const resorts = (await response.json()) as OpenPisteResort[];
+  const { resorts } = (await response.json()) as { resorts: OpenPisteResort[] };
   const resortMap = new Map(resorts.map((r) => [r.slug, r]));
 
   const stations = await prisma.station.findMany({ select: { id: true } });

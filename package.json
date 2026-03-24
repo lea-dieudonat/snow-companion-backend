@@ -15,6 +15,8 @@
     "format": "prettier --write src/**/*.ts",
     "migrate:station-ids": "ts-node -r tsconfig-paths/register src/scripts/migrate-station-ids.ts",
     "populate:stations": "ts-node -r tsconfig-paths/register src/scripts/populate-stations.ts",
+    "enrich:altitudes": "ts-node -r tsconfig-paths/register src/scripts/enrich-altitudes.ts",
+    "sync:live-data": "ts-node -r tsconfig-paths/register src/scripts/sync-live-data.ts",
     "prepare": "husky"
   },
   "keywords": [],
