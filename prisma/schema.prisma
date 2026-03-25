@@ -62,7 +62,6 @@ model Station {
   latitude                Float
   longitude               Float
   kmSlopes                Int?     @map("km_slopes")
-  slopesDetail            Json?    @map("slopes_detail")
   snowCannons             Int?     @map("snow_cannons")
   snowPark                Json?    @map("snow_park")
   skiArea                 String?  @map("ski_area")
@@ -92,6 +91,8 @@ model StationLiveData {
   liftsTotal        Int?     @map("lifts_total")
   pistesOpen        Int?     @map("pistes_open")
   pistesTotal       Int?     @map("pistes_total")
+  slopesDetail      Json?    @map("slopes_detail")
+  slopesOpen        Json?    @map("slopes_open")
   baseSnowDepthCm   Int?     @map("base_snow_depth_cm")
   summitSnowDepthCm Int?     @map("summit_snow_depth_cm")
   avalancheRisk     Int?     @map("avalanche_risk")

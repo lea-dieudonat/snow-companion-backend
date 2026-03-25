@@ -18,6 +18,8 @@ interface LiveData {
   liftsTotal: number | null;
   pistesOpen: number | null;
   pistesTotal: number | null;
+  slopesDetail: unknown;
+  slopesOpen: unknown;
   baseSnowDepthCm: number | null;
   summitSnowDepthCm: number | null;
   avalancheRisk: number | null;
@@ -50,7 +52,6 @@ function scoreStation(
     level: string[];
     snowPark: unknown;
     passes: unknown;
-    slopesDetail: unknown;
     activities: string[];
     liveData: LiveData | null;
   },
@@ -151,7 +152,7 @@ function scoreStation(
   // Freeride/offpiste match
   const isFreeride = profile.rideStyles?.includes('freeride') || profile.offPiste;
   if (isFreeride) {
-    const slopesDetail = station.slopesDetail as { black?: number; red?: number } | null;
+    const slopesDetail = station.liveData?.slopesDetail as { black?: number; red?: number } | null;
     const blackPct = slopesDetail
       ? (slopesDetail.black ?? 0) /
         Math.max((slopesDetail.black ?? 0) + (slopesDetail.red ?? 0) + 10, 1)
@@ -268,7 +269,6 @@ export const compareStationsTool: AgentTool = {
           level: true,
           snowPark: true,
           passes: true,
-          slopesDetail: true,
           activities: true,
           services: true,
           liveData: true,

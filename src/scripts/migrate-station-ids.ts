@@ -45,7 +45,6 @@ async function renameStationId(from: string, to: string): Promise<void> {
       data: {
         ...station,
         id: to,
-        slopesDetail: toJson(station.slopesDetail),
         snowPark: toJson(station.snowPark),
         passes: toJson(station.passes),
         access: toJson(station.access),

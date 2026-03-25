@@ -9,7 +9,6 @@ export interface StationWithDistance {
   latitude: number;
   longitude: number;
   kmSlopes: number;
-  slopesDetail: unknown;
   snowCannons: number;
   skiArea: string;
   level: string[];

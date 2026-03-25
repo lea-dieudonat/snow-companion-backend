@@ -25,7 +25,6 @@ async function main() {
       latitude: station.latitude,
       longitude: station.longitude,
       kmSlopes: station.km_slopes,
-      slopesDetail: station.slopes_detail,
       snowCannons: station.snow_cannons,
       snowPark: station.snow_park ?? null,
       skiArea: station.ski_area,

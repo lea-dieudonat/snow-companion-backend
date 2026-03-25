@@ -93,7 +93,6 @@ export const getStationsTool: AgentTool = {
         services: true,
         passes: true,
         skiArea: true,
-        slopesDetail: true,
         liveData: true,
       },
       orderBy: { name: 'asc' },
