@@ -10,7 +10,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -77,6 +76,7 @@ model Station {
   services                String[]
   activities              String[]
   openPisteCovered        Boolean  @default(true) @map("open_piste_covered")
+  temporarilyClosed       Boolean  @default(false) @map("temporarily_closed")
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
   trips                   Trip[]

@@ -31,7 +31,7 @@ export const getSlopeConditionsTool: AgentTool = {
     const ids = stationIds.slice(0, 5);
 
     const stations = await prisma.station.findMany({
-      where: { id: { in: ids } },
+      where: { id: { in: ids }, temporarilyClosed: false },
       select: {
         id: true,
         name: true,

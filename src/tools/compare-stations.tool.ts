@@ -257,7 +257,7 @@ export const compareStationsTool: AgentTool = {
 
     const [stations, profile] = await Promise.all([
       prisma.station.findMany({
-        where: { id: { in: stationIds } },
+        where: { id: { in: stationIds }, temporarilyClosed: false },
         select: {
           id: true,
           name: true,

@@ -64,7 +64,7 @@ export const getStationsTool: AgentTool = {
   },
 
   execute: async (input) => {
-    const where: Prisma.StationWhereInput = {};
+    const where: Prisma.StationWhereInput = { temporarilyClosed: false };
 
     if (input['region'])
       where.region = { contains: input['region'] as string, mode: 'insensitive' };

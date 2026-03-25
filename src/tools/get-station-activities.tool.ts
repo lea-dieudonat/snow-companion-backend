@@ -108,8 +108,8 @@ export const getStationActivitiesTool: AgentTool = {
   execute: async (input) => {
     const stationId = input['station_id'] as string;
 
-    const station = await prisma.station.findUnique({
-      where: { id: stationId },
+    const station = await prisma.station.findFirst({
+      where: { id: stationId, temporarilyClosed: false },
       select: { id: true, name: true, activities: true, services: true },
     });
 

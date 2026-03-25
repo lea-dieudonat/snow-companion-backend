@@ -24,7 +24,7 @@ export const getAllStations = async (
   try {
     const { region, maxPrice, minAltitude, level, search } = StationQuerySchema.parse(req.query);
 
-    const where: Record<string, unknown> = {};
+    const where: Record<string, unknown> = { temporarilyClosed: false };
 
     if (region) where.region = region;
     if (maxPrice !== undefined) where.avgAccommodationPrice = { lte: maxPrice };
@@ -57,8 +57,8 @@ export const getStationById = async (
 ): Promise<void> => {
   try {
     const id = req.params['id'] as string;
-    const station = await prisma.station.findUnique({
-      where: { id },
+    const station = await prisma.station.findFirst({
+      where: { id, temporarilyClosed: false },
       include: {
         trips: {
           select: { id: true, name: true, startDate: true, endDate: true, status: true },
@@ -85,7 +85,10 @@ export const getNearbyStations = async (
   try {
     const { latitude, longitude, maxDistance } = NearbyStationsSchema.parse(req.query);
 
-    const stations = await prisma.station.findMany({ include: { liveData: true } });
+    const stations = await prisma.station.findMany({
+      where: { temporarilyClosed: false },
+      include: { liveData: true },
+    });
 
     const nearbyStations = stations
       .map((station) => ({
