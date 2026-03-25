@@ -52,6 +52,16 @@ model Session {
   @@index([date])
 }
 
+model SkiArea {
+  id       String    @id // slug ex: "les-3-vallees"
+  name     String
+  region   String?
+  website  String?
+  stations Station[]
+
+  @@map("ski_area")
+}
+
 model Station {
   id                      String   @id // Ex: "val-thorens"
   name                    String
@@ -64,7 +74,8 @@ model Station {
   kmSlopes                Int?     @map("km_slopes")
   snowCannons             Int?     @map("snow_cannons")
   snowPark                Json?    @map("snow_park")
-  skiArea                 String?  @map("ski_area")
+  skiAreaId               String?  @map("ski_area_id")
+  skiArea                 SkiArea? @relation(fields: [skiAreaId], references: [id])
   level                   String[]
   passes                  Json?
   avgAccommodationPrice   Float?   @map("avg_accommodation_price")

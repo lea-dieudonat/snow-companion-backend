@@ -34,14 +34,14 @@ export const getAllStations = async (
       where.OR = [
         { name: { contains: search, mode: 'insensitive' } },
         { region: { contains: search, mode: 'insensitive' } },
-        { skiArea: { contains: search, mode: 'insensitive' } },
+        { skiArea: { is: { name: { contains: search, mode: 'insensitive' } } } },
       ];
     }
 
     const stations = await prisma.station.findMany({
       where,
       orderBy: { name: 'asc' },
-      include: { liveData: true },
+      include: { liveData: true, skiArea: true },
     });
 
     res.status(200).json(stations.filter((s) => hasLiveData(s.liveData)));
@@ -64,6 +64,7 @@ export const getStationById = async (
           select: { id: true, name: true, startDate: true, endDate: true, status: true },
         },
         liveData: true,
+        skiArea: true,
       },
     });
 
@@ -87,7 +88,7 @@ export const getNearbyStations = async (
 
     const stations = await prisma.station.findMany({
       where: { temporarilyClosed: false },
-      include: { liveData: true },
+      include: { liveData: true, skiArea: true },
     });
 
     const nearbyStations = stations
