@@ -19,19 +19,21 @@ Cette règle s'applique aussi au tool `get_stations` de l'agent.
 
 ## Table `station_live_data`
 
-| Colonne | Type |
-|---|---|
-| `station_id` | String (PK, FK → Station, CASCADE) |
-| `lifts_open` | Int? |
-| `lifts_total` | Int? |
-| `pistes_open` | Int? |
-| `pistes_total` | Int? |
-| `base_snow_depth_cm` | Int? |
-| `summit_snow_depth_cm` | Int? |
-| `avalanche_risk` | Int? |
-| `updated_at` | DateTime (auto) |
+| Colonne | Type | Description |
+|---|---|---|
+| `station_id` | String (PK, FK → Station, CASCADE) | |
+| `lifts_open` | Int? | Remontées ouvertes |
+| `lifts_total` | Int? | Remontées totales |
+| `pistes_open` | Int? | Pistes ouvertes |
+| `pistes_total` | Int? | Pistes totales |
+| `slopes_detail` | Json? | Répartition totale par couleur `{ green, blue, red, black }` |
+| `slopes_open` | Json? | Répartition des pistes ouvertes par couleur `{ green, blue, red, black }` |
+| `base_snow_depth_cm` | Int? | Enneigement en bas de station |
+| `summit_snow_depth_cm` | Int? | Enneigement au sommet |
+| `avalanche_risk` | Int? | Risque avalanche (1-5) |
+| `updated_at` | DateTime (auto) | Dernière sync open-piste |
 
-Migration : `20260323120619_add_station_live_data`
+Migrations : `20260323120619_add_station_live_data`, `20260325160000_move_slopes_detail_to_live_data`
 
 ## Fichiers
 
@@ -50,6 +52,8 @@ Migration : `20260323120619_add_station_live_data`
   "liftsTotal": 29,
   "pistesOpen": 84,
   "pistesTotal": 84,
+  "slopesDetail": { "green": 12, "blue": 35, "red": 28, "black": 9 },
+  "slopesOpen":   { "green": 10, "blue": 30, "red": 22, "black": 6 },
   "baseSnowDepthCm": 200,
   "summitSnowDepthCm": 265,
   "avalancheRisk": 2,

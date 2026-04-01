@@ -25,6 +25,8 @@ Récupère les données live depuis `StationLiveData` (synchronisées depuis l'A
 | `live_data_available` | `false` si aucune donnée live en DB |
 | `lifts_open / lifts_total` | Remontées ouvertes |
 | `pistes_open / pistes_total` | Pistes ouvertes |
+| `slopes_detail` | Répartition totale des pistes `{ green, blue, red, black }` |
+| `slopes_open` | Répartition des pistes ouvertes `{ green, blue, red, black }` |
 | `base_snow_depth_cm` | Enneigement en bas de station |
 | `summit_snow_depth_cm` | Enneigement au sommet |
 | `avalanche_risk` | Risque avalanche (1-5) |
@@ -41,7 +43,7 @@ Filtre les stations françaises en DB. Retourne uniquement les stations ayant de
 | Filtre | Type | Description |
 |---|---|---|
 | `region` | string | Région (insensitive) |
-| `level` | enum | beginner / intermediate / advanced / expert |
+| `level` | enum | beginner / intermediate / advanced / expert — dérivé de `slopesDetail` (≥ 3 pistes par couleur) |
 | `has_snow_park` | boolean | Snow park disponible |
 | `snow_park_level` | enum | Niveau minimum du snow park |
 | `has_halfpipe` | boolean | Halfpipe disponible |

@@ -18,6 +18,25 @@ Stations françaises uniquement (`country: "fr"` dans l'API open-piste). ~144 re
 
 `name` + `latitude` + `longitude` (depuis Overpass). Tous les autres champs sont nullable — une station sans altitude ou sans description est acceptable.
 
+## Flag `temporarilyClosed`
+
+`Boolean @default(false)`. Indique qu'une station est temporairement fermée (saison avortée, raisons exceptionnelles). Les stations `temporarilyClosed: true` sont exclues de toutes les listes et recherches mais restent accessibles via `GET /api/stations/:id`.
+
+Exemple : `rouge-gazon` a été marquée fermée lors du renseignement initial des websites.
+
+## Entité `SkiArea`
+
+Les stations peuvent appartenir à un domaine skiable (`SkiArea`) via la relation `skiAreaId → ski_area.id`. Les domaines sont identifiés par un slug (ex: `les-3-vallees`).
+
+| Colonne | Description |
+|---|---|
+| `id` | Slug du domaine (ex: `les-3-vallees`) |
+| `name` | Nom affiché (ex: `Les 3 Vallées`) |
+| `region` | Région principale |
+| `website` | Site officiel |
+
+Migration : `20260325170000_add_ski_area_table`
+
 ## Flow de population (`station-populate.service.ts`)
 
 ```
