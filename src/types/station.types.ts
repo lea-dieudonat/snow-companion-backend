@@ -8,10 +8,8 @@ export interface StationWithDistance {
   altitudeMax: number;
   latitude: number;
   longitude: number;
-  kmSlopes: number;
   snowCannons: number;
   skiArea: { id: string; name: string; region: string | null; website: string | null } | null;
-  level: string[];
   passes: unknown;
   avgAccommodationPrice: number;
   website: string;

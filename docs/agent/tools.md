@@ -88,7 +88,6 @@ Classe les stations par score pondéré selon le profil rider. Inclut les donné
 | Critère | Points max | Condition |
 |---|---|---|
 | Altitude | 20 | Normalisé sur 3600m |
-| Taille du domaine | 15 | Normalisé sur 600km |
 | Snow park | 30-35 | Selon niveau freestyle du rider |
 | Freeride / off-piste | 20 | `levelProfile.expert / 100 * 20` |
 | Famille | 10 | Garderie si `withChildren: true` |

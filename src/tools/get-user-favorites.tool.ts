@@ -80,8 +80,6 @@ export const getUserFavoritesTool: AgentTool = {
         region: true,
         altitudeMin: true,
         altitudeMax: true,
-        kmSlopes: true,
-        level: true,
         snowPark: true,
         latitude: true,
         longitude: true,

@@ -36,7 +36,6 @@ Pour distinguer le manuel de l'automatique :
 | `department` | Renseigné | Complété avec connaissance IA sur les ~144 stations françaises |
 | `website` | Partiellement renseigné | URLs vérifiées par l'utilisateur ; quelques stations sans site connu |
 | `skiAreaId` | Renseigné | Lien vers `ski_area` créé manuellement avec connaissance IA |
-| `kmSlopes` | Partiellement renseigné | Présent dans `stations.json` pour les stations d'origine ; null pour les nouvelles stations insérées par le populate |
 | `snowCannons` | Partiellement renseigné | Idem |
 | `snowPark` | Partiellement renseigné | Structure `{ available, level[], halfpipe, rails, kickers }` — renseignée à la main pour les stations d'origine |
 | `passes` | Partiellement renseigné | Prix forfaits `{ full_day, half_day, weekly }` — données manuelles, peuvent être obsolètes |
@@ -68,5 +67,4 @@ L'ensemble de la table `ski_area` est renseigné manuellement (id/slug, name, re
 ## Priorités de complétion suggérées
 
 1. **`slopesDetail` / `slopesOpen`** — impact direct sur le profil de difficulté affiché ; nécessite seulement de mettre à jour `station-sync.service.ts`
-2. **`kmSlopes`** — potentiellement disponible dans l'API open-piste (à vérifier dans la réponse brute)
-3. **`passes`** — données qui se périment chaque saison ; envisager une source automatique ou un workflow de mise à jour annuelle
+2. **`passes`** — données qui se périment chaque saison ; envisager une source automatique ou un workflow de mise à jour annuelle

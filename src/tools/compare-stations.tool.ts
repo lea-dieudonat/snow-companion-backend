@@ -32,7 +32,6 @@ interface ScoredStation {
   name: string;
   region: string;
   altitudeMax: number | null;
-  kmSlopes: number | null;
   snowPark: SnowPark | null;
   passes: Passes;
   liveData: LiveData | null;
@@ -48,7 +47,6 @@ function scoreStation(
     region: string;
     altitudeMax: number | null;
     altitudeMin: number | null;
-    kmSlopes: number | null;
     snowPark: unknown;
     passes: unknown;
     activities: string[];
@@ -77,13 +75,6 @@ function scoreStation(
     scoreDetails['altitude'] = Math.round(altScore);
     total += altScore;
     if (station.altitudeMax >= 2500) reasons.push(`Altitude élevée (${station.altitudeMax}m)`);
-  }
-
-  // Domain size
-  if (station.kmSlopes !== null) {
-    const sizeScore = Math.min(station.kmSlopes / 600, 1) * 15;
-    scoreDetails['domain_size'] = Math.round(sizeScore);
-    total += sizeScore;
   }
 
   if (!profile) {
@@ -214,7 +205,6 @@ function scoreStation(
     name: station.name,
     region: station.region,
     altitudeMax: station.altitudeMax,
-    kmSlopes: station.kmSlopes,
     snowPark: sp,
     passes,
     liveData: ld ?? null,
@@ -262,7 +252,6 @@ export const compareStationsTool: AgentTool = {
           region: true,
           altitudeMin: true,
           altitudeMax: true,
-          kmSlopes: true,
           snowPark: true,
           passes: true,
           activities: true,

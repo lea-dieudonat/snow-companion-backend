@@ -1,0 +1,1 @@
+ALTER TABLE "Station" DROP COLUMN IF EXISTS "km_slopes";

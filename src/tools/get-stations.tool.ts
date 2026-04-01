@@ -82,7 +82,6 @@ export const getStationsTool: AgentTool = {
         region: true,
         altitudeMin: true,
         altitudeMax: true,
-        kmSlopes: true,
         snowPark: true,
         activities: true,
         services: true,

@@ -9,7 +9,6 @@
     "longitude": 6.5803,
     "num_slopes": 150,
     "num_lifts": 68,
-    "km_slopes": 600,
     "slopes_detail": {
       "green": 18,
       "blue": 42,
@@ -97,7 +96,6 @@
     "longitude": 6.1236,
     "num_slopes": 96,
     "num_lifts": 47,
-    "km_slopes": 225,
     "slopes_detail": {
       "green": 14,
       "blue": 25,
@@ -185,7 +183,6 @@
     "longitude": 6.9083,
     "num_slopes": 155,
     "num_lifts": 68,
-    "km_slopes": 300,
     "slopes_detail": {
       "green": 17,
       "blue": 38,
@@ -273,7 +270,6 @@
     "longitude": 6.9797,
     "num_slopes": 150,
     "num_lifts": 78,
-    "km_slopes": 300,
     "slopes_detail": {
       "green": 12,
       "blue": 35,
@@ -358,7 +354,6 @@
     "longitude": 6.8694,
     "num_slopes": 115,
     "num_lifts": 47,
-    "km_slopes": 170,
     "slopes_detail": {
       "green": 10,
       "blue": 28,
@@ -443,7 +438,6 @@
     "longitude": 6.635,
     "num_slopes": 150,
     "num_lifts": 68,
-    "km_slopes": 600,
     "slopes_detail": {
       "green": 20,
       "blue": 45,
@@ -531,7 +525,6 @@
     "longitude": 6.6775,
     "num_slopes": 225,
     "num_lifts": 134,
-    "km_slopes": 425,
     "slopes_detail": {
       "green": 30,
       "blue": 65,
@@ -617,7 +610,6 @@
     "longitude": 6.8083,
     "num_slopes": 56,
     "num_lifts": 35,
-    "km_slopes": 200,
     "slopes_detail": {
       "green": 8,
       "blue": 18,
@@ -702,7 +694,6 @@
     "longitude": 6.5597,
     "num_slopes": 150,
     "num_lifts": 68,
-    "km_slopes": 600,
     "slopes_detail": {
       "green": 15,
       "blue": 40,
@@ -790,7 +781,6 @@
     "longitude": 6.7717,
     "num_slopes": 286,
     "num_lifts": 196,
-    "km_slopes": 650,
     "slopes_detail": {
       "green": 38,
       "blue": 80,
@@ -876,7 +866,6 @@
     "longitude": 6.7094,
     "num_slopes": 286,
     "num_lifts": 196,
-    "km_slopes": 650,
     "slopes_detail": {
       "green": 40,
       "blue": 85,
@@ -960,7 +949,6 @@
     "longitude": 6.6669,
     "num_slopes": 120,
     "num_lifts": 50,
-    "km_slopes": 120,
     "slopes_detail": {
       "green": 20,
       "blue": 38,
@@ -1042,7 +1030,6 @@
     "longitude": 6.4236,
     "num_slopes": 84,
     "num_lifts": 49,
-    "km_slopes": 132,
     "slopes_detail": {
       "green": 12,
       "blue": 24,
@@ -1126,7 +1113,6 @@
     "longitude": 6.5508,
     "num_slopes": 81,
     "num_lifts": 59,
-    "km_slopes": 250,
     "slopes_detail": {
       "green": 12,
       "blue": 25,
@@ -1212,7 +1198,6 @@
     "longitude": 6.6669,
     "num_slopes": 100,
     "num_lifts": 20,
-    "km_slopes": 100,
     "slopes_detail": {
       "green": 14,
       "blue": 28,
@@ -1294,7 +1279,6 @@
     "longitude": 6.6669,
     "num_slopes": 100,
     "num_lifts": 20,
-    "km_slopes": 100,
     "slopes_detail": {
       "green": 15,
       "blue": 30,
@@ -1376,7 +1360,6 @@
     "longitude": 6.6669,
     "num_slopes": 100,
     "num_lifts": 20,
-    "km_slopes": 100,
     "slopes_detail": {
       "green": 16,
       "blue": 30,
@@ -1455,7 +1438,6 @@
     "longitude": 6.6669,
     "num_slopes": 100,
     "num_lifts": 20,
-    "km_slopes": 100,
     "slopes_detail": {
       "green": 16,
       "blue": 30,
@@ -1534,7 +1516,6 @@
     "longitude": 6.6669,
     "num_slopes": 100,
     "num_lifts": 20,
-    "km_slopes": 100,
     "slopes_detail": {
       "green": 15,
       "blue": 30,
@@ -1614,7 +1595,6 @@
     "longitude": 5.8833,
     "num_slopes": 83,
     "num_lifts": 25,
-    "km_slopes": 90,
     "slopes_detail": {
       "green": 14,
       "blue": 26,
@@ -1692,7 +1672,6 @@
     "longitude": 6.8969,
     "num_slopes": 120,
     "num_lifts": 30,
-    "km_slopes": 120,
     "slopes_detail": {
       "green": 18,
       "blue": 35,
@@ -1775,7 +1754,6 @@
     "longitude": 6.8969,
     "num_slopes": 90,
     "num_lifts": 25,
-    "km_slopes": 90,
     "slopes_detail": {
       "green": 14,
       "blue": 28,
@@ -1856,7 +1834,6 @@
     "longitude": 6.6669,
     "num_slopes": 100,
     "num_lifts": 20,
-    "km_slopes": 100,
     "slopes_detail": {
       "green": 14,
       "blue": 28,
@@ -1937,7 +1914,6 @@
     "longitude": 6.6669,
     "num_slopes": 100,
     "num_lifts": 20,
-    "km_slopes": 100,
     "slopes_detail": {
       "green": 16,
       "blue": 32,
@@ -2020,7 +1996,6 @@
     "longitude": 6.6669,
     "num_slopes": 100,
     "num_lifts": 20,
-    "km_slopes": 100,
     "slopes_detail": {
       "green": 16,
       "blue": 32,
@@ -2103,7 +2078,6 @@
     "longitude": 6.6669,
     "num_slopes": 100,
     "num_lifts": 20,
-    "km_slopes": 100,
     "slopes_detail": {
       "green": 18,
       "blue": 34,
@@ -2187,7 +2161,6 @@
     "longitude": 6.0675,
     "num_slopes": 133,
     "num_lifts": 84,
-    "km_slopes": 250,
     "slopes_detail": {
       "green": 16,
       "blue": 38,
@@ -2273,7 +2246,6 @@
     "longitude": 6.5278,
     "num_slopes": 150,
     "num_lifts": 68,
-    "km_slopes": 600,
     "slopes_detail": {
       "green": 18,
       "blue": 42,
@@ -2360,7 +2332,6 @@
     "longitude": 6.6775,
     "num_slopes": 225,
     "num_lifts": 134,
-    "km_slopes": 425,
     "slopes_detail": {
       "green": 30,
       "blue": 65,
@@ -2447,7 +2418,6 @@
     "longitude": 6.6833,
     "num_slopes": 80,
     "num_lifts": 25,
-    "km_slopes": 265,
     "slopes_detail": {
       "green": 10,
       "blue": 22,
@@ -2531,7 +2501,6 @@
     "longitude": 6.7008,
     "num_slopes": 60,
     "num_lifts": 22,
-    "km_slopes": 180,
     "slopes_detail": {
       "green": 8,
       "blue": 18,
@@ -2613,7 +2582,6 @@
     "longitude": 6.7167,
     "num_slopes": 121,
     "num_lifts": 23,
-    "km_slopes": 130,
     "slopes_detail": {
       "green": 18,
       "blue": 36,

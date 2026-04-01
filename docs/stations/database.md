@@ -18,7 +18,6 @@ Table principale des stations de ski françaises. Peuplée depuis open-piste + O
 | `altitude_max` | Int? | Altitude sommet (m) |
 | `latitude` | Float | Depuis Overpass/OSM |
 | `longitude` | Float | Depuis Overpass/OSM |
-| `km_slopes` | Int? | Kilomètres de pistes |
 | `snow_cannons` | Int? | Nombre de canons à neige |
 | `snow_park` | Json? | `{ available, level[], halfpipe, rails, kickers }` |
 | `ski_area_id` | String? | FK → `ski_area.id` |
