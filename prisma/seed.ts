@@ -28,7 +28,6 @@ async function main() {
       snowCannons: station.snow_cannons,
       snowPark: station.snow_park ?? null,
       skiArea: station.ski_area,
-      level: station.level,
       passes: station.passes,
       avgAccommodationPrice: station.avg_accommodation_price,
       website: station.website,

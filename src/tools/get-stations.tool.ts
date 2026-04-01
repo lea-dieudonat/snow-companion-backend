@@ -1,6 +1,7 @@
 import prisma from '@/config/prisma';
 import type { AgentTool } from '@/types/agent.types';
 import type { Prisma } from '@prisma/client';
+import { getStationLevels } from '@/utils/station-levels';
 
 export const getStationsTool: AgentTool = {
   definition: {
@@ -68,7 +69,6 @@ export const getStationsTool: AgentTool = {
 
     if (input['region'])
       where.region = { contains: input['region'] as string, mode: 'insensitive' };
-    if (input['level']) where.level = { has: input['level'] as string };
     if (input['activity']) where.activities = { has: input['activity'] as string };
     if (input['max_pass_price']) {
       where.passes = {
@@ -87,7 +87,6 @@ export const getStationsTool: AgentTool = {
         altitudeMin: true,
         altitudeMax: true,
         kmSlopes: true,
-        level: true,
         snowPark: true,
         activities: true,
         services: true,
@@ -111,6 +110,15 @@ export const getStationsTool: AgentTool = {
         ld.summitSnowDepthCm !== null
       );
     });
+
+    if (input['level']) {
+      const wantedLevel = input['level'] as string;
+      filtered = filtered.filter((s) =>
+        getStationLevels(
+          s.liveData?.slopesDetail as Parameters<typeof getStationLevels>[0],
+        ).includes(wantedLevel),
+      );
+    }
 
     if (input['has_snow_park']) {
       filtered = filtered.filter((s) => {

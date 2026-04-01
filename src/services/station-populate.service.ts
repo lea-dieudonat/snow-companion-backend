@@ -161,7 +161,6 @@ export async function populateStations(): Promise<PopulateReport> {
           longitude,
           altitudeMin,
           altitudeMax,
-          level: [],
           services: [],
           activities: [],
           snowPark: Prisma.JsonNull,

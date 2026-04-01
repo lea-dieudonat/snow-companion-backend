@@ -32,7 +32,6 @@ interface ScoredStation {
   region: string;
   altitudeMax: number | null;
   kmSlopes: number | null;
-  level: string[];
   snowPark: SnowPark | null;
   passes: Passes;
   liveData: LiveData | null;
@@ -49,7 +48,6 @@ function scoreStation(
     altitudeMax: number | null;
     altitudeMin: number | null;
     kmSlopes: number | null;
-    level: string[];
     snowPark: unknown;
     passes: unknown;
     activities: string[];
@@ -217,7 +215,6 @@ function scoreStation(
     region: station.region,
     altitudeMax: station.altitudeMax,
     kmSlopes: station.kmSlopes,
-    level: station.level,
     snowPark: sp,
     passes,
     liveData: ld ?? null,
@@ -266,7 +263,6 @@ export const compareStationsTool: AgentTool = {
           altitudeMin: true,
           altitudeMax: true,
           kmSlopes: true,
-          level: true,
           snowPark: true,
           passes: true,
           activities: true,
