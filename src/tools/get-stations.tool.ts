@@ -1,15 +1,16 @@
 import prisma from '@/config/prisma';
 import type { AgentTool } from '@/types/agent.types';
 import type { Prisma } from '@prisma/client';
-import { getStationLevels } from '@/utils/station-levels';
+import { getStationLevelProfile } from '@/utils/station-levels';
 
 export const getStationsTool: AgentTool = {
   definition: {
     name: 'get_stations',
     description:
       'Recherche et filtre les stations de ski françaises dans la base de données. ' +
-      "Supporte le filtrage par région, niveau, présence d'un snow park (et son niveau), " +
+      "Supporte le filtrage par région, présence d'un snow park (et son niveau), " +
       'activités disponibles, prix maximum du forfait, et altitude minimale. ' +
+      'Chaque station retourne un profil de difficulté en pourcentages (beginner/intermediate/advanced/expert). ' +
       'Utilise ce tool pour trouver des stations correspondant au profil et aux critères du rider.',
     input_schema: {
       type: 'object',
@@ -18,11 +19,6 @@ export const getStationsTool: AgentTool = {
           type: 'string',
           description:
             'Région (ex: "Savoie", "Isère", "Haute-Savoie", "Hautes-Alpes", "Pyrénées-Orientales")',
-        },
-        level: {
-          type: 'string',
-          enum: ['beginner', 'intermediate', 'advanced', 'expert'],
-          description: 'Niveau de ski requis',
         },
         has_snow_park: {
           type: 'boolean',
@@ -111,15 +107,6 @@ export const getStationsTool: AgentTool = {
       );
     });
 
-    if (input['level']) {
-      const wantedLevel = input['level'] as string;
-      filtered = filtered.filter((s) =>
-        getStationLevels(
-          s.liveData?.slopesDetail as Parameters<typeof getStationLevels>[0],
-        ).includes(wantedLevel),
-      );
-    }
-
     if (input['has_snow_park']) {
       filtered = filtered.filter((s) => {
         const sp = s.snowPark as { available?: boolean } | null;
@@ -151,7 +138,12 @@ export const getStationsTool: AgentTool = {
     const limit = Math.min(Number(input['limit'] ?? 10), 20);
     return {
       count: filtered.length,
-      stations: filtered.slice(0, limit),
+      stations: filtered.slice(0, limit).map((s) => ({
+        ...s,
+        levelProfile: getStationLevelProfile(
+          s.liveData?.slopesDetail as Parameters<typeof getStationLevelProfile>[0],
+        ),
+      })),
     };
   },
 };

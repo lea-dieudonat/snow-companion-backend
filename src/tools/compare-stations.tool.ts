@@ -1,5 +1,6 @@
 import prisma from '@/config/prisma';
 import type { AgentTool } from '@/types/agent.types';
+import { getStationLevelProfile } from '@/utils/station-levels';
 
 interface SnowPark {
   available?: boolean;
@@ -150,15 +151,14 @@ function scoreStation(
   // Freeride/offpiste match
   const isFreeride = profile.rideStyles?.includes('freeride') || profile.offPiste;
   if (isFreeride) {
-    const slopesDetail = station.liveData?.slopesDetail as { black?: number; red?: number } | null;
-    const blackPct = slopesDetail
-      ? (slopesDetail.black ?? 0) /
-        Math.max((slopesDetail.black ?? 0) + (slopesDetail.red ?? 0) + 10, 1)
-      : 0;
-    const freerideScore = blackPct * 20;
+    const levelProfile = getStationLevelProfile(
+      station.liveData?.slopesDetail as Parameters<typeof getStationLevelProfile>[0],
+    );
+    const expertPct = (levelProfile?.expert ?? 0) / 100;
+    const freerideScore = expertPct * 20;
     scoreDetails['freeride'] = Math.round(freerideScore);
     total += freerideScore;
-    if (blackPct > 0.2) reasons.push('Bon terrain off-piste et pistes noires');
+    if (expertPct > 0.1) reasons.push(`${levelProfile?.expert}% de pistes noires`);
   }
 
   // Children-friendly services

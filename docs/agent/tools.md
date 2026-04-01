@@ -38,12 +38,11 @@ Récupère les données live depuis `StationLiveData` (synchronisées depuis l'A
 
 **Fichier :** `get-stations.tool.ts`
 
-Filtre les stations françaises en DB. Retourne uniquement les stations ayant des données live (`liveData` non null).
+Filtre les stations françaises en DB. Retourne uniquement les stations ayant des données live (`liveData` non null). Chaque station inclut un champ `levelProfile` avec la répartition des pistes en pourcentages.
 
 | Filtre | Type | Description |
 |---|---|---|
 | `region` | string | Région (insensitive) |
-| `level` | enum | beginner / intermediate / advanced / expert — dérivé de `slopesDetail` (≥ 3 pistes par couleur) |
 | `has_snow_park` | boolean | Snow park disponible |
 | `snow_park_level` | enum | Niveau minimum du snow park |
 | `has_halfpipe` | boolean | Halfpipe disponible |
@@ -91,7 +90,7 @@ Classe les stations par score pondéré selon le profil rider. Inclut les donné
 | Altitude | 20 | Normalisé sur 3600m |
 | Taille du domaine | 15 | Normalisé sur 600km |
 | Snow park | 30-35 | Selon niveau freestyle du rider |
-| Freeride / off-piste | 20 | % de pistes noires si rider freeride |
+| Freeride / off-piste | 20 | `levelProfile.expert / 100 * 20` |
 | Famille | 10 | Garderie si `withChildren: true` |
 | Budget | +10 / -5 | Forfait dans la fourchette budget |
 | Remontées ouvertes | 15 | `(liftsOpen / liftsTotal) * 15` |

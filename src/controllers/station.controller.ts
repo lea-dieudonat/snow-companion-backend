@@ -3,7 +3,6 @@ import prisma from '@/config/prisma';
 import { AppError } from '@/middlewares/errorHandler';
 import { StationQuerySchema, NearbyStationsSchema } from '@/schemas/station.schema';
 import type { StationLiveData } from '@prisma/client';
-import { getStationLevels } from '@/utils/station-levels';
 
 function hasLiveData(liveData: StationLiveData | null): boolean {
   if (!liveData) return false;
@@ -23,7 +22,7 @@ export const getAllStations = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { region, maxPrice, minAltitude, level, search } = StationQuerySchema.parse(req.query);
+    const { region, maxPrice, minAltitude, search } = StationQuerySchema.parse(req.query);
 
     const where: Record<string, unknown> = { temporarilyClosed: false };
 
@@ -44,17 +43,7 @@ export const getAllStations = async (
       include: { liveData: true, skiArea: true },
     });
 
-    const filtered = stations.filter((s) => {
-      if (!hasLiveData(s.liveData)) return false;
-      if (level) {
-        const stationLevels = getStationLevels(
-          s.liveData?.slopesDetail as Parameters<typeof getStationLevels>[0],
-        );
-        if (!stationLevels.includes(level)) return false;
-      }
-      return true;
-    });
-    res.status(200).json(filtered);
+    res.status(200).json(stations.filter((s) => hasLiveData(s.liveData)));
   } catch (error) {
     next(error);
   }

@@ -28,26 +28,28 @@ Une station dont tous les champs live sont `null` est considérée inactive pour
 
 ---
 
-## Dérivation du niveau (`getStationLevels`)
+## Profil de difficulté (`getStationLevelProfile`)
 
-Le niveau d'une station **n'est pas stocké en DB** — il est calculé dynamiquement depuis `liveData.slopesDetail`.
+Le profil de difficulté d'une station **n'est pas stocké en DB** — il est calculé dynamiquement depuis `liveData.slopesDetail`.
 
-| Condition | Niveau attribué |
-|---|---|
-| `slopesDetail.green >= 3` | `beginner` |
-| `slopesDetail.blue >= 3` | `intermediate` |
-| `slopesDetail.red >= 3` | `advanced` |
-| `slopesDetail.black >= 3` | `expert` |
+```
+total = green + blue + red + black
+beginner     = round(green  / total * 100)  // % pistes vertes
+intermediate = round(blue   / total * 100)  // % pistes bleues
+advanced     = round(red    / total * 100)  // % pistes rouges
+expert       = round(black  / total * 100)  // % pistes noires
+```
 
-- Une station peut avoir plusieurs niveaux simultanément
-- Si `slopesDetail` est `null` → tableau vide `[]`
-- Le seuil de 3 évite de taguer une station pour 1-2 pistes isolées
+- Retourne `null` si `slopesDetail` est absent ou total = 0
+- Il n'y a **pas de filtre par niveau** dans l'API — le profil est fourni à titre informatif
+
+**Affichage :** `🟢 22% · 🔵 39% · 🔴 31% · ⚫ 8%` via `getSlopesLevelSummary()` (frontend)
 
 **Implémentation :**
-- Backend : `src/utils/station-levels.ts`
-- Frontend : `utils/station-levels.ts` (Nuxt auto-import)
+- Backend : `src/utils/station-levels.ts` → `getStationLevelProfile`
+- Frontend : `utils/station-levels.ts` (Nuxt auto-import) + `utils/station.utils.ts` → `getSlopesLevelSummary`
 
-Le filtre `?level=advanced` dans `GET /api/stations` et dans `get_stations` applique cette fonction en mémoire (pas de colonne DB).
+**Agent `compare_stations` :** le score freeride utilise `levelProfile.expert / 100 * 20`.
 
 ---
 

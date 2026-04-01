@@ -4,7 +4,6 @@ export const StationQuerySchema = z.object({
   region: z.string().optional(),
   maxPrice: z.coerce.number().positive().optional(),
   minAltitude: z.coerce.number().nonnegative().optional(),
-  level: z.string().optional(),
   search: z.string().optional(),
 });
 
