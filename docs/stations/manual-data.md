@@ -42,19 +42,13 @@ Pour distinguer le manuel de l'automatique :
 | `avgAccommodationPrice` | Partiellement renseigné | Prix moyen hébergement — données manuelles, peuvent être obsolètes |
 | `description` | Partiellement renseigné | Texte libre — absent pour les stations insérées automatiquement |
 | `access` | Partiellement renseigné | `{ nearest_airport, nearest_train_station, ... }` — données manuelles |
-| `season` | Partiellement renseigné | `{ start, end }` — données manuelles, peuvent être obsolètes |
 | `services` | Partiellement renseigné | Ex: `["ski_school", "rental"]` — données manuelles |
 | `activities` | Partiellement renseigné | Ex: `["snowshoeing", "paragliding"]` — données manuelles |
 | `temporarilyClosed` | Manuel | Flag positionné à la main quand une station est connue comme fermée |
 
 ### Table `StationLiveData`
 
-| Colonne | État | Notes |
-|---|---|---|
-| `slopesDetail` | Non alimenté | Disponible dans l'API open-piste mais **non encore fetchée** par `station-sync.service.ts` (interface `OpenPisteResort` à compléter) |
-| `slopesOpen` | Non alimenté | Idem |
-
-> `slopesDetail` et `slopesOpen` sont les colonnes utilisées pour le profil de difficulté (`getStationLevelProfile`). Tant que le sync ne les récupère pas, elles restent null pour la majorité des stations.
+Toutes les colonnes sont alimentées automatiquement par le sync depuis `/resorts/{slug}`. Voir [live-data.md](live-data.md).
 
 ---
 
@@ -66,5 +60,4 @@ L'ensemble de la table `ski_area` est renseigné manuellement (id/slug, name, re
 
 ## Priorités de complétion suggérées
 
-1. **`slopesDetail` / `slopesOpen`** — impact direct sur le profil de difficulté affiché ; nécessite seulement de mettre à jour `station-sync.service.ts`
-2. **`passes`** — données qui se périment chaque saison ; envisager une source automatique ou un workflow de mise à jour annuelle
+1. **`passes`** — données qui se périment chaque saison ; envisager une source automatique ou un workflow de mise à jour annuelle

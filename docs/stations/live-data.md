@@ -3,8 +3,10 @@
 ## API
 
 - Base URL : `https://open-piste.raed.workers.dev/`
-- Endpoint : `GET /resorts` — retourne ~148 resorts (France, Italie, Suisse, Andorre)
-- Champs clés : `slug`, `country`, `lifts_open`, `lifts_total`, `pistes_open`, `pistes_total`, `base_snow_depth_cm`, `summit_snow_depth_cm`, `avalanche_risk`, `updated_at`
+- Endpoint utilisé : `GET /resorts/{slug}` — appelé individuellement pour chaque station (`openPisteCovered: true`)
+- Throttle : 200ms entre chaque appel (~144 stations → ~30s par sync)
+- Objet `weather` : `lifts_open/total`, `pistes_open/total`, `{green,blue,red,black}_open/total`, `base_snow_depth_cm`, `summit_snow_depth_cm`, `avalanche_risk`, `updated_at`
+- Top-level : `season_open`, `season_close` → mis à jour sur `Station.season`
 - Tous les champs numériques sont nullable
 
 ## Sync schedule
@@ -39,7 +41,7 @@ Migrations : `20260323120619_add_station_live_data`, `20260325160000_move_slopes
 
 | Fichier | Rôle |
 |---|---|
-| `src/services/station-sync.service.ts` | Fetch `/resorts`, upsert toutes les stations françaises |
+| `src/services/station-sync.service.ts` | Fetch `/resorts/{slug}` par station, upsert `StationLiveData` + `Station.season` |
 | `src/cron/station-sync.cron.ts` | Scheduler node-cron, exporte `startStationSyncCron()` |
 | `src/controllers/station.controller.ts` | Inclut `liveData` dans les 3 endpoints, filtre les stations null dans list/nearby |
 | `src/index.ts` | Appelle `startStationSyncCron()` et `syncStationLiveData()` au boot |
