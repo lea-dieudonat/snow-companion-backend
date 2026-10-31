@@ -27,16 +27,18 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/snow_companion
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/snow_companion_test
       DATABASE_URL_TEST: postgresql://postgres:postgres@localhost:5432/snow_companion_test
-      JWT_SECRET: ci-test-secret
+      JWT_SECRET: ci-test-secret-not-for-production-use-0123456789
       JWT_EXPIRES_IN: 7d
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      ANTHROPIC_API_KEY: sk-ant-ci-fake-key-not-used
       AGENT_MODEL_SYNTHESIS: claude-sonnet-4-6
       AGENT_MODEL_TOOLS: claude-haiku-4-5-20251001
       AGENT_MAX_ITERATIONS: 5
       AGENT_MAX_TOKENS: 1024
       AGENT_TIMEOUT_MS: 30000
+      AGENT_RATE_LIMIT_WINDOW_MS: 60000
+      AGENT_RATE_LIMIT_MAX: 10
 
     steps:
       - uses: actions/checkout@v4
@@ -48,6 +50,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
 
       - name: Type-check
         run: npx tsc --noEmit

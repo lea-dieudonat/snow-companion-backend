@@ -36,12 +36,9 @@ make prisma-reset
 npm run dev
 ```
 
-The seed creates 32 ski stations and a demo account:
-
-```
-email:    demo@snowcompanion.app
-password: demo1234
-```
+The seed creates the ski stations and, outside production, a demo account
+(`demo@snowcompanion.app`). Its password comes from `SEED_DEMO_PASSWORD` in your `.env`
+(never hard-coded). Set `SEED_DEMO=true` to create it in production, `SEED_DEMO=false` to skip it.
 
 ## Environment
 
@@ -62,7 +59,15 @@ AGENT_MODEL_TOOLS=claude-haiku-4-5-20251001
 AGENT_MAX_ITERATIONS=5
 AGENT_MAX_TOKENS=1024
 AGENT_TIMEOUT_MS=30000
+AGENT_RATE_LIMIT_WINDOW_MS=60000
+AGENT_RATE_LIMIT_MAX=10
+
+# Seed
+SEED_DEMO_PASSWORD="choose-a-demo-password"
+# SEED_DEMO=true
 ```
+
+See `.env.example` for the full list. In production `JWT_SECRET` must be at least 32 characters.
 
 ## API Reference
 
@@ -179,7 +184,7 @@ npm run lint:fix      # Lint + format
 make prisma-generate  # Regenerate Prisma Client after schema changes
 make prisma-migrate   # Create and apply a new migration
 make prisma-studio    # Open Prisma GUI
-make prisma-reset     # Reset DB + reseed
+make prisma-reset     # Reset DB + reseed (asks for confirmation)
 ```
 
 ## Project Structure

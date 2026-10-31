@@ -12,8 +12,9 @@ export default function setup() {
     stdio: 'inherit',
   });
 
+  // Stations seulement : pas de compte démo dans la base de test
   execSync('npx prisma db seed', {
-    env: { ...process.env, DATABASE_URL: testDbUrl },
+    env: { ...process.env, DATABASE_URL: testDbUrl, SEED_DEMO: 'false', NODE_ENV: 'test' },
     stdio: 'inherit',
   });
 }

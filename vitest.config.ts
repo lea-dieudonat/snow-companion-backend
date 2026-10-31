@@ -19,6 +19,8 @@ export default defineConfig({
       DATABASE_URL: testDbUrl,
       JWT_SECRET: process.env['JWT_SECRET'] ?? 'test-jwt-secret',
       JWT_EXPIRES_IN: '1h',
+      // Clé factice : aucun appel réseau Anthropic dans les tests
+      ANTHROPIC_API_KEY: 'sk-ant-test-fake-key-not-used',
     },
   },
 });

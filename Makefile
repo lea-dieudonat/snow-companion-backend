@@ -36,8 +36,9 @@ prisma-migrate-deploy: ## Apply pending migrations (for production)
 prisma-studio: ## Open Prisma Studio (database GUI)
 	npx prisma studio
 
-prisma-reset: ## Reset database and apply all migrations
+prisma-reset: ## Reset database, apply all migrations and seed (seed explicite, idempotent)
 	npx prisma migrate reset
+	npx prisma db seed
 
 db-push: ## Push schema changes to database without creating migration
 	npx prisma db push

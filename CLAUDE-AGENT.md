@@ -25,7 +25,7 @@ Il complète le CLAUDE.md principal du projet.
 
 - Étape 7 : pipeline SSE validé avec curl
 - Étape 8 : composable `useAgent.ts` créé (repo Nuxt)
-- Étape 9 : page `pages/agent.vue` créée
+- Étape 9 : interface `components/planner/PlannerModal.vue` (modale montée dans `layouts/default.vue`)
 
 **Feature complète et fonctionnelle.**
 
@@ -66,7 +66,7 @@ src/
 # 1. Récupérer un token
 TOKEN=$(curl -s -X POST http://localhost:3001/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"demo@snowcompanion.app","password":"demo1234"}' \
+  -d '{"email":"demo@snowcompanion.app","password":"$SEED_DEMO_PASSWORD"}' \
   | jq -r '.token')
 
 # 2. Tester l'agent (réponse SSE)
@@ -93,9 +93,9 @@ Gère le cycle de vie SSE côté client.
 - Parse ligne par ligne : `event: token` → concatène dans `streamingText`, `event: tool_call` → met à jour `activeTool`, `event: done` → finalise le message, `event: error` → remonte l'erreur
 - Expose : `messages`, `streamingText`, `isLoading`, `activeTool`, `conversationId`, `error`, `sendMessage()`, `reset()`
 
-### `pages/agent.vue`
+### `components/planner/PlannerModal.vue`
 
-- Bannière onboarding si `GET /api/users/profile` retourne `null` → lien vers `/settings`
+- Bannière onboarding si `GET /api/users/profile` retourne `null` → bouton « Configurer mon profil » (à relier à `/profile`, il ne fait que fermer la modale pour l'instant)
 - 5 suggestions de prompts pré-remplis au démarrage (remplacés par la liste des messages une fois la conversation démarrée)
 - Curseur clignotant (`animate-pulse`) pendant le streaming
 - Badge tool actif pendant l'appel d'outil

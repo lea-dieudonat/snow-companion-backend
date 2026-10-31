@@ -1,8 +1,8 @@
 {
   "name": "snow_companion_back",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API REST Snow Companion : stations de ski, sessions, voyages et assistant IA (Express, Prisma, PostgreSQL)",
+  "main": "dist/index.js",
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
@@ -17,9 +17,8 @@
     "populate:stations": "ts-node -r tsconfig-paths/register src/scripts/populate-stations.ts",
     "enrich:altitudes": "ts-node -r tsconfig-paths/register src/scripts/enrich-altitudes.ts",
     "sync:live-data": "ts-node -r tsconfig-paths/register src/scripts/sync-live-data.ts",
-    "sync:season-dates": "ts-node -r tsconfig-paths/register src/scripts/sync-season-dates.ts",
-    "enrich:elevations": "ts-node -r tsconfig-paths/register src/scripts/enrich-elevations.ts",
     "migrate:regions": "ts-node -r tsconfig-paths/register src/scripts/migrate-regions.ts",
+    "postinstall": "prisma generate",
     "prepare": "husky"
   },
   "keywords": [],
@@ -69,8 +68,5 @@
     "typescript-eslint": "^8.57.0",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.0"
-  },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
   }
 }

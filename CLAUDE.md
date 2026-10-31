@@ -74,7 +74,7 @@ JWT-based. The `authenticate` middleware (`src/middlewares/auth.ts`) verifies `A
 
 ## Validation
 
-Zod schemas in `src/schemas/` validate all request bodies. `CreateSessionSchema` requires `date` as a full ISO 8601 datetime string (e.g. `2026-01-15T10:00:00Z`), not a date-only string.
+Zod schemas in `src/schemas/` validate request bodies and query strings. `CreateSessionSchema` requires `date` as a full ISO 8601 datetime string (e.g. `2026-01-15T10:00:00Z`), not a date-only string.
 
 ## Testing
 
@@ -106,4 +106,11 @@ AGENT_MODEL_TOOLS=claude-haiku-4-5-20251001
 AGENT_MAX_ITERATIONS=5
 AGENT_MAX_TOKENS=1024
 AGENT_TIMEOUT_MS=30000
+AGENT_RATE_LIMIT_WINDOW_MS=60000
+AGENT_RATE_LIMIT_MAX=10
+
+# Seed (demo account created outside production or with SEED_DEMO=true)
+SEED_DEMO_PASSWORD=...
 ```
+
+Env vars are validated in `src/config/env.ts` (`parseEnv`): integers are checked, `JWT_SECRET` needs 32+ chars in production.

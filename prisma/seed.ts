@@ -1,10 +1,23 @@
 /// <reference types="node" />
+import 'dotenv/config';
+import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const prisma = new PrismaClient();
+const adapter = new PrismaPg({ connectionString: process.env['DATABASE_URL'] as string });
+const prisma = new PrismaClient({ adapter });
+
+// "Espace Killy (Tignes-Val d'Isère)" -> "espace-killy-tignes-val-d-isere"
+function slugify(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
 async function main() {
   console.log('🌱 Starting seed...');
@@ -14,6 +27,20 @@ async function main() {
   const stationsData = JSON.parse(fs.readFileSync(stationsPath, 'utf-8'));
 
   console.log(`📊 Found ${stationsData.length} stations to seed`);
+
+  // Domaines skiables (relation SkiArea) : un par valeur distincte de ski_area
+  const skiAreaIds = new Map<string, string>();
+  for (const station of stationsData) {
+    if (station.ski_area) skiAreaIds.set(station.ski_area, slugify(station.ski_area));
+  }
+  for (const [name, id] of skiAreaIds) {
+    await prisma.skiArea.upsert({
+      where: { id },
+      update: { name },
+      create: { id, name },
+    });
+  }
+  console.log(`🏔️  Seeded ${skiAreaIds.size} ski areas`);
 
   // Seed des stations
   for (const station of stationsData) {
@@ -25,8 +52,8 @@ async function main() {
       latitude: station.latitude,
       longitude: station.longitude,
       snowCannons: station.snow_cannons,
-      snowPark: station.snow_park ?? null,
-      skiArea: station.ski_area,
+      snowPark: station.snow_park ?? undefined,
+      skiAreaId: station.ski_area ? slugify(station.ski_area) : null,
       passes: station.passes,
       avgAccommodationPrice: station.avg_accommodation_price,
       website: station.website,
@@ -46,14 +73,32 @@ async function main() {
   }
 
   // ── Demo account ──────────────────────────────────────────────────────────
-  const DEMO_EMAIL = 'demo@snowcompanion.app';
-  const DEMO_PASSWORD = 'demo1234';
+  // Jamais en production sauf SEED_DEMO=true ; mot de passe lu dans l'environnement.
+  const seedDemoFlag = process.env['SEED_DEMO'];
+  const demoEnabled =
+    seedDemoFlag === 'true' || (seedDemoFlag !== 'false' && process.env['NODE_ENV'] !== 'production');
+  const DEMO_PASSWORD = process.env['SEED_DEMO_PASSWORD'];
 
-  const hashedPassword = await bcrypt.hash(DEMO_PASSWORD, 10);
+  if (!demoEnabled) {
+    console.log('⏭️  Demo account skipped (production without SEED_DEMO=true, or SEED_DEMO=false)');
+  } else if (!DEMO_PASSWORD) {
+    console.log('⏭️  Demo account skipped (SEED_DEMO_PASSWORD is not set)');
+  } else {
+    await seedDemoAccount(DEMO_PASSWORD);
+  }
+
+  console.log('🎉 Seed completed successfully!');
+}
+
+async function seedDemoAccount(demoPassword: string) {
+  const DEMO_EMAIL = 'demo@snowcompanion.app';
+
+  const hashedPassword = await bcrypt.hash(demoPassword, 10);
 
   const demoUser = await prisma.user.upsert({
     where: { email: DEMO_EMAIL },
     update: {
+      password: hashedPassword,
       name: 'Léa Demo',
       favoriteStations: ['isola-2000', 'valberg', 'les-orres', 'auron'],
       level: ['intermediate', 'advanced'],
@@ -176,8 +221,7 @@ async function main() {
   }
 
   console.log(`🎿 Created ${sessions.length} sessions for demo user`);
-  console.log('🎉 Seed completed successfully!');
-  console.log(`\n  Demo account → email: ${DEMO_EMAIL}  password: ${DEMO_PASSWORD}`);
+  console.log(`  Demo account → email: ${DEMO_EMAIL}`);
 }
 
 main()

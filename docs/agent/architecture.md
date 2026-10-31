@@ -6,7 +6,7 @@ L'agent s'intègre comme un service dédié dans le backend Express, exposé via
 
 ```
 Frontend Nuxt          Backend Express              Sources
-pages/agent.vue   →   POST /api/agent/chat    →   Anthropic API
+PlannerModal.vue →   POST /api/agent/chat    →   Anthropic API
 useAgent.ts            chatAgent()                 Prisma + Open-Meteo
                        runAgenticLoop()
                        7 tools
