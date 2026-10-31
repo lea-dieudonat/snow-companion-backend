@@ -7,6 +7,8 @@ export interface AuthRequest extends Request {
   userId: string;
 }
 
+export const JWT_ALGORITHM = 'HS256' as const;
+
 export const authenticate = (req: Request, _res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
 
@@ -17,8 +19,13 @@ export const authenticate = (req: Request, _res: Response, next: NextFunction): 
   const token = authHeader.slice(7);
 
   try {
-    const payload = jwt.verify(token, env.jwtSecret) as { userId: string };
-    (req as AuthRequest).userId = payload.userId;
+    const payload = jwt.verify(token, env.jwtSecret, { algorithms: [JWT_ALGORITHM] });
+    const userId =
+      typeof payload === 'object' ? (payload as { userId?: unknown }).userId : undefined;
+    if (typeof userId !== 'string' || userId.length === 0) {
+      return next(new AppError(401, 'Invalid token payload'));
+    }
+    (req as AuthRequest).userId = userId;
     next();
   } catch {
     next(new AppError(401, 'Invalid or expired token'));

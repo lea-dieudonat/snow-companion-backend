@@ -38,6 +38,37 @@ describe('parseEnv', () => {
     );
   });
 
+  it('applique les valeurs par défaut CORS, proxy et rate-limit', () => {
+    const env = parseEnv(valid);
+    expect(env.corsOrigins).toEqual(['http://localhost:3000']);
+    expect(env.trustProxy).toBe(0);
+    expect(env.authRateLimitMax).toBe(20);
+    expect(env.stationsRateLimitMax).toBe(120);
+  });
+
+  it('parse CORS_ORIGIN (liste), TRUST_PROXY et les limites', () => {
+    const env = parseEnv({
+      ...valid,
+      CORS_ORIGIN: 'https://a.fr, https://b.fr/',
+      TRUST_PROXY: '1',
+      AUTH_RATE_LIMIT_MAX: '5',
+      STATIONS_RATE_LIMIT_WINDOW_MS: '1000',
+    });
+    expect(env.corsOrigins).toEqual(['https://a.fr', 'https://b.fr']);
+    expect(env.trustProxy).toBe(1);
+    expect(env.authRateLimitMax).toBe(5);
+    expect(env.stationsRateLimitWindowMs).toBe(1000);
+  });
+
+  it('exige CORS_ORIGIN en production et refuse le joker', () => {
+    const prod = { ...valid, NODE_ENV: 'production' };
+    expect(() => parseEnv(prod)).toThrow(/CORS_ORIGIN/);
+    expect(() => parseEnv({ ...prod, CORS_ORIGIN: '*' })).toThrow(/CORS_ORIGIN/);
+    expect(parseEnv({ ...prod, CORS_ORIGIN: 'https://sillon.app' }).corsOrigins).toEqual([
+      'https://sillon.app',
+    ]);
+  });
+
   it('accepte un JWT_SECRET court hors production', () => {
     expect(parseEnv({ ...valid, NODE_ENV: 'test', JWT_SECRET: 'short' }).jwtSecret).toBe('short');
   });

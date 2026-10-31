@@ -62,6 +62,16 @@ AGENT_TIMEOUT_MS=30000
 AGENT_RATE_LIMIT_WINDOW_MS=60000
 AGENT_RATE_LIMIT_MAX=10
 
+# HTTP (CORS_ORIGIN obligatoire en production, liste séparée par des virgules)
+CORS_ORIGIN=http://localhost:3000
+TRUST_PROXY=0
+
+# Rate-limit auth (login/register) et stations
+AUTH_RATE_LIMIT_WINDOW_MS=900000
+AUTH_RATE_LIMIT_MAX=20
+STATIONS_RATE_LIMIT_WINDOW_MS=60000
+STATIONS_RATE_LIMIT_MAX=120
+
 # Seed
 SEED_DEMO_PASSWORD="choose-a-demo-password"
 # SEED_DEMO=true

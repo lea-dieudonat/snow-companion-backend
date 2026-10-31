@@ -81,6 +81,13 @@ export const updateTrip = async (
       throw new AppError(404, 'Trip introuvable');
     }
 
+    if (data.stationId) {
+      const station = await prisma.station.findUnique({ where: { id: data.stationId } });
+      if (!station) {
+        throw new AppError(404, 'Station introuvable');
+      }
+    }
+
     const trip = await prisma.trip.update({
       where: { id },
       data: {

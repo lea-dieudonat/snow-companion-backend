@@ -50,8 +50,24 @@ export function parseEnv(source: Source) {
     );
   }
 
+  const corsRaw = read('CORS_ORIGIN');
+  const corsOrigins = corsRaw
+    ? corsRaw
+        .split(',')
+        .map((o) => o.trim().replace(/\/+$/, ''))
+        .filter(Boolean)
+    : [];
+  if (nodeEnv === 'production' && corsOrigins.length === 0) {
+    errors.push('CORS_ORIGIN : au moins une origine explicite requise en production');
+  }
+  if (corsOrigins.includes('*')) {
+    errors.push('CORS_ORIGIN : le joker "*" est interdit, lister les origines explicitement');
+  }
+
   const config = {
     nodeEnv,
+    corsOrigins: corsOrigins.length > 0 ? corsOrigins : ['http://localhost:3000'],
+    trustProxy: integer('TRUST_PROXY', 0, 0, 10),
     port: integer('PORT', 3001, 1, 65535),
 
     jwtSecret,
@@ -65,6 +81,10 @@ export function parseEnv(source: Source) {
     agentTimeoutMs: integer('AGENT_TIMEOUT_MS', 30000),
     agentRateLimitWindowMs: integer('AGENT_RATE_LIMIT_WINDOW_MS', 60000),
     agentRateLimitMax: integer('AGENT_RATE_LIMIT_MAX', 10),
+    authRateLimitWindowMs: integer('AUTH_RATE_LIMIT_WINDOW_MS', 15 * 60 * 1000),
+    authRateLimitMax: integer('AUTH_RATE_LIMIT_MAX', 20),
+    stationsRateLimitWindowMs: integer('STATIONS_RATE_LIMIT_WINDOW_MS', 60 * 1000),
+    stationsRateLimitMax: integer('STATIONS_RATE_LIMIT_MAX', 120),
   };
 
   if (errors.length > 0) {

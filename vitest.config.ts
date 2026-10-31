@@ -20,6 +20,10 @@ export default defineConfig({
       JWT_SECRET: process.env['JWT_SECRET'] ?? 'test-jwt-secret',
       JWT_EXPIRES_IN: '1h',
       // Clé factice : aucun appel réseau Anthropic dans les tests
+      // Limiteurs très hauts : les tests créent beaucoup d'utilisateurs
+      AUTH_RATE_LIMIT_MAX: '100000',
+      STATIONS_RATE_LIMIT_MAX: '100000',
+      AGENT_RATE_LIMIT_MAX: '100000',
       ANTHROPIC_API_KEY: 'sk-ant-test-fake-key-not-used',
     },
   },

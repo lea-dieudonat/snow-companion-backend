@@ -83,10 +83,21 @@ export const getNearbyStations = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { latitude, longitude, maxDistance } = NearbyStationsSchema.parse(req.query);
+    const { latitude, longitude, maxDistance, limit } = NearbyStationsSchema.parse(req.query);
+
+    // Pré-filtre par boîte englobante (1° de latitude ≈ 111 km) avant le calcul Haversine
+    const latDelta = maxDistance / 111;
+    const cosLat = Math.cos(toRad(Math.min(90, Math.abs(latitude) + latDelta)));
+    const lngDelta = cosLat > 0.01 ? maxDistance / (111 * cosLat) : 180;
+    const lngFilter =
+      lngDelta < 180 ? { longitude: { gte: longitude - lngDelta, lte: longitude + lngDelta } } : {};
 
     const stations = await prisma.station.findMany({
-      where: { temporarilyClosed: false },
+      where: {
+        temporarilyClosed: false,
+        latitude: { gte: latitude - latDelta, lte: latitude + latDelta },
+        ...lngFilter,
+      },
       include: { liveData: true, skiArea: true },
     });
 
@@ -98,7 +109,8 @@ export const getNearbyStations = async (
         ),
       }))
       .filter((station) => station.distance <= maxDistance && hasLiveData(station.liveData))
-      .sort((a, b) => a.distance - b.distance);
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, limit);
 
     res.status(200).json(nearbyStations);
   } catch (error) {

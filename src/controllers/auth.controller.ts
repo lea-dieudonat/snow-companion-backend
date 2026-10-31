@@ -4,11 +4,14 @@ import jwt from 'jsonwebtoken';
 import prisma from '@/config/prisma';
 import { AppError } from '@/middlewares/errorHandler';
 import { RegisterSchema, LoginSchema } from '@/schemas/auth.schema';
-import { AuthRequest } from '@/middlewares/auth';
+import { AuthRequest, JWT_ALGORITHM } from '@/middlewares/auth';
 import { env } from '@/config/env';
 
 const signToken = (userId: string): string => {
-  return jwt.sign({ userId }, env.jwtSecret, { expiresIn: env.jwtExpiresIn } as jwt.SignOptions);
+  return jwt.sign({ userId }, env.jwtSecret, {
+    algorithm: JWT_ALGORITHM,
+    expiresIn: env.jwtExpiresIn,
+  } as jwt.SignOptions);
 };
 
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

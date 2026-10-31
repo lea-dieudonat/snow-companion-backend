@@ -156,3 +156,22 @@ describe('DELETE /api/trips/:id', () => {
     expect(res.status).toBe(404);
   });
 });
+
+describe('PUT/PATCH /api/trips/:id avec stationId inconnu', () => {
+  it('returns 404 { error } au lieu d’une 500', async () => {
+    const { token } = await createTestUser();
+    const created = await request(app)
+      .post('/api/trips')
+      .set('Authorization', `Bearer ${token}`)
+      .send(VALID_TRIP);
+    const id = created.body.trip.id as string;
+
+    const route = request(app).put(`/api/trips/${id}`);
+    const res = await route
+      .set('Authorization', `Bearer ${token}`)
+      .send({ stationId: 'station-qui-nexiste-pas' });
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: 'Station introuvable' });
+  });
+});

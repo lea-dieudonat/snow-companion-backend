@@ -69,3 +69,38 @@ describe('POST /api/auth/login', () => {
     expect(res.status).toBe(401);
   });
 });
+
+describe('validation auth (email, name, password)', () => {
+  it('normalise l’email à l’inscription et au login', async () => {
+    const reg = await request(app)
+      .post('/api/auth/register')
+      .send({ email: '  Mixed.Case@Snow.COM ', password: 'password123' });
+    expect(reg.status).toBe(201);
+    expect(reg.body.user.email).toBe('mixed.case@snow.com');
+
+    const login = await request(app)
+      .post('/api/auth/login')
+      .send({ email: 'MIXED.case@snow.com', password: 'password123' });
+    expect(login.status).toBe(200);
+  });
+
+  it('refuse un mot de passe de plus de 72 octets', async () => {
+    const tooLongChars = await request(app)
+      .post('/api/auth/register')
+      .send({ email: 'a@snow.com', password: 'a'.repeat(73) });
+    expect(tooLongChars.status).toBe(400);
+
+    // 40 caractères mais 80 octets
+    const tooManyBytes = await request(app)
+      .post('/api/auth/register')
+      .send({ email: 'b@snow.com', password: 'é'.repeat(40) });
+    expect(tooManyBytes.status).toBe(400);
+  });
+
+  it('refuse un nom trop long', async () => {
+    const res = await request(app)
+      .post('/api/auth/register')
+      .send({ email: 'c@snow.com', password: 'password123', name: 'n'.repeat(61) });
+    expect(res.status).toBe(400);
+  });
+});

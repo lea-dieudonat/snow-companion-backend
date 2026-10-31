@@ -76,6 +76,10 @@ JWT-based. The `authenticate` middleware (`src/middlewares/auth.ts`) verifies `A
 
 Zod schemas in `src/schemas/` validate request bodies and query strings. `CreateSessionSchema` requires `date` as a full ISO 8601 datetime string (e.g. `2026-01-15T10:00:00Z`), not a date-only string.
 
+Bornes (Zod) : `email` trim+lowercase, max 254 ; `name` 1..60 ; `password` 8..72 caractères et 72 octets max (bcrypt) ; session : station 100, conditions 200, notes 2000, tricks 50 x 60 car., photos 10 URLs x 2048 ; trip : name 100, notes 2000 ; agent : 40 messages max, 4000 caractères par message ; `/stations/nearby` : `maxDistance` <= 500 km (défaut 300), `limit` <= 100 (défaut 50), pré-filtre par boîte englobante avant Haversine. Corps JSON limité à 100 kb. Les rate-limiters passent par `createRateLimiter` (`src/middlewares/rateLimit.ts`, réponse 429 `{ error }`). Les tests fixent des limites très hautes dans `vitest.config.ts`.
+
+**Swagger retiré en v1** (`/api/docs`, `swagger-jsdoc`, `swagger-ui-express` supprimés, aucune annotation n'existait) : à regénérer plus tard depuis les schémas Zod.
+
 ## Testing
 
 Tests live in `src/test/`. The setup:
@@ -108,6 +112,16 @@ AGENT_MAX_TOKENS=1024
 AGENT_TIMEOUT_MS=30000
 AGENT_RATE_LIMIT_WINDOW_MS=60000
 AGENT_RATE_LIMIT_MAX=10
+
+# HTTP : CORS_ORIGIN (liste séparée par des virgules, obligatoire en production, défaut dev http://localhost:3000)
+CORS_ORIGIN=http://localhost:3000
+TRUST_PROXY=0   # nombre de reverse proxys de confiance (0 = désactivé)
+
+# Rate-limit par IP (fenêtre en ms / max) : auth = login+register, stations
+AUTH_RATE_LIMIT_WINDOW_MS=900000
+AUTH_RATE_LIMIT_MAX=20
+STATIONS_RATE_LIMIT_WINDOW_MS=60000
+STATIONS_RATE_LIMIT_MAX=120
 
 # Seed (demo account created outside production or with SEED_DEMO=true)
 SEED_DEMO_PASSWORD=...

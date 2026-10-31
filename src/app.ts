@@ -6,32 +6,21 @@ import userRoutes from '@/routes/user.routes';
 import stationRoutes from '@/routes/station.routes';
 import tripRoutes from '@/routes/trip.routes';
 import agentRoutes from '@/routes/agent.routes';
-import { errorHandler } from '@/middlewares/errorHandler';
-import swaggerJsdoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
+import { errorHandler, notFoundHandler } from '@/middlewares/errorHandler';
+import helmet from 'helmet';
+import { env } from '@/config/env';
 
 const app: Express = express();
 
-app.use(cors());
-app.use(express.json());
+// Derrière un reverse proxy, TRUST_PROXY = nombre de proxys de confiance (0 = désactivé)
+app.set('trust proxy', env.trustProxy);
 
-const swaggerSpec = swaggerJsdoc({
-  definition: {
-    openapi: '3.0.0',
-    info: { title: 'Snow Companion API', version: '1.0.0' },
-    components: {
-      securitySchemes: {
-        bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
-      },
-    },
-  },
-  apis: ['./src/routes/*.ts'],
-});
-
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(helmet());
+app.use(cors({ origin: env.corsOrigins }));
+app.use(express.json({ limit: '100kb' }));
 
 app.get('/api/health', (_req: Request, res: Response) => {
-  res.send({ status: 'ok', message: 'Snow Companion API is running! 🏂' });
+  res.send({ status: 'ok', message: 'Snow Companion API is running' });
 });
 
 app.use('/api/auth', authRoutes);
@@ -41,6 +30,7 @@ app.use('/api/stations', stationRoutes);
 app.use('/api/trips', tripRoutes);
 app.use('/api/agent', agentRoutes);
 
+app.use(notFoundHandler);
 app.use(errorHandler);
 
 export default app;
