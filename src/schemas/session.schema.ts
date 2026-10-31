@@ -1,8 +1,11 @@
 import { z } from 'zod';
 
-export const CreateSessionSchema = z.object({
+const SessionBaseSchema = z.object({
   date: z.iso.datetime({ message: 'Date must be a valid ISO 8601 datetime' }),
-  station: z.string().min(1, 'Station is required').max(100),
+  // Nom saisi librement ; facultatif si stationId est fourni (le nom de la fiche est alors utilisé)
+  station: z.string().min(1).max(100).optional(),
+  // Fiche station liée ; null pour détacher la session (mise à jour uniquement)
+  stationId: z.string().min(1).max(100).nullable().optional(),
   conditions: z.string().max(200).optional(),
   tricks: z.array(z.string().min(1).max(60)).max(50).optional(),
   notes: z.string().max(2000).optional(),
@@ -14,7 +17,13 @@ export const CreateSessionSchema = z.object({
   verticalDrop: z.number().int().min(0).optional(),
 });
 
-export const UpdateSessionSchema = CreateSessionSchema.partial();
+// .partial() est interdit sur un schéma avec .refine() (Zod 4) : on applique la règle après
+export const CreateSessionSchema = SessionBaseSchema.refine((d) => d.station || d.stationId, {
+  message: 'Station is required (station or stationId)',
+  path: ['station'],
+});
+
+export const UpdateSessionSchema = SessionBaseSchema.partial();
 
 export type CreateSessionDTO = z.infer<typeof CreateSessionSchema>;
 export type UpdateSessionDTO = z.infer<typeof UpdateSessionSchema>;

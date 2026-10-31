@@ -214,9 +214,19 @@ async function seedDemoAccount(demoPassword: string) {
     },
   ];
 
-  for (const session of sessions) {
+  for (const { station: stationId, ...session } of sessions) {
+    // Le texte affiché est le nom de la station ; stationId la relie à sa fiche
+    const station = await prisma.station.findUnique({
+      where: { id: stationId },
+      select: { name: true },
+    });
     await prisma.session.create({
-      data: { ...session, userId: demoUser.id },
+      data: {
+        ...session,
+        station: station?.name ?? stationId,
+        stationId: station ? stationId : null,
+        userId: demoUser.id,
+      },
     });
   }
 

@@ -55,7 +55,7 @@ Express + TypeScript backend for a ski companion app. PostgreSQL (local) via Pri
 
 **Data models** (defined in `prisma/schema.prisma`):
 - `User` → has many `Session`, `Trip`, `AgentConversation`; has one `UserProfile`; holds `favoriteStations` as string[] of station IDs
-- `Session` → belongs to `User`; tracks one ski outing
+- `Session` → belongs to `User`; tracks one ski outing; `station` (nom saisi) + `stationId` (FK optionnelle vers `Station`, SET NULL)
 - `Station` → French ski resort data; has many `Trip`; most fields are nullable (stations from open-piste may have partial data); `openPisteCovered` flags stations not tracked by the open-piste API
 - `StationLiveData` → live lift/piste/snow data synced from open-piste API (3x/day); 1-to-1 with Station
 - `Trip` → planned trip linking a `User` to a `Station`

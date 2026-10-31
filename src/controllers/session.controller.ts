@@ -4,6 +4,16 @@ import { CreateSessionSchema, UpdateSessionSchema } from '@/schemas/session.sche
 import { AuthRequest } from '@/middlewares/auth';
 import { AppError } from '@/middlewares/errorHandler';
 
+/** Retourne la fiche station ou lève un 404 : évite une erreur de clé étrangère (500). */
+const findStationOrFail = async (stationId: string): Promise<{ id: string; name: string }> => {
+  const station = await prisma.station.findUnique({
+    where: { id: stationId },
+    select: { id: true, name: true },
+  });
+  if (!station) throw new AppError(404, 'Station not found');
+  return station;
+};
+
 export const createSession = async (
   req: Request,
   res: Response,
@@ -12,11 +22,13 @@ export const createSession = async (
   try {
     const { userId } = req as AuthRequest;
     const data = CreateSessionSchema.parse(req.body);
+    const linked = data.stationId ? await findStationOrFail(data.stationId) : null;
 
     const session = await prisma.session.create({
       data: {
         date: new Date(data.date),
-        station: data.station,
+        station: data.station ?? linked?.name ?? '',
+        stationId: linked?.id ?? null,
         conditions: data.conditions ?? null,
         tricks: data.tricks ?? [],
         notes: data.notes ?? null,
@@ -70,11 +82,15 @@ export const updateSession = async (
       throw new AppError(404, 'Session not found');
     }
 
+    // stationId : null détache la session, une valeur la relie (et met le nom à jour si absent)
+    const linked = data.stationId ? await findStationOrFail(data.stationId) : null;
+
     const session = await prisma.session.update({
       where: { id },
       data: {
         ...(data.date && { date: new Date(data.date) }),
-        ...(data.station && { station: data.station }),
+        ...(data.station ? { station: data.station } : linked && { station: linked.name }),
+        ...(data.stationId !== undefined && { stationId: linked?.id ?? null }),
         ...(data.conditions !== undefined && { conditions: data.conditions }),
         ...(data.tricks !== undefined && { tricks: data.tricks }),
         ...(data.notes !== undefined && { notes: data.notes }),

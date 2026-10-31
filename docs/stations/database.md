@@ -120,7 +120,8 @@ Sortie ski tracée par l'utilisateur.
 |---|---|---|
 | `id` | String (PK, cuid) | |
 | `date` | DateTime | ISO 8601 complet requis |
-| `station` | String | Nom libre (pas de FK) |
+| `station` | String | Nom saisi (conservé même sans fiche liée) |
+| `station_id` | String? (FK → Station) | Lien optionnel vers la fiche ; SET NULL si la station est supprimée |
 | `conditions` | String? | Description des conditions |
 | `tricks` | String[] | Tricks réussis |
 | `notes` | String? | Notes libres |
@@ -132,7 +133,7 @@ Sortie ski tracée par l'utilisateur.
 | `vertical_drop` | Int? | Dénivelé cumulé (m) |
 | `user_id` | String (FK → User) | CASCADE delete |
 
-**Index :** `user_id`, `date`
+**Index :** `user_id`, `date`, `station_id`
 
 ---
 
@@ -148,7 +149,6 @@ Voyage planifié liant un `User` à une `Station`.
 | `end_date` | DateTime? | |
 | `station_id` | String (FK → Station) | CASCADE delete |
 | `user_id` | String (FK → User) | CASCADE delete |
-| `participants` | String[] | Emails ou IDs |
 | `notes` | String? | |
 | `status` | String | `planned` / `confirmed` / `completed` / `cancelled` |
 
