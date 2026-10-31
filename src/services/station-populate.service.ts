@@ -2,6 +2,7 @@ import prisma from '@/config/prisma';
 import { fetchAllFrenchStationsFromOverpass, type OverpassStationData } from './overpass.service';
 import { geocodeStation } from './nominatim.service';
 import { Prisma } from '@prisma/client';
+import { fetchWithTimeout } from '@/utils/http';
 
 const OPEN_PISTE_URL = 'https://open-piste.raed.workers.dev/resorts';
 
@@ -58,7 +59,7 @@ export async function populateStations(): Promise<PopulateReport> {
   const report: PopulateReport = { inserted: [], enriched: [], skipped: [], errors: [] };
 
   // 1. Fetch French resorts from open-piste
-  const response = await fetch(OPEN_PISTE_URL);
+  const response = await fetchWithTimeout(OPEN_PISTE_URL);
   if (!response.ok) {
     throw new Error(`open-piste API error: ${response.status} ${response.statusText}`);
   }

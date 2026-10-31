@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev          # Start dev server with hot reload (ts-node-dev)
 npm run build        # Compile TypeScript + resolve path aliases (tsc && tsc-alias)
 npm start            # Run compiled production server
+npm run start:worker # Run only the cron jobs (no HTTP server); dev:worker for hot reload
 
 # Testing (Vitest + Supertest against snow_companion_test DB)
 npm test             # Run all tests once
@@ -61,6 +62,10 @@ Express + TypeScript backend for a ski companion app. PostgreSQL (local) via Pri
 - `Trip` → planned trip linking a `User` to a `Station`
 - `UserProfile` → rider profile (disciplines, rideStyles, freestyleLevel, snowPreference, etc.)
 - `AgentConversation` → persisted chat history (messages as JSON, last 40 kept)
+
+## Scheduled jobs (crons)
+
+`src/cron/` : synchro des données live (3x/jour) et découverte hebdomadaire des stations. Chaque job passe par `runExclusive` (`job-lock.ts`), un verrou advisory PostgreSQL : même avec plusieurs instances, un seul exécute le job. `RUN_CRONS` (défaut `true`) décide si le serveur web lance les crons ; mettre `false` sur les instances web quand `npm run start:worker` tourne à part. Au démarrage, la synchro ne se lance que si les données live ont plus de 12 h (`syncLiveDataIfStale`). `src/utils/shutdown.ts` arrête proprement serveur, crons et Prisma sur SIGTERM/SIGINT. Tous les appels externes passent par `fetchWithTimeout` (`src/utils/http.ts`, 10 s par défaut).
 
 ## Station Population
 
@@ -122,6 +127,9 @@ AUTH_RATE_LIMIT_WINDOW_MS=900000
 AUTH_RATE_LIMIT_MAX=20
 STATIONS_RATE_LIMIT_WINDOW_MS=60000
 STATIONS_RATE_LIMIT_MAX=120
+
+# Crons : false sur les instances web si un worker dédié tourne
+RUN_CRONS=true
 
 # Seed (demo account created outside production or with SEED_DEMO=true)
 SEED_DEMO_PASSWORD=...

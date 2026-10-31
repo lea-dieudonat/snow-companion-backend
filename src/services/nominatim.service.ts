@@ -1,3 +1,5 @@
+import { fetchWithTimeout } from '@/utils/http';
+
 const NOMINATIM_URL = 'https://nominatim.openstreetmap.org/search';
 // Nominatim usage policy: max 1 request/second
 const NOMINATIM_DELAY_MS = 1100;
@@ -22,7 +24,7 @@ export async function geocodeStation(name: string): Promise<NominatimResult | nu
     countrycodes: 'fr',
   });
 
-  const response = await fetch(`${NOMINATIM_URL}?${params}`, {
+  const response = await fetchWithTimeout(`${NOMINATIM_URL}?${params}`, {
     headers: { 'User-Agent': 'snow-companion-app/1.0' },
   });
 

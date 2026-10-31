@@ -1,5 +1,6 @@
 import prisma from '@/config/prisma';
 import type { AgentTool } from '@/types/agent.types';
+import { fetchWithTimeout } from '@/utils/http';
 
 interface OpenMeteoDaily {
   time: string[];
@@ -76,7 +77,7 @@ export const getWeatherTool: AgentTool = {
       wind_speed_unit: 'kmh',
     });
 
-    const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
+    const response = await fetchWithTimeout(`https://api.open-meteo.com/v1/forecast?${params}`);
 
     if (!response.ok) {
       return { error: `Erreur API météo (${response.status}). Réessaie plus tard.` };

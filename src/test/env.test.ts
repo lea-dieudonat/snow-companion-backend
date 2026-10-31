@@ -72,4 +72,13 @@ describe('parseEnv', () => {
   it('accepte un JWT_SECRET court hors production', () => {
     expect(parseEnv({ ...valid, NODE_ENV: 'test', JWT_SECRET: 'short' }).jwtSecret).toBe('short');
   });
+
+  it('active les crons par défaut et accepte RUN_CRONS=false', () => {
+    expect(parseEnv(valid).runCrons).toBe(true);
+    expect(parseEnv({ ...valid, RUN_CRONS: 'false' }).runCrons).toBe(false);
+  });
+
+  it('refuse une valeur booléenne inattendue', () => {
+    expect(() => parseEnv({ ...valid, RUN_CRONS: 'oui' })).toThrow(/RUN_CRONS/);
+  });
 });

@@ -2,18 +2,30 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import app from '@/app';
+import prisma from '@/config/prisma';
 import { env } from '@/config/env';
-import { startStationSyncCron } from '@/cron/station-sync.cron';
-import { startStationPopulateCron } from '@/cron/station-populate.cron';
-import { syncStationLiveData } from '@/services/station-sync.service';
+import { startCrons, syncLiveDataIfStale } from '@/cron';
+import { onShutdown } from '@/utils/shutdown';
 
-app.listen(env.port, () => {
+const stopCrons = env.runCrons ? startCrons() : () => undefined;
+
+const server = app.listen(env.port, () => {
   console.log(`⚡️ Server is running at http://localhost:${env.port}`);
 
-  startStationSyncCron();
-  startStationPopulateCron();
+  if (env.runCrons) {
+    syncLiveDataIfStale().catch((err) => {
+      console.error('[station-sync] Initial sync failed:', err);
+    });
+  } else {
+    console.log('[cron] Désactivés sur ce processus (RUN_CRONS=false) : utiliser le worker');
+  }
+});
 
-  syncStationLiveData().catch((err) => {
-    console.error('[station-sync] Initial sync failed:', err);
-  });
+onShutdown(async () => {
+  stopCrons();
+  // Arrête d'accepter des connexions et attend la fin des requêtes en cours
+  await new Promise<void>((resolve, reject) =>
+    server.close((err) => (err ? reject(err) : resolve())),
+  );
+  await prisma.$disconnect();
 });

@@ -1,5 +1,6 @@
 import prisma from '@/config/prisma';
 import type { AgentTool } from '@/types/agent.types';
+import { fetchWithTimeout } from '@/utils/http';
 
 interface OpenMeteoCurrentResponse {
   current: {
@@ -27,7 +28,7 @@ async function fetchCurrentWeather(
       wind_speed_unit: 'kmh',
     });
 
-    const res = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
+    const res = await fetchWithTimeout(`https://api.open-meteo.com/v1/forecast?${params}`);
     if (!res.ok) return null;
 
     const data = (await res.json()) as OpenMeteoCurrentResponse;

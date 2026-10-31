@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 
 import prisma from '@/config/prisma';
+import { fetchWithTimeout } from '@/utils/http';
 
 const OPEN_PISTE_BASE = 'https://open-piste.raed.workers.dev';
 const THROTTLE_MS = 200;
@@ -36,7 +37,7 @@ function sleep(ms: number): Promise<void> {
 }
 
 async function fetchResort(slug: string): Promise<OpenPisteResortDetail | null> {
-  const response = await fetch(`${OPEN_PISTE_BASE}/resorts/${slug}`);
+  const response = await fetchWithTimeout(`${OPEN_PISTE_BASE}/resorts/${slug}`);
   if (!response.ok) {
     return null;
   }

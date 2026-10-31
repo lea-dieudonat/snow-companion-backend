@@ -41,6 +41,15 @@ export function parseEnv(source: Source) {
     return value;
   };
 
+  const boolean = (name: string, defaultValue: boolean): boolean => {
+    const raw = read(name);
+    if (raw === undefined) return defaultValue;
+    if (raw === 'true') return true;
+    if (raw === 'false') return false;
+    errors.push(`${name} : "true" ou "false" attendu (reçu "${raw}")`);
+    return defaultValue;
+  };
+
   const nodeEnv = optional('NODE_ENV', 'development');
 
   const jwtSecret = required('JWT_SECRET');
@@ -69,6 +78,8 @@ export function parseEnv(source: Source) {
     corsOrigins: corsOrigins.length > 0 ? corsOrigins : ['http://localhost:3000'],
     trustProxy: integer('TRUST_PROXY', 0, 0, 10),
     port: integer('PORT', 3001, 1, 65535),
+    // false sur les instances web quand un worker dédié (npm run start:worker) exécute les crons
+    runCrons: boolean('RUN_CRONS', true),
 
     jwtSecret,
     jwtExpiresIn: optional('JWT_EXPIRES_IN', '7d'),

@@ -9,6 +9,7 @@ import { config } from 'dotenv';
 config();
 
 import prisma from '@/config/prisma';
+import { fetchWithTimeout } from '@/utils/http';
 
 const OPEN_METEO_URL = 'https://api.open-meteo.com/v1/elevation';
 const BATCH_SIZE = 100;
@@ -20,7 +21,7 @@ async function fetchElevations(
   const lons = coords.map((c) => c.longitude).join(',');
   const url = `${OPEN_METEO_URL}?latitude=${lats}&longitude=${lons}`;
 
-  const response = await fetch(url);
+  const response = await fetchWithTimeout(url);
   if (!response.ok) {
     throw new Error(`Open-Meteo error: ${response.status} ${response.statusText}`);
   }
