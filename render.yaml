@@ -1,0 +1,27 @@
+# Blueprint Render : https://render.com/docs/blueprint-spec
+# La base PostgreSQL est hébergée chez Neon (DATABASE_URL à saisir dans le dashboard).
+services:
+  - type: web
+    name: snow-companion-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    healthCheckPath: /api/health
+    # Redéploie seulement quand la CI GitHub est verte
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: RUN_CRONS
+        value: "true"
+      # Secrets : saisis à la création du blueprint, jamais dans le dépôt
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true

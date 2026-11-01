@@ -15,6 +15,15 @@ La commande par défaut (`npm run start:prod`) exécute `prisma migrate deploy` 
 
 `NODE_ENV=production`, `DATABASE_URL`, `JWT_SECRET` (32+ caractères), `CORS_ORIGIN` (URL du front, pas de `*`), `ANTHROPIC_API_KEY`. Ajouter `TRUST_PROXY=1` derrière le reverse proxy de l'hébergeur (sinon le rate-limit par IP voit l'IP du proxy). Liste complète : `.env.example`.
 
+## Mise en ligne : Render (API) + Neon (PostgreSQL), offres gratuites
+
+1. **Neon** : créer un projet (région Europe), copier l'URL de connexion **directe** (sans `-pooler`).
+2. **Render** : New > Blueprint, choisir le dépôt `snow-companion-backend` ; `render.yaml` crée le service. Renseigner `DATABASE_URL` (Neon), `CORS_ORIGIN` (URL du front, ou `http://localhost:3000` en attendant) et `ANTHROPIC_API_KEY`. `JWT_SECRET` est généré par Render.
+3. Vérifier `https://<service>.onrender.com/api/health`, puis amorcer la base (section suivante).
+4. Anthropic : fixer un plafond de dépense mensuel dans la console avant d'exposer l'agent.
+
+`autoDeployTrigger: checksPass` : Render ne redéploie qu'après une CI verte.
+
 ## Base de données neuve : amorçage
 
 Après le premier déploiement (migrations appliquées au démarrage), la table des stations est vide. Depuis votre machine, avec `DATABASE_URL` pointant vers la base de production :
