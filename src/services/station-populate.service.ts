@@ -63,7 +63,12 @@ export async function populateStations(): Promise<PopulateReport> {
   if (!response.ok) {
     throw new Error(`open-piste API error: ${response.status} ${response.statusText}`);
   }
-  const { resorts } = (await response.json()) as { resorts: OpenPisteResort[] };
+  // L'API renvoie un tableau (ancien format : { resorts: [...] })
+  const body = (await response.json()) as OpenPisteResort[] | { resorts?: OpenPisteResort[] };
+  const resorts = Array.isArray(body) ? body : body.resorts;
+  if (!Array.isArray(resorts)) {
+    throw new Error('open-piste API error: format de réponse inattendu pour /resorts');
+  }
   const frResorts = resorts.filter((r) => r.country === 'fr');
 
   // 2. Single bulk Overpass query for all French ski resorts

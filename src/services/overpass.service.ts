@@ -35,15 +35,22 @@ const BULK_QUERY = `
   out center tags;
 `;
 
-export async function fetchAllFrenchStationsFromOverpass(): Promise<OverpassStationData[]> {
+// Overpass est partagé et souvent saturé : ces statuts se règlent en réessayant plus tard
+const RETRYABLE_STATUSES = new Set([429, 502, 503, 504]);
+const MAX_ATTEMPTS = 4;
+
+async function requestBulkQuery(): Promise<Response> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 130_000);
 
-  let response: Response;
   try {
-    response = await fetch(OVERPASS_URL, {
+    return await fetch(OVERPASS_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      // Overpass refuse (406) les requêtes sans User-Agent identifiable
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': 'snow-companion-app/1.0',
+      },
       body: `data=${encodeURIComponent(BULK_QUERY)}`,
       signal: controller.signal,
     });
@@ -53,6 +60,26 @@ export async function fetchAllFrenchStationsFromOverpass(): Promise<OverpassStat
     throw err;
   } finally {
     clearTimeout(timeout);
+  }
+}
+
+/**
+ * Requête unique sur toute la France. Réessaie avec un délai croissant
+ * (retryDelayMs, puis x2, x4) quand Overpass est saturé.
+ */
+export async function fetchAllFrenchStationsFromOverpass(
+  retryDelayMs = 15_000,
+): Promise<OverpassStationData[]> {
+  let response = await requestBulkQuery();
+
+  for (let attempt = 1; !response.ok && attempt < MAX_ATTEMPTS; attempt++) {
+    if (!RETRYABLE_STATUSES.has(response.status)) break;
+    const delay = retryDelayMs * 2 ** (attempt - 1);
+    console.warn(
+      `[overpass] ${response.status}, nouvelle tentative ${attempt}/${MAX_ATTEMPTS - 1} dans ${delay / 1000}s`,
+    );
+    await new Promise((resolve) => setTimeout(resolve, delay));
+    response = await requestBulkQuery();
   }
 
   if (!response.ok) {
